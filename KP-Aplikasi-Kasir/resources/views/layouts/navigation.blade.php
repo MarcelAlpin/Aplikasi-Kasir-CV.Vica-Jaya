@@ -5,7 +5,7 @@
             <div class="flex">
 
                 <!-- Sidebar Toggle + Logo -->
-                <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-10">
                     <!-- Toggle Button -->
                     <button @click="$dispatch('toggle-sidebar')" class="mr-4 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
@@ -22,7 +22,7 @@
                 </div>
 
                 <!-- Page Title -->
-                <div class="hidden sm:ms-10 sm:flex items-center">
+                <div class="hidden sm:ms-10 sm:flex items-center space-x-10">
                     <h1 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
                         {{ $header}}
                     </h1>
