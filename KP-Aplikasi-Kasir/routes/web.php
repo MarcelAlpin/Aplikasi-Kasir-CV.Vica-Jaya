@@ -17,4 +17,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Grup admin
+Route::middleware(['auth', RoleMiddleware::class . ':admin'])->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return 'Selamat datang Admin!';
+    });
+});
+
+// Grup kasir
+Route::middleware(['auth', RoleMiddleware::class . ':kasir'])->group(function () {
+    Route::get('/kasir/dashboard', function () {
+        return 'Selamat datang Kasir!';
+    });
+});
+
 require __DIR__.'/auth.php';
