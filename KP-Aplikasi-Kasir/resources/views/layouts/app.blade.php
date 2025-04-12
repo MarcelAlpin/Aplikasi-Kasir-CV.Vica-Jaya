@@ -19,23 +19,14 @@
             <!-- Navbar -->
             @include('layouts.navigation')
 
-            <div class="flex">
-            <!-- Sidebar -->
-            @include('layouts.sidebar')
+            <div class="flex min-h-screen">
+                <!-- Sidebar -->
+                @include('layouts.sidebar')
 
-            <!-- Page Heading -->
-            <!-- @isset($header)
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset -->
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+                <!-- Page Content -->
+                <main class="flex-1 overflow-hidden mt-16 ml-64 transition-all duration-300" :class="{ 'ml-64': sidebarOpen, 'ml-0': !sidebarOpen }">
+                    {{ $slot }}
+                </main>
             </div>
         </div>
 
