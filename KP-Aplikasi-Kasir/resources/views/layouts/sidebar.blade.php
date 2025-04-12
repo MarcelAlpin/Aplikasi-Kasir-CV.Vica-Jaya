@@ -15,10 +15,8 @@
                 <i class="fas fa-chevron-down ml-auto" :class="{ 'rotate-180': openMenu === 'produk' }"></i>
             </button>
             <div x-show="openMenu === 'produk'" x-transition>
+                <a href="#" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Kategori</a>
                 <a href="#" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Barang</a>
-                <a href="#" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Barcode</a>
-                <a href="#" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Supplier</a>
-                <a href="#" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Pelanggan</a>
                 <a href="#" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Stok Opname</a>
             </div>
         </div>
@@ -35,16 +33,6 @@
                 <a href="#" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Barang Masuk</a>
             </div>
         </div>
-
-        <!-- Pengguna -->
-        <a href="#" class="flex items-center px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
-            <i class="fas fa-users mr-2"></i> Pengguna
-        </a>
-
-        <!-- Pengaturan -->
-        <a href="#" class="flex items-center px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
-            <i class="fas fa-cogs mr-2"></i> Pengaturan
-        </a>
 
         <!-- Hak Akses -->
         <a href="#" class="flex items-center px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
