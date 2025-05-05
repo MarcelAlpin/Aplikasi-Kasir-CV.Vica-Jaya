@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Master\KategoriController;
+
 Route::get('/', function () {
     return view('auth.login');
 });
@@ -22,5 +24,8 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
+
+// Master/Kategori
+Route::resource('kategori', \App\Http\Controllers\Master\KategoriController::class)->middleware('auth');
 
 require __DIR__.'/auth.php';
