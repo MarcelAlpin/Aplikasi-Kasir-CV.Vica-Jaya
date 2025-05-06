@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\Master\KategoriController;
+use App\Http\Controllers\Master\SatuanController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -16,5 +20,16 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// Dashboard
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
+
+// Master /Kategori
+Route::resource('kategori', KategoriController::class)->middleware('auth');
+
+// Master /Satuan
+Route::resource('satuan', SatuanController::class)->middleware('auth');
 
 require __DIR__.'/auth.php';
