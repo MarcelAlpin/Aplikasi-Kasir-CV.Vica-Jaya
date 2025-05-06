@@ -19,8 +19,8 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_pgsql pdo_mysql mbstring exif pcntl bcmath gd zip sodium
 
-# Get Composer
-COPY --from composer:latest /usr/bin/composer /usr/bin/composer
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get update && apt-get install -y nodejs
 
 # Set working directory
 WORKDIR /var/www/html
@@ -28,25 +28,8 @@ WORKDIR /var/www/html
 # Copy existing application directory
 COPY . .
 
-# Install dependencies
-RUN composer install --no-interaction --optimize-autoloader
-
-# Generate application key (if not already set)
-RUN php artisan key:generate --force
-
-# Cache configuration for better performance
-RUN php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache
-
-# Set appropriate permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Set Railway-specific environment variable for PORT
-ENV PORT=8000
-
 # Expose port based on Railway's PORT environment variable
-EXPOSE ${PORT}
+EXPOSE 8000
 
 # Start the Laravel server using PORT environment variable that Railway sets
-CMD php artisan serve --host=0.0.0.0 --port=$PORT
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000
