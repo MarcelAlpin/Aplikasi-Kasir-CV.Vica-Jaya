@@ -38,16 +38,6 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
-
-        // Buat akun admin otomatis
-        User::updateOrCreate(
-            ['email' => 'admin@mail.com'],
-            [
-                'name' => 'Administrator',
-                'password' => Hash::make('admin123'),
-                'role' => 'admin',
-            ]
-        );
     }
 
     /**
