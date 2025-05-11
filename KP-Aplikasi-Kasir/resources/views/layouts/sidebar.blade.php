@@ -1,5 +1,8 @@
 <aside x-show="sidebarOpen" x-transition class="fixed top-16 left-0 w-64 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 h-[calc(100vh-4rem)] px-4 py-6 shadow-lg z-40">
-    <nav class="space-y-2" x-data="{ openMenu: '{{ request()->is('barang*') ? 'produk' : null }}' }">
+    <nav class="space-y-2" x-data="{ openMenu: '{{ 
+        request()->is('kategori*') || request()->is('satuan*') || request()->is('barang*') ? 'produk' : 
+        (request()->is('laporan*') ? 'laporan' : null) 
+    }}' }">
         <!-- Dashboard -->
         <a href="{{ route('dashboard') }}" class="flex items-center px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
             <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
@@ -16,9 +19,8 @@
             </button>
             <div x-show="openMenu === 'produk'" x-transition>
                 <a href="{{ route('kategori.index') }}" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Kategori</a>
-                <a href="{{ route('satuan.index')}}" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Satuan</a>
-                <a href="#" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Barang</a>
-                <a href="#" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Stok Opname</a>
+                <a href="{{ route('satuan.index') }}" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Satuan</a>
+                <a href="{{ route('barang.index') }}" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Barang</a>
             </div>
         </div>
 

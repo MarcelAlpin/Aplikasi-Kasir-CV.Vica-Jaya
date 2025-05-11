@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Barang;
+use App\Models\Kategori;
+use App\Models\Satuan;
 
 class BarangController extends Controller
 {
@@ -13,6 +16,8 @@ class BarangController extends Controller
     public function index()
     {
         //
+        $barang = Barang::latest()->get();
+        return view('master.barang.index', compact('barang'));
     }
 
     /**
@@ -21,6 +26,10 @@ class BarangController extends Controller
     public function create()
     {
         //
+        return view('master.barang.create', [
+            'kategori' => Kategori::all(),
+            'satuan' => Satuan::all(),
+        ]);
     }
 
     /**
@@ -29,6 +38,16 @@ class BarangController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'nama' => 'required|max:100',
+            'deskripsi' => 'nullable',
+            'stok' => 'required|integer',
+            'harga' => 'required|integer',
+            'kategori_id' => 'required|exists:kategori,id',
+            'satuan_id' => 'required|exists:satuan,id',
+        ]);
+        Barang::create($request->all());
+        return redirect()->route('barang.index')->with('success', 'Barang berhasil ditambahkan.');
     }
 
     /**
@@ -45,6 +64,10 @@ class BarangController extends Controller
     public function edit(string $id)
     {
         //
+        $barang = Barang::findOrFail($id);
+        $kategori = Kategori::all();
+        $satuan = Satuan::all();
+        return view('master.barang.edit', compact('barang', 'kategori', 'satuan'));
     }
 
     /**
@@ -53,6 +76,19 @@ class BarangController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $request->validate([
+            'nama' => 'required|max:100',
+            'deskripsi' => 'nullable',
+            'stok' => 'required|integer',
+            'harga' => 'required|integer',
+            'kategori_id' => 'required|exists:kategori,id',
+            'satuan_id' => 'required|exists:satuan,id',
+        ]);
+        $barang = Barang::findOrFail($id);
+        $barang->update($request->all());
+
+
+        return redirect()->route('barang.index')->with('success', 'Barang berhasil diubah.');
     }
 
     /**
@@ -61,5 +97,9 @@ class BarangController extends Controller
     public function destroy(string $id)
     {
         //
+        $barang = Barang::findOrFail($id);
+        $barang->delete();
+
+        return redirect()->route('barang.index')->with('success', 'Barang berhasil dihapus.');
     }
 }

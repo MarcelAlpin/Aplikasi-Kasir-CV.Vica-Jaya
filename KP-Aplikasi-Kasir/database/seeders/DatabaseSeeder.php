@@ -22,5 +22,13 @@ class DatabaseSeeder extends Seeder
                 'role' => 'admin',
             ]
         );
+        User::updateOrCreate(
+            ['email' => 'kasir@mail.com'],
+            [
+                'name' => 'Kasir',
+                'password' => Hash::make('kasir123'),
+                'role' => 'kasir',
+            ]
+        );
     }
 }
