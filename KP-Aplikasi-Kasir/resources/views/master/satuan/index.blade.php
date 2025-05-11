@@ -46,7 +46,7 @@
                                                     <div class="flex justify-end space-x-3">
                                                         <button onclick="closeDeleteModal({{ $satuan->id }})" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded">Batal</button>
                                                         <form action="{{ route('satuan.destroy', $satuan->id) }}" method="POST" class="inline" 
-                                                              onsubmit="showDeleteNotification('satuan berhasil dihapus')">
+                                                              onsubmit="showDeleteNotification('Satuan berhasil dihapus')">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="px-4 py-2 bg-red-600 text-white hover:bg-red-700 rounded">Hapus</button>
