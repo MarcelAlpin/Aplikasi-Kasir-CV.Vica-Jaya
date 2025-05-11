@@ -21,6 +21,7 @@
                             <thead>
                                 <tr class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm">
                                     <th class="px-4 py-2 border dark:border-gray-600">#</th>
+                                    <th class="px-4 py-2 border dark:border-gray-600">Gambar</th>
                                     <th class="px-4 py-2 border dark:border-gray-600">Nama Barang</th>
                                     <th class="px-4 py-2 border dark:border-gray-600">Kategori</th>
                                     <th class="px-4 py-2 border dark:border-gray-600">Deskripsi</th>
@@ -33,12 +34,22 @@
                                 @forelse ($barang as $barang)
                                     <tr class="text-sm hover:bg-gray-100 dark:hover:bg-gray-700">
                                         <td class="px-4 py-2 border dark:border-gray-600">{{ $loop->iteration }}</td>
+                                        {{-- Kolom gambar --}}
+                                        <td class="px-4 py-2">
+                                            @if ($barang->gambar)
+                                                <img src="{{ $barang->gambar }}" class="w-16 h-16 object-cover rounded">
+                                            @else
+                                                <span class="text-gray-400 italic">Tidak ada</span>
+                                            @endif
+                                        </td>
                                         <td class="px-4 py-2 border dark:border-gray-600">{{ $barang->nama }}</td>
                                         <td class="px-4 py-2 border dark:border-gray-600">{{ $barang->kategori->nama }}</td>
                                         <td class="px-4 py-2 border dark:border-gray-600">{{ $barang->deskripsi }}</td>
                                         <td class="px-4 py-2 border dark:border-gray-600">{{ $barang->stok }} {{ $barang->satuan->nama}}</td>
                                         <td class="px-4 py-2 border dark:border-gray-600">Rp {{ number_format($barang->harga, 0, ',', '.') }}</td>
                                         <td class="px-4 py-2 border dark:border-gray-600">
+                                            <!-- Action buttons -->
+
                                             <div class="flex space-x-2">
                                                 <a href="{{ route('barang.edit', $barang->id) }}" class="text-blue-500 hover:underline">Edit</a>
                                                 <button type="button" onclick="openDeleteModal({{ $barang->id }})" class="text-red-500 hover:underline">Hapus</button>

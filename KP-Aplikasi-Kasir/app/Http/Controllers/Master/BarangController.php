@@ -41,12 +41,25 @@ class BarangController extends Controller
         $request->validate([
             'nama' => 'required|max:100',
             'deskripsi' => 'nullable',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'stok' => 'required|integer',
             'harga' => 'required|integer',
             'kategori_id' => 'required|exists:kategori,id',
             'satuan_id' => 'required|exists:satuan,id',
         ]);
-        Barang::create($request->all());
+
+        $data = $request->all();
+
+        // Handle file upload, image to base64
+        if ($request->hasFile('gambar')) {
+            $image = $request->file('gambar');
+            $imageData = base64_encode(file_get_contents($image->getRealPath()));
+            $mimeType = $image->getMimeType();
+            $data['gambar'] = "data:$mimeType;base64,$imageData";
+        }
+
+        Barang::create($data);
+        
         return redirect()->route('barang.index')->with('success', 'Barang berhasil ditambahkan.');
     }
 
@@ -79,6 +92,7 @@ class BarangController extends Controller
         $request->validate([
             'nama' => 'required|max:100',
             'deskripsi' => 'nullable',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'stok' => 'required|integer',
             'harga' => 'required|integer',
             'kategori_id' => 'required|exists:kategori,id',
@@ -86,6 +100,16 @@ class BarangController extends Controller
         ]);
         $barang = Barang::findOrFail($id);
         $barang->update($request->all());
+        $data = $request->except('gambar');
+
+        if ($request->hasFile('gambar')) {
+            $image = $request->file('gambar');
+            $imageData = base64_encode(file_get_contents($image->getRealPath()));
+            $mimeType = $image->getMimeType();
+            $data['gambar'] = "data:$mimeType;base64,$imageData";
+        }
+
+        $barang->update($data);
 
 
         return redirect()->route('barang.index')->with('success', 'Barang berhasil diubah.');

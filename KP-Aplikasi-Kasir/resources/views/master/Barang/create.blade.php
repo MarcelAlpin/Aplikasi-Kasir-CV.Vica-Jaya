@@ -44,6 +44,15 @@
                     </div>
 
                     <div class="mb-4">
+                        <label for="gambar" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Gambar</label>
+                        <input type="file" name="gambar" id="gambar" accept="image/*"
+                            class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 dark:text-white">
+                        @error('gambar')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="mb-4">
                         <label for="stok" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Stok</label>
                         <input type="number" name="stok" id="stok" value="{{ old('stok') }}"
                             class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 dark:text-white">
