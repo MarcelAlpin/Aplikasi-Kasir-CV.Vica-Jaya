@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Master\KategoriController;
 use App\Http\Controllers\Master\SatuanController;
 use App\Http\Controllers\Master\BarangController;
+use App\Http\Controllers\Kasir\KasirController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -35,5 +36,8 @@ Route::resource('satuan', SatuanController::class)->middleware('auth');
 
 // Master /Barang
 Route::resource('barang', BarangController::class)->middleware('auth');
+
+// Kasir
+Route::resource('kasir', KasirController::class)->middleware('auth');
 
 require __DIR__.'/auth.php';
