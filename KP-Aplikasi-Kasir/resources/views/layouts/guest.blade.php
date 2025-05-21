@@ -1,20 +1,26 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
-        <!-- ... other meta tags ... -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        <!-- Temporary CDN version of Tailwind to fix styling -->
+        <script src="https://cdn.tailwindcss.com"></script>
+
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         
         <!-- Fallback if Vite is not working -->
         @if(app()->environment('production'))
-            <link rel="stylesheet" href="{{ asset('build/assets/app.css') }}">
-            <script src="{{ asset('build/assets/app.js') }}" defer></script>
+            <link rel="stylesheet" href="{{ secure_asset('build/assets/app.css') }}">
+            <script src="{{ secure_asset('build/assets/app.js') }}" defer></script>
         @endif
     </head>
     <body class="font-sans text-gray-900 antialiased">
