@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Kasir;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Barang;
 
 class KasirController extends Controller
 {
@@ -13,7 +14,8 @@ class KasirController extends Controller
     public function index()
     {
         //
-        return view('kasir.index');
+        $menus = Barang::all(); // Ambil semua menu
+        return view('kasir.index', compact('menus'));
     }
 
     /**

@@ -5,123 +5,138 @@
         </h2>
     </x-slot>
 
-    <div class="py-4 px-4">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            {{-- Kiri - Menu --}}
-            <div class="col-span-2 bg-white dark:bg-gray-800 p-4 rounded shadow">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold">🧾 Data Menu</h3>
-                    <div class="flex items-center gap-2">
-                        <select class="border rounded px-2 py-1 text-sm dark:bg-gray-700 dark:text-white">
-                            <option>Semua Kategori</option>
-                            {{-- Loop kategori jika ada --}}
-                        </select>
-                        <input type="text" placeholder="Cari Menu" class="border rounded px-2 py-1 text-sm dark:bg-gray-700 dark:text-white">
-                        <button class="bg-blue-600 text-white px-2 py-1 rounded">
-                            🔍
-                        </button>
-                    </div>
-                </div>
-
-                {{-- Menu Grid --}}
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                    @foreach ($menus as $menu)
-                        <div class="border rounded shadow hover:shadow-lg cursor-pointer p-2" wire:click="tambahKeranjang({{ $menu->id }})">
-                            <img src="data:image/png;base64,{{ $menu->gambar }}" alt="{{ $menu->nama }}" class="w-full h-32 object-cover rounded">
-                            <div class="text-center mt-2">
-                                <p class="text-sm text-gray-500">({{ $menu->kategori->nama }})</p>
-                                <h4 class="font-semibold text-blue-700">{{ $menu->nama }}</h4>
-                                <p class="text-green-600 font-semibold">Rp{{ number_format($menu->harga, 0, ',', '.') }},-</p>
-                                <p class="text-sm text-gray-600">(Tersedia: {{ $menu->stok }}x)</p>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
+    <div class="py-4 px-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+        {{-- Menu --}}
+        <div class="bg-white dark:bg-gray-800 p-4 shadow rounded-lg">
+            <div class="mb-4 flex items-center justify-between">
+                <h3 class="text-lg font-bold text-gray-700 dark:text-white">Data Menu</h3>
+                <input type="text" id="searchMenu" placeholder="Cari menu..." class="px-3 py-1 rounded border dark:bg-gray-700 dark:text-white" />
             </div>
 
-            {{-- Kanan - Keranjang --}}
-            <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
-                <h3 class="text-lg font-semibold mb-4">🛒 Keranjang</h3>
-
-                <div class="mb-2">
-                    <label class="text-sm font-medium">NO BON</label>
-                    <input type="text" readonly value="B{{ $bonNumber }}" class="w-full border rounded px-2 py-1 text-sm dark:bg-gray-700 dark:text-white">
-                </div>
-
-                <div class="mb-2">
-                    <label class="text-sm font-medium">CUSTOMER</label>
-                    <div class="flex gap-2">
-                        <input type="text" placeholder="Nama Customer" class="w-full border rounded px-2 py-1 text-sm dark:bg-gray-700 dark:text-white">
-                        <button class="bg-blue-600 text-white px-3 py-1 rounded">🔍</button>
-                        <button class="bg-red-600 text-white px-3 py-1 rounded">🗑️</button>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-h-[70vh] overflow-y-auto">
+                @foreach ($menus as $menu)
+                    <div class="border p-2 rounded hover:shadow cursor-pointer" onclick="addToCart({{ $menu->id }}, '{{ $menu->nama }}', {{ $menu->harga }})">
+                        <img src="{{ $menu->gambar }}" alt="{{ $menu->nama }}" class="w-full h-32 object-cover rounded">
+                        <div class="mt-2 text-center">
+                            <p class="text-sm text-gray-700 dark:text-white font-semibold">{{ $menu->nama }}</p>
+                            <p class="text-green-600 font-bold text-sm">Rp{{ number_format($menu->harga, 0, ',', '.') }}</p>
+                            <p class="text-xs text-gray-500">(Tersedia: {{ $menu->stok }}x)</p>
+                        </div>
                     </div>
-                    <p class="text-red-500 text-xs mt-1">* Untuk customer yang sudah terdaftar</p>
-                </div>
-
-                <div class="mb-2">
-                    <label class="text-sm font-medium">ATAS NAMA</label>
-                    <input type="text" placeholder="Atas Nama" class="w-full border rounded px-2 py-1 text-sm dark:bg-gray-700 dark:text-white">
-                </div>
-
-                <h4 class="text-md font-semibold mt-3 mb-2">🧾 List Keranjang</h4>
-                <table class="w-full text-sm border">
-                    <thead>
-                        <tr class="bg-gray-100 dark:bg-gray-700 text-left">
-                            <th class="px-2">No</th>
-                            <th>Nama</th>
-                            <th>Qty</th>
-                            <th>Harga</th>
-                            <th>#</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($keranjang as $index => $item)
-                        <tr>
-                            <td class="px-2">{{ $index + 1 }}</td>
-                            <td>{{ $item->nama }}</td>
-                            <td>
-                                <input type="number" min="1" value="{{ $item->qty }}"
-                                    class="w-12 border rounded text-center text-sm dark:bg-gray-700 dark:text-white">
-                            </td>
-                            <td>Rp{{ number_format($item->harga * $item->qty, 0, ',', '.') }}</td>
-                            <td>
-                                <button class="text-red-500">🗑️</button>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-
-                {{-- Info & Total --}}
-                <div class="mt-4 space-y-2 text-sm">
-                    <div>
-                        <label>Status</label>
-                        <select class="w-full border rounded px-2 py-1 dark:bg-gray-700 dark:text-white">
-                            <option value="">- Status Pembayaran -</option>
-                            <option value="lunas">Lunas</option>
-                            <option value="belum">Belum Bayar</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>Order</label>
-                        <select class="w-full border rounded px-2 py-1 dark:bg-gray-700 dark:text-white">
-                            <option value="">Ditempat</option>
-                            <option value="bungkus">Bungkus</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>Total Bayar</label>
-                        <input type="text" readonly value="Rp{{ number_format($totalBayar, 0, ',', '.') }}" class="w-full border rounded px-2 py-1 text-sm dark:bg-gray-700 dark:text-white">
-                    </div>
-                    <div>
-                        <label>Pajak</label>
-                        <input type="text" readonly value="Rp0" class="w-full border rounded px-2 py-1 text-sm dark:bg-gray-700 dark:text-white">
-                    </div>
-                    <div class="text-right mt-2">
-                        <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Bayar Sekarang</button>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
+
+        {{-- Keranjang --}}
+        <form action="{{ route('transaksi.store') }}" method="POST" class="bg-white dark:bg-gray-800 p-4 shadow rounded-lg">
+            @csrf
+
+            <div class="mb-3">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">No BON</label>
+                <input type="text" name="no_bon" value="B{{ date('His') }}" readonly class="form-input w-full dark:bg-gray-700 dark:text-white text-gray-500" />
+            </div>
+
+            <div class="mb-3">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Atas Nama</label>
+                <input type="text" name="atas_nama" placeholder="Nama untuk nota" value="{{ Auth::user()->name }}" readonly 
+                    class="form-input w-full dark:bg-gray-700 dark:text-white text-gray-500" />
+            </div>
+
+            <h4 class="text-sm font-bold mb-2 text-gray-700 dark:text-white">List Keranjang</h4>
+            <table class="w-full text-sm text-left mb-3">
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Qty</th>
+                        <th>Harga</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody id="cartItems"></tbody>
+            </table>
+
+            <input type="hidden" name="total_bayar" id="totalBayarInput">
+            <input type="hidden" name="pajak" value="0">
+
+            <div class="mb-3">
+                <label>Order</label>
+                <select name="status" class="form-select w-full dark:bg-gray-700 dark:text-white">
+                    <option value="Lunas">Delivary</option>
+                    <option value="Belum Bayar">Ditempat</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Pembayaran</label>
+                <select name="order" class="form-select w-full dark:bg-gray-700 dark:text-white">
+                    <option value="Ditempat">Cod</option>
+                    <option value="Dibawa Pulang">Cash</option>
+                </select>
+            </div>
+
+            <div class="mb-3 text-right">
+                <strong>Total: <span id="totalBayarText">Rp0</span></strong>
+            </div>
+
+            <div class="text-right">
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+                    Simpan Transaksi
+                </button>
+            </div>
+        </form>
     </div>
+
+    <script>
+        let cart = [];
+
+        function addToCart(id, name, price) {
+            let found = cart.find(item => item.barang_id === id);
+            if (found) {
+                found.qty += 1;
+            } else {
+                cart.push({ barang_id: id, name: name, qty: 1, harga: price });
+            }
+            renderCart();
+        }
+
+        function removeCartItem(index) {
+            cart.splice(index, 1);
+            renderCart();
+        }
+
+        function updateQty(index, qty) {
+            cart[index].qty = parseInt(qty);
+            renderCart();
+        }
+
+        function renderCart() {
+            let cartTable = document.getElementById('cartItems');
+            cartTable.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                let subtotal = item.qty * item.harga;
+                total += subtotal;
+                cartTable.innerHTML += `
+                    <tr>
+                        <td>
+                            ${item.name}
+                            <input type="hidden" name="items[${index}][barang_id]" value="${item.barang_id}">
+                            <input type="hidden" name="items[${index}][harga]" value="${item.harga}">
+                        </td>
+                        <td>
+                            <input type="number" name="items[${index}][qty]" value="${item.qty}" min="1"
+                                   onchange="updateQty(${index}, this.value)"
+                                   class="w-12 text-center border border-gray-300 rounded" />
+                        </td>
+                        <td>Rp${item.harga.toLocaleString()}</td>
+                        <td><button type="button" onclick="removeCartItem(${index})" class="text-red-500">x</button></td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('totalBayarText').innerText = 'Rp' + total.toLocaleString();
+            document.getElementById('totalBayarInput').value = total;
+        }
+    </script>
 </x-app-layout>

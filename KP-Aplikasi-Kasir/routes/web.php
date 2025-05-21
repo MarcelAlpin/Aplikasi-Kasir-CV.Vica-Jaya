@@ -8,6 +8,7 @@ use App\Http\Controllers\Master\KategoriController;
 use App\Http\Controllers\Master\SatuanController;
 use App\Http\Controllers\Master\BarangController;
 use App\Http\Controllers\Kasir\KasirController;
+use App\Http\Controllers\Transaksi\TransaksiController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -40,4 +41,6 @@ Route::resource('barang', BarangController::class)->middleware('auth');
 // Kasir
 Route::resource('kasir', KasirController::class)->middleware('auth');
 
+// Transaksi
+Route::resource('transaksi', TransaksiController::class)->middleware('auth');
 require __DIR__.'/auth.php';
