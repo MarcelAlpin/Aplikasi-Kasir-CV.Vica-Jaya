@@ -4,7 +4,6 @@
 
     <form method="POST" action="{{ secure_url('/login') }}">
     @csrf
-f
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
