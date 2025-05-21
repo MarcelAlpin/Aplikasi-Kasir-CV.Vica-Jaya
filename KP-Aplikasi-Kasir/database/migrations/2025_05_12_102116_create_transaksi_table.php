@@ -13,8 +13,12 @@ return new class extends Migration
     {
         Schema::create('transaksi', function (Blueprint $table) {
             $table->id();
-            $table->string('nama',100);
-            $table->integer('total');
+            $table->string('no_bon');
+            $table->string('atas_nama');
+            $table->enum('status', ['Lunas', 'Belum Bayar']);
+            $table->enum('order', ['Ditempat', 'Dibawa Pulang']);
+            $table->integer('total_bayar');
+            $table->integer('pajak')->default(0);
             $table->timestamps();
         });
     }

@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('transaksi_id')->constrained('transaksi')->onDelete('cascade');
             $table->foreignId('barang_id')->constrained('barang')->onDelete('cascade');
-            $table->integer('jumlah');
-            $table->integer('harga');
-            $table->integer('subtotal');
+            $table->integer('qty');
+            $table->integer('harga'); // harga satuan
             $table->timestamps();
         });
     }

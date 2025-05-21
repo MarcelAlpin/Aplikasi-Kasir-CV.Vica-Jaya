@@ -127,7 +127,7 @@
                         <td>
                             <input type="number" name="items[${index}][qty]" value="${item.qty}" min="1"
                                    onchange="updateQty(${index}, this.value)"
-                                   class="w-12 text-center border border-gray-300 rounded" />
+                                   class="w-20 text-center border border-gray-300 rounded" />
                         </td>
                         <td>Rp${item.harga.toLocaleString()}</td>
                         <td><button type="button" onclick="removeCartItem(${index})" class="text-red-500">x</button></td>
