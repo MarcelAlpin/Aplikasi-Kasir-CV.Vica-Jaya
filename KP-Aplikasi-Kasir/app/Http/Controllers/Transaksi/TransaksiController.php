@@ -11,6 +11,13 @@ use App\Models\Barang;
 class TransaksiController extends Controller
 {
     //
+    public function index()
+    {
+        //
+        $transaksi = Transaksi::with('detail.barang')->latest()->get();
+        return view('laporan.transaksi', compact('transaksi'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([

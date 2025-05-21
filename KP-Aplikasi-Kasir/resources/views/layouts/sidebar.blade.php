@@ -32,7 +32,7 @@
                 <i class="fas fa-chevron-down ml-auto" :class="{ 'rotate-180': openMenu === 'laporan' }"></i>
             </button>
             <div x-show="openMenu === 'laporan'" x-transition>
-                <a href="#" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Transaksi</a>
+                <a href="/transaksi" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Transaksi</a>
                 <a href="#" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Barang Masuk</a>
             </div>
         </div>

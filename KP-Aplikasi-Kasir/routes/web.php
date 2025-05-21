@@ -43,4 +43,5 @@ Route::resource('kasir', KasirController::class)->middleware('auth');
 
 // Transaksi
 Route::resource('transaksi', TransaksiController::class)->middleware('auth');
+
 require __DIR__.'/auth.php';

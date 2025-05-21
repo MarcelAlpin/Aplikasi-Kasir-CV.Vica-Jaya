@@ -11,7 +11,7 @@ class TransaksiDetail extends Model
     protected $fillable = ['transaksi_id','barang_id','harga','qty',];
     public function barang()
     {
-        return $this->belongsTo(Barang::class);
+        return $this->belongsTo(Barang::class, 'barang_id');
     }
     public function transaksi()
     {
