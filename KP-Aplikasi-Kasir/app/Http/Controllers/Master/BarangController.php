@@ -26,7 +26,7 @@ class BarangController extends Controller
     public function create()
     {
         //
-        return view('master.barang.create', [
+        return view('master.Barang.create', [
             'kategori' => Kategori::all(),
             'satuan' => Satuan::all(),
         ]);
@@ -80,7 +80,7 @@ class BarangController extends Controller
         $barang = Barang::findOrFail($id);
         $kategori = Kategori::all();
         $satuan = Satuan::all();
-        return view('master.barang.edit', compact('barang', 'kategori', 'satuan'));
+        return view('master.Barang.edit', compact('barang', 'kategori', 'satuan'));
     }
 
     /**
