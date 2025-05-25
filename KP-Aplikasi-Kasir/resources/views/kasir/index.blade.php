@@ -10,8 +10,24 @@
         <div class="bg-white dark:bg-gray-800 p-4 shadow rounded-lg">
             <div class="mb-4 flex items-center justify-between">
                 <h3 class="text-lg font-bold text-gray-700 dark:text-white">Data Menu</h3>
-                <input type="text" id="searchMenu" placeholder="Cari menu..." class="px-3 py-1 rounded border dark:bg-gray-700 dark:text-white" />
+                <input type="text" id="searchMenu" placeholder="Cari menu..." class="px-3 py-1 rounded border dark:bg-gray-700 dark:text-white" oninput="searchMenus()" />
             </div>
+
+            <script>
+                function searchMenus() {
+                    const searchTerm = document.getElementById('searchMenu').value.toLowerCase();
+                    const menuItems = document.querySelectorAll('.menu-item');
+                    
+                    menuItems.forEach(item => {
+                        const menuName = item.querySelector('.menu-name').textContent.toLowerCase();
+                        if (menuName.includes(searchTerm)) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                }
+            </script>
 
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-h-[70vh] overflow-y-auto">
                 @foreach ($menus as $menu)
