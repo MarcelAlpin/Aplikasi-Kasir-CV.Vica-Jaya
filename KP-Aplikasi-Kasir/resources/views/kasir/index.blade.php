@@ -32,7 +32,7 @@
             @csrf
 
             <div class="mb-3">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">No BON</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">No Nota</label>
                 <input type="text" name="no_bon" value="B{{ date('His') }}" readonly class="form-input w-full dark:bg-gray-700 dark:text-white text-gray-500" />
             </div>
 
@@ -60,19 +60,40 @@
 
             <div class="mb-3">
                 <label>Order</label>
-                <select name="status" class="form-select w-full dark:bg-gray-700 dark:text-white">
-                    <option value="Lunas">Delivary</option>
-                    <option value="Belum Bayar">Ditempat</option>
+                <select name="status" id="orderType" class="form-select w-full dark:bg-gray-700 dark:text-white" onchange="updatePaymentOptions()">
+                    <option value="Delivery">Delivery</option>
+                    <option value="Ditempat" selected>Ditempat</option>
                 </select>
             </div>
 
             <div class="mb-3">
                 <label>Pembayaran</label>
-                <select name="order" class="form-select w-full dark:bg-gray-700 dark:text-white">
-                    <option value="Ditempat">Cod</option>
-                    <option value="Dibawa Pulang">Cash</option>
+                <select name="order" id="paymentOption" class="form-select w-full dark:bg-gray-700 dark:text-white">
+                    <option value="Cash" selected>Cash</option>
                 </select>
             </div>
+
+            <script>
+                function updatePaymentOptions() {
+                    const orderType = document.getElementById('orderType').value;
+                    const paymentSelect = document.getElementById('paymentOption');
+                    
+                    // Clear existing options
+                    paymentSelect.innerHTML = '';
+                    
+                    if (orderType === 'Delivery') {
+                        // For delivery, show only COD
+                        paymentSelect.add(new Option('COD', 'COD'));
+                    } else {
+                        // For "Ditempat", show Cash and QRIS
+                        paymentSelect.add(new Option('Cash', 'Cash', true, true));
+                        paymentSelect.add(new Option('QRIS', 'QRIS'));
+                    }
+                }
+                
+                // Initialize payment options when page loads
+                document.addEventListener('DOMContentLoaded', updatePaymentOptions);
+            </script>
 
             <div class="mb-3 text-right">
                 <strong>Total: <span id="totalBayarText">Rp0</span></strong>
