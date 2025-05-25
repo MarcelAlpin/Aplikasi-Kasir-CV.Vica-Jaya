@@ -4,28 +4,29 @@
         <div class="flex justify-between h-16">
             <div class="flex">
 
-            <div class="flex items-center space-x-10">
-                <!-- Toggle Button -->
-                <button @click="$dispatch('toggle-sidebar')" class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-                </button>
+                <!-- Sidebar Toggle + Logo -->
+                <div class="flex items-center space-x-10">
+                    <!-- Toggle Button -->
+                    <button @click="$dispatch('toggle-sidebar')" class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
 
-                <!-- Dark/Light Theme Toggle -->
-                <button onclick="toggleTheme()" class="px-3 py-1 text-sm font-medium rounded-md bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200">
-                <span class="dark:hidden">🌙 Dark</span>
-                <span class="hidden dark:inline">☀️ Light</span>
-                </button>
+                    <!-- Logo -->
+                    <a href="{{ route('dashboard') }}">
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                    </a>
+                </div>
 
-            <!-- Page Title -->
-            <div class="hidden sm:ml-36 sm:flex items-center">
-                <h1 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                {{ $header }}
-                </h1>
-            </div>
+                <!-- Page Title -->
+                <div class="hidden sm:ml-36 sm:flex items-center">
+                    <h1 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                        {{ $header }}
+                    </h1>
+                </div>
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
