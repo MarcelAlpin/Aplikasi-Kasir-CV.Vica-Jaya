@@ -20,17 +20,20 @@
             <script>
             function searchMenus() {
             const searchTerm = document.getElementById('searchMenu').value.toLowerCase();
-            const menuItems = document.querySelectorAll('.grid > div');
+            const menuItems = document.querySelectorAll('.grid.grid-cols-2 > div');
             const noResultsMessage = document.getElementById('noResultsMessage');
             let visibleCount = 0;
             
             menuItems.forEach(item => {
-            const menuName = item.querySelector('p.font-semibold').textContent.toLowerCase();
+            const menuNameElement = item.querySelector('p.font-semibold');
+            if (menuNameElement) {
+            const menuName = menuNameElement.textContent.toLowerCase();
             if (menuName.includes(searchTerm)) {
             item.style.display = 'block';
             visibleCount++;
             } else {
             item.style.display = 'none';
+            }
             }
             });
 
