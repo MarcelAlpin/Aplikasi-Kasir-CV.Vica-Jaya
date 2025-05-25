@@ -49,7 +49,7 @@
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-h-[70vh] overflow-y-auto">
                 @foreach ($menus as $menu)
                     <div class="border p-2 rounded hover:shadow cursor-pointer" onclick="addToCart({{ $menu->id }}, '{{ $menu->nama }}', {{ $menu->harga }})">
-                        <img src="{{ $menu->gambar }}" alt="{{ $menu->nama }}" class="w-full h-32 object-cover rounded">
+                        <img src="{{ $menu->gambar }}" alt="{{ $menu->nama }}" class="w-full h-32 object-contain rounded">
                         <div class="mt-2 text-center">
                             <p class="text-sm text-gray-700 dark:text-white font-semibold">{{ $menu->nama }}</p>
                             <p class="text-green-600 font-bold text-sm">Rp{{ number_format($menu->harga, 0, ',', '.') }}</p>
