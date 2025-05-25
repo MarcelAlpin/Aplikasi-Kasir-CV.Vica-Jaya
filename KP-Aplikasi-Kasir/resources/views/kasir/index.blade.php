@@ -27,18 +27,18 @@
             menuItems.forEach(item => {
             const menuName = item.querySelector('p.font-semibold').textContent.toLowerCase();
             if (menuName.includes(searchTerm)) {
-                item.style.display = 'block';
-                visibleCount++;
+            item.style.display = 'block';
+            visibleCount++;
             } else {
-                item.style.display = 'none';
+            item.style.display = 'none';
             }
             });
 
-            // Show/hide no results message
+            // Show no results message when no items match and search term is not empty
             if (visibleCount === 0 && searchTerm.trim() !== '') {
-                noResultsMessage.classList.remove('hidden');
+            noResultsMessage.classList.remove('hidden');
             } else {
-                noResultsMessage.classList.add('hidden');
+            noResultsMessage.classList.add('hidden');
             }
             }
             </script>
