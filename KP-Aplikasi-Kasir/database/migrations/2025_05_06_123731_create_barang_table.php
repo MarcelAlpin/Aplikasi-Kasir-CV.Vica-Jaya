@@ -19,8 +19,8 @@ return new class extends Migration
             $table->integer('stok')->default(0);
             $table->integer('harga')->default(0);
             $table->timestamps();
-            $table->foreignId('kategori_id')->constraine()->onDelete('cascade');
-            $table->foreignId('satuan_id')->constraine()->onDelete('cascade');
+            $table->foreignId('kategori_id')->constrained('kategori')->onDelete('cascade');
+            $table->foreignId('satuan_id')->constrained('satuan')->onDelete('cascade');
         });
     }
 
