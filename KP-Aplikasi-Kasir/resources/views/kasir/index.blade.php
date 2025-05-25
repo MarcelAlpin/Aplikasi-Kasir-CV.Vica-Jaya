@@ -13,19 +13,33 @@
             <input type="text" id="searchMenu" placeholder="Cari menu..." class="px-3 py-1 rounded border dark:bg-gray-700 dark:text-white" oninput="searchMenus()" />
             </div>
 
+            <div id="noResultsMessage" class="text-center text-gray-500 dark:text-gray-400 py-8 hidden">
+            <p>Menu yang dicari tidak ditemukan</p>
+            </div>
+
             <script>
             function searchMenus() {
-                const searchTerm = document.getElementById('searchMenu').value.toLowerCase();
-                const menuItems = document.querySelectorAll('.grid > div');
-                
-                menuItems.forEach(item => {
-                const menuName = item.querySelector('p.font-semibold').textContent.toLowerCase();
-                if (menuName.includes(searchTerm)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-                });
+            const searchTerm = document.getElementById('searchMenu').value.toLowerCase();
+            const menuItems = document.querySelectorAll('.grid > div');
+            const noResultsMessage = document.getElementById('noResultsMessage');
+            let visibleCount = 0;
+            
+            menuItems.forEach(item => {
+            const menuName = item.querySelector('p.font-semibold').textContent.toLowerCase();
+            if (menuName.includes(searchTerm)) {
+                item.style.display = 'block';
+                visibleCount++;
+            } else {
+                item.style.display = 'none';
+            }
+            });
+
+            // Show/hide no results message
+            if (visibleCount === 0 && searchTerm.trim() !== '') {
+                noResultsMessage.classList.remove('hidden');
+            } else {
+                noResultsMessage.classList.add('hidden');
+            }
             }
             </script>
 
