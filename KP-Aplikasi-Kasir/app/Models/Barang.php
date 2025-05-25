@@ -10,7 +10,15 @@ class Barang extends Model
     //
     use HasFactory;
     protected $table = 'barang';
-    protected $fillable = ['nama', 'deskripsi', 'gambar', 'stok', 'harga', 'kategori_id', 'satuan_id'];
+    protected $fillable = [
+        'nama',
+        'deskripsi',
+        'gambar',  // Make sure this is included
+        'stok',
+        'harga',
+        'kategori_id',
+        'satuan_id'
+    ];
 
 public function kategori()
 {
