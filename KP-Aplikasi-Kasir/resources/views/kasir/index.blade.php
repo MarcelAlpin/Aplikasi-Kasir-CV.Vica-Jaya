@@ -133,103 +133,40 @@
             </div>
 
             <div class="text-right">
-                <button type="button" onclick="showPaymentModal()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
-                    Lanjutkan
+                <button type="button" onclick="confirmTransaction()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+                    Simpan Transaksi
                 </button>
             </div>
 
-            <!-- Payment Modal -->
-            <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
-                <div class="flex items-center justify-center min-h-screen">
-                    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96">
-                        <h3 class="text-lg font-bold mb-4 text-gray-700 dark:text-white">Detail Pembayaran</h3>
-                        
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Status Pesanan</label>
-                            <select id="modalStatus" class="form-select w-full dark:bg-gray-700 dark:text-white">
-                                <option value="Lunas">Lunas</option>
-                                <option value="Belum Bayar">Belum Bayar/Bon</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Jumlah Bayar</label>
-                            <input type="number" id="modalBayar" placeholder="Masukkan jumlah bayar" 
-                                   class="form-input w-full dark:bg-gray-700 dark:text-white" />
-                        </div>
-
-                        <div class="mb-4">
-                            <strong>Total: <span id="modalTotal">Rp0</span></strong>
-                        </div>
-
-                        <div class="mb-4">
-                            <strong>Kembalian: <span id="modalKembalian">Rp0</span></strong>
-                        </div>
-
-                        <div class="flex justify-end space-x-2">
-                            <button type="button" onclick="closePaymentModal()" 
-                                    class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-                                Batal
-                            </button>
-                            <button type="button" onclick="processPayment()" 
-                                    class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-                                Bayar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <input type="hidden" name="status_pesanan" id="statusPesananInput">
-            <input type="hidden" name="jumlah_bayar" id="jumlahBayarInput">
-            <input type="hidden" name="kembalian" id="kembalianInput">
-
             <script>
-                function showPaymentModal() {
+                function confirmTransaction() {
                     if (cart.length === 0) {
                         alert('Keranjang masih kosong!');
                         return;
                     }
-                    
-                    const total = parseInt(document.getElementById('totalBayarInput').value);
-                    document.getElementById('modalTotal').innerText = 'Rp' + total.toLocaleString();
-                    document.getElementById('paymentModal').classList.remove('hidden');
-                }
 
-                function closePaymentModal() {
-                    document.getElementById('paymentModal').classList.add('hidden');
-                    document.getElementById('modalBayar').value = '';
-                    document.getElementById('modalKembalian').innerText = 'Rp0';
-                }
+                    const paymentMethod = document.getElementById('paymentOption').value;
+                    let paymentStatus;
 
-                function processPayment() {
-                    const total = parseInt(document.getElementById('totalBayarInput').value);
-                    const bayar = parseInt(document.getElementById('modalBayar').value) || 0;
-                    const status = document.getElementById('modalStatus').value;
-
-                    if (bayar < total) {
-                        alert('Jumlah bayar kurang dari total!');
-                        return;
+                    if (paymentMethod === 'Cash') {
+                        paymentStatus = confirm('Konfirmasi pembayaran Cash - Apakah pelanggan sudah membayar?') ? 'Lunas' : 'Belum Lunas';
+                    } else if (paymentMethod === 'QRIS') {
+                        paymentStatus = confirm('Konfirmasi pembayaran QRIS - Apakah pembayaran sudah berhasil?') ? 'Lunas' : 'Belum Lunas';
+                    } else if (paymentMethod === 'COD') {
+                        paymentStatus = 'Belum Lunas'; // COD default to unpaid
+                        alert('Pesanan COD akan disimpan dengan status "Belum Lunas"');
                     }
 
-                    const kembalian = bayar - total;
-                    
-                    // Set hidden inputs
-                    document.getElementById('statusPesananInput').value = status;
-                    document.getElementById('jumlahBayarInput').value = bayar;
-                    document.getElementById('kembalianInput').value = kembalian;
+                    // Add payment status to form
+                    const statusInput = document.createElement('input');
+                    statusInput.type = 'hidden';
+                    statusInput.name = 'payment_status';
+                    statusInput.value = paymentStatus;
+                    document.querySelector('form').appendChild(statusInput);
 
-                    // Submit form
+                    // Submit the form
                     document.querySelector('form').submit();
                 }
-
-                // Update kembalian when bayar amount changes
-                document.getElementById('modalBayar').addEventListener('input', function() {
-                    const total = parseInt(document.getElementById('totalBayarInput').value);
-                    const bayar = parseInt(this.value) || 0;
-                    const kembalian = bayar >= total ? bayar - total : 0;
-                    document.getElementById('modalKembalian').innerText = 'Rp' + kembalian.toLocaleString();
-                });
             </script>
         </form>
     </div>
