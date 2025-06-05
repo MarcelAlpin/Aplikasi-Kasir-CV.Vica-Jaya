@@ -45,47 +45,47 @@
                         <p class="font-medium">Item Terjual hari ini</p>
                     </div>
 
-                    <!-- Chart Container -->
-                    <div class="col-span-1 sm:col-span-2 lg:col-span-4 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-                        <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Monthly Sales Chart</h2>
-                        <div class="relative h-64">
-                            <canvas id="monthlySalesChart"></canvas>
+                                <!-- Chart Container -->
+                                <div class="col-span-1 sm:col-span-2 lg:col-span-4 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+                                    <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Monthly Sales Chart</h2>
+                                    <div class="relative h-64">
+                                        <canvas id="monthlySalesChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                    <script>
-                    const ctx = document.getElementById('monthlySalesChart').getContext('2d');
-                    const chart = new Chart(ctx, {
-                        type: 'line',
-                        data: {
-                            labels: @json($monthlyLabels ?? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']),
-                            datasets: [{
-                                label: 'Monthly Sales (Rp)',
-                                data: @json($monthlySales ?? [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
-                                borderColor: 'rgb(59, 130, 246)',
-                                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                                tension: 0.1
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    ticks: {
-                                        callback: function(value) {
-                                            return 'Rp ' + value.toLocaleString('id-ID');
-                                        }
+                </div>
+            
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+                const ctx = document.getElementById('monthlySalesChart').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: @json($monthlyLabels ?? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']),
+                        datasets: [{
+                            label: 'Monthly Sales (Rp)',
+                            data: @json($monthlySales ?? [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
+                            borderColor: 'rgb(59, 130, 246)',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return 'Rp ' + value.toLocaleString('id-ID');
                                     }
                                 }
                             }
                         }
-                    });
-                    </script>
-                </div>
-            </div>
+</x-app-layout>
         </div>
     </div>
 </x-app-layout>
