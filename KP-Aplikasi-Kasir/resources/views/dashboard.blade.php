@@ -45,37 +45,89 @@
                         <p class="font-medium">Item Terjual hari ini</p>
                     </div>
 
-                    <!-- Chart Container -->
-                    <div class="col-span-1 sm:col-span-2 lg:col-span-4 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-                        <h2 class="text-xl font-bold mb-4">Monthly Sales</h2>
-                        <canvas id="salesChart" class="w-full h-64"></canvas>
+                                <!-- Graph Section -->
+                                <div class="col-span-1 sm:col-span-2 lg:col-span-4 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+                                    <h2 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Monthly Transaction & Revenue Overview</h2>
+                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                        <!-- Transaction Chart -->
+                                        <div>
+                                            <h3 class="text-md font-medium mb-2 text-gray-700 dark:text-gray-300">Monthly Transactions</h3>
+                                            <canvas id="transactionChart" width="400" height="200"></canvas>
+                                        </div>
+                                        <!-- Revenue Chart -->
+                                        <div>
+                                            <h3 class="text-md font-medium mb-2 text-gray-700 dark:text-gray-300">Monthly Revenue</h3>
+                                            <canvas id="revenueChart" width="400" height="200"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+                    // Sample data - replace with your actual data from controller
+                    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    const transactionData = @json($monthlyTransactions ?? [0,0,0,0,0,0,0,0,0,0,0,0]);
+                    const revenueData = @json($monthlyRevenue ?? [0,0,0,0,0,0,0,0,0,0,0,0]);
+            
+                    // Transaction Chart
+                    const ctxTransaction = document.getElementById('transactionChart').getContext('2d');
+                    new Chart(ctxTransaction, {
+                        type: 'bar',
+                        data: {
+                            labels: months,
+                            datasets: [{
+                                label: 'Transactions',
+                                data: transactionData,
+                                backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                                borderColor: 'rgba(59, 130, 246, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+            
+                    // Revenue Chart
+                    const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
+                    new Chart(ctxRevenue, {
+                        type: 'line',
+                        data: {
+                            labels: months,
+                            datasets: [{
+                                label: 'Revenue (Rp)',
+                                data: revenueData,
+                                backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                                borderColor: 'rgba(16, 185, 129, 1)',
+                                borderWidth: 2,
+                                fill: true
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: function(value) {
+                                            return 'Rp ' + value.toLocaleString('id-ID');
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                </script>
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-    const monthlyLabels = @json($monthlyLabels ?? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
-    const monthlySales = @json($monthlySales ?? [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-    
-    new Chart(document.getElementById('salesChart'), {
-        type: 'line',
-        data: {
-            labels: monthlyLabels,
-            datasets: [{
-                label: 'Sales (Rp)',
-                data: monthlySales,
-                borderColor: '#3b82f6',
-                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-    </script>
 </x-app-layout>
