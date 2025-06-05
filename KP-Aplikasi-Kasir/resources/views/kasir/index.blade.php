@@ -132,11 +132,144 @@
                 <strong>Total: <span id="totalBayarText">Rp0</span></strong>
             </div>
 
+            <div class="mb-3" id="cashPaymentDiv" style="display: none;">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Uang Diterima</label>
+                <input type="number" id="uangDiterima" placeholder="Masukkan jumlah uang diterima" 
+                    class="form-input w-full dark:bg-gray-700 dark:text-white" oninput="calculateChange()" />
+                <div id="kembalianDiv" class="mt-2 text-sm text-green-600 font-semibold" style="display: none;">
+                    Kembalian: <span id="kembalianText">Rp0</span>
+                </div>
+            </div>
+
             <div class="text-right">
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+                <button type="button" onclick="handleTransaction()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
                     Simpan Transaksi
                 </button>
             </div>
+
+            <!-- Modal for Change Display -->
+            <div id="changeModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md mx-4">
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Transaksi Berhasil</h3>
+                    <div class="text-center">
+                        <p class="text-gray-600 dark:text-gray-300 mb-2">Total: <span id="modalTotal" class="font-semibold"></span></p>
+                        <p class="text-gray-600 dark:text-gray-300 mb-2">Uang Diterima: <span id="modalUangDiterima" class="font-semibold"></span></p>
+                        <p class="text-2xl font-bold text-green-600 mb-4">Kembalian: <span id="modalKembalian"></span></p>
+                    </div>
+                    <div class="flex justify-center space-x-3">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                            Tutup
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                            Konfirmasi
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                function updatePaymentOptions() {
+                    const orderType = document.getElementById('orderType').value;
+                    const paymentSelect = document.getElementById('paymentOption');
+                    const cashPaymentDiv = document.getElementById('cashPaymentDiv');
+                    
+                    // Clear existing options
+                    paymentSelect.innerHTML = '';
+                    
+                    if (orderType === 'Delivery') {
+                        paymentSelect.add(new Option('COD', 'COD'));
+                        cashPaymentDiv.style.display = 'none';
+                    } else {
+                        paymentSelect.add(new Option('Cash', 'Cash', true, true));
+                        paymentSelect.add(new Option('QRIS', 'QRIS'));
+                        
+                        // Show cash input for Cash payment
+                        paymentSelect.addEventListener('change', function() {
+                            if (this.value === 'Cash') {
+                                cashPaymentDiv.style.display = 'block';
+                            } else {
+                                cashPaymentDiv.style.display = 'none';
+                            }
+                        });
+                        
+                        // Initially show for Cash
+                        cashPaymentDiv.style.display = 'block';
+                    }
+                }
+
+                function calculateChange() {
+                    const uangDiterima = parseFloat(document.getElementById('uangDiterima').value) || 0;
+                    const totalBayar = parseFloat(document.getElementById('totalBayarInput').value) || 0;
+                    const kembalian = uangDiterima - totalBayar;
+                    
+                    const kembalianDiv = document.getElementById('kembalianDiv');
+                    const kembalianText = document.getElementById('kembalianText');
+                    
+                    if (uangDiterima > 0) {
+                        kembalianDiv.style.display = 'block';
+                        if (kembalian >= 0) {
+                            kembalianText.textContent = 'Rp' + kembalian.toLocaleString();
+                            kembalianText.className = 'text-green-600 font-semibold';
+                        } else {
+                            kembalianText.textContent = 'Kurang Rp' + Math.abs(kembalian).toLocaleString();
+                            kembalianText.className = 'text-red-600 font-semibold';
+                        }
+                    } else {
+                        kembalianDiv.style.display = 'none';
+                    }
+                }
+
+                function handleTransaction() {
+                    const paymentOption = document.getElementById('paymentOption').value;
+                    const totalBayar = parseFloat(document.getElementById('totalBayarInput').value) || 0;
+                    
+                    if (cart.length === 0) {
+                        alert('Keranjang masih kosong!');
+                        return;
+                    }
+                    
+                    if (paymentOption === 'Cash') {
+                        const uangDiterima = parseFloat(document.getElementById('uangDiterima').value) || 0;
+                        
+                        if (uangDiterima < totalBayar) {
+                            alert('Uang diterima kurang!');
+                            return;
+                        }
+                        
+                        const kembalian = uangDiterima - totalBayar;
+                        
+                        // Show modal with change
+                        document.getElementById('modalTotal').textContent = 'Rp' + totalBayar.toLocaleString();
+                        document.getElementById('modalUangDiterima').textContent = 'Rp' + uangDiterima.toLocaleString();
+                        document.getElementById('modalKembalian').textContent = 'Rp' + kembalian.toLocaleString();
+                        document.getElementById('changeModal').classList.remove('hidden');
+                        document.getElementById('changeModal').classList.add('flex');
+                    } else {
+                        // For non-cash payments, submit directly
+                        document.querySelector('form').submit();
+                    }
+                }
+
+                function closeModal() {
+                    document.getElementById('changeModal').classList.add('hidden');
+                    document.getElementById('changeModal').classList.remove('flex');
+                }
+                
+                // Update the existing updatePaymentOptions call
+                document.addEventListener('DOMContentLoaded', function() {
+                    updatePaymentOptions();
+                    
+                    // Add event listener for payment option change
+                    document.getElementById('paymentOption').addEventListener('change', function() {
+                        const cashPaymentDiv = document.getElementById('cashPaymentDiv');
+                        if (this.value === 'Cash') {
+                            cashPaymentDiv.style.display = 'block';
+                        } else {
+                            cashPaymentDiv.style.display = 'none';
+                        }
+                    });
+                });
+            </script>
         </form>
     </div>
 
