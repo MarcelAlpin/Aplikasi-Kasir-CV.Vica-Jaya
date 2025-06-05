@@ -85,7 +85,7 @@
                                 }
                             }
                         }
-</x-app-layout>
-        </div>
-    </div>
+                    }
+                });
+                </script>
 </x-app-layout>
