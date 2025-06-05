@@ -171,6 +171,20 @@
             cart.forEach((item, index) => {
                 let subtotal = item.qty * item.harga;
                 total += subtotal;
+            });
+
+            // Apply 11% tax if total exceeds 2,000,000
+            let finalTotal = total;
+            let taxAmount = 0;
+            if (total > 2000000) {
+                taxAmount = total * 0.11;
+                finalTotal = total + taxAmount;
+            }
+
+            // Update hidden tax input
+            document.querySelector('input[name="pajak"]').value = taxAmount;
+
+            cart.forEach((item, index) => {
                 cartTable.innerHTML += `
                     <tr>
                         <td>
@@ -190,6 +204,7 @@
             });
 
             document.getElementById('totalBayarText').innerText = 'Rp' + total.toLocaleString();
+            document.getElementById('PPN').innerText = 'Rp' + taxAmount.toLocaleString();
             document.getElementById('totalBayarInput').value = total;
         }
     </script>
