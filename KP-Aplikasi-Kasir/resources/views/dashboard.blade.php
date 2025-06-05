@@ -45,88 +45,77 @@
                         <p class="font-medium">Item Terjual hari ini</p>
                     </div>
 
-                                <!-- Graph Section -->
-                                <div class="col-span-1 sm:col-span-2 lg:col-span-4 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-                                    <h2 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Monthly Transaction & Revenue Overview</h2>
-                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                        <!-- Transaction Chart -->
-                                        <div>
-                                            <h3 class="text-md font-medium mb-2 text-gray-700 dark:text-gray-300">Monthly Transactions</h3>
-                                            <canvas id="transactionChart" width="400" height="200"></canvas>
-                                        </div>
-                                        <!-- Revenue Chart -->
-                                        <div>
-                                            <h3 class="text-md font-medium mb-2 text-gray-700 dark:text-gray-300">Monthly Revenue</h3>
-                                            <canvas id="revenueChart" width="400" height="200"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- Transaction Graph -->
+                    <div class="col-span-1 sm:col-span-2 lg:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Monthly Transactions</h3>
+                        <canvas id="transactionChart" width="400" height="200"></canvas>
+                    </div>
+
+                    <!-- Revenue Graph -->
+                    <div class="col-span-1 sm:col-span-2 lg:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Monthly Revenue</h3>
+                        <canvas id="revenueChart" width="400" height="200"></canvas>
                     </div>
                 </div>
-            
-                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                <script>
-                    // Sample data - replace with your actual data from controller
-                    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                    const transactionData = @json($monthlyTransactions ?? [0,0,0,0,0,0,0,0,0,0,0,0]);
-                    const revenueData = @json($monthlyRevenue ?? [0,0,0,0,0,0,0,0,0,0,0,0]);
-            
-                    // Transaction Chart
-                    const ctxTransaction = document.getElementById('transactionChart').getContext('2d');
-                    new Chart(ctxTransaction, {
-                        type: 'bar',
-                        data: {
-                            labels: months,
-                            datasets: [{
-                                label: 'Transactions',
-                                data: transactionData,
-                                backgroundColor: 'rgba(59, 130, 246, 0.8)',
-                                borderColor: 'rgba(59, 130, 246, 1)',
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Data from controller
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const transactionData = @json($monthlyTransactions ?? []);
+        const revenueData = @json($monthlyRevenue ?? []);
+
+        // Transaction Chart
+        new Chart(document.getElementById('transactionChart'), {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: [{
+                    label: 'Transactions',
+                    data: transactionData,
+                    backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                    borderColor: 'rgba(59, 130, 246, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+
+        // Revenue Chart
+        new Chart(document.getElementById('revenueChart'), {
+            type: 'line',
+            data: {
+                labels: months,
+                datasets: [{
+                    label: 'Revenue (Rp)',
+                    data: revenueData,
+                    backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                    borderColor: 'rgba(16, 185, 129, 1)',
+                    borderWidth: 2,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return 'Rp ' + value.toLocaleString('id-ID');
                             }
                         }
-                    });
-            
-                    // Revenue Chart
-                    const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
-                    new Chart(ctxRevenue, {
-                        type: 'line',
-                        data: {
-                            labels: months,
-                            datasets: [{
-                                label: 'Revenue (Rp)',
-                                data: revenueData,
-                                backgroundColor: 'rgba(16, 185, 129, 0.2)',
-                                borderColor: 'rgba(16, 185, 129, 1)',
-                                borderWidth: 2,
-                                fill: true
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    ticks: {
-                                        callback: function(value) {
-                                            return 'Rp ' + value.toLocaleString('id-ID');
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    });
-                </script>
+                    }
+                }
+            }
+        });
+    </script>
             </div>
         </div>
     </div>
