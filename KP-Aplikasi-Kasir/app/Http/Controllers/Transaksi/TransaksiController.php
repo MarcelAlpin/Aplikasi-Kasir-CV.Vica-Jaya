@@ -24,6 +24,7 @@ class TransaksiController extends Controller
             'no_bon' => 'required',
             'atas_nama' => 'required',
             'total_bayar' => 'required|numeric',
+            'status' => 'required',
             'order' => 'required',
             'items' => 'required|array',
         ]);
@@ -32,6 +33,7 @@ class TransaksiController extends Controller
         $transaksi = Transaksi::create([
             'no_bon' => $request->no_bon,
             'atas_nama' => $request->atas_nama,
+            'status' => $request->status,
             'order' => $request->order,
             'total_bayar' => $request->total_bayar,
             'pajak' => $request->pajak ?? 0,

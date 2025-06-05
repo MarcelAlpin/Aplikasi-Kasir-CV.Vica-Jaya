@@ -93,7 +93,7 @@
 
             <div class="mb-3">
                 <label>Pembayaran</label>
-                <select name="pembayaran" id="paymentOption" class="form-select w-full dark:bg-gray-700 dark:text-white">
+                <select name="order" id="paymentOption" class="form-select w-full dark:bg-gray-700 dark:text-white">
                     <option value="Cash" selected>Cash</option>
                     <option value="QRIS">QRIS</option>
                 </select>
@@ -106,7 +106,7 @@
                     // Clear existing options
                     paymentSelect.innerHTML = '';
                     
-                    // Show Cash and QRIS options
+                    // Show Cash and QRIS only
                     paymentSelect.add(new Option('Cash', 'Cash', true, true));
                     paymentSelect.add(new Option('QRIS', 'QRIS'));
                 }
@@ -120,11 +120,13 @@
             </div>
               <div class="mb-3 text-right">
             <strong>PPN (11%): <span id="PPN">Rp0</span></strong>
-
-            </div>
-            
-            <div class="mb-3 text-right">
-                <strong>Total + PPN: <span id="totalFinalText">Rp0</span></strong>
+             
+            <div class="mb-3">
+                <label>Order</label>
+                <select name="status" class="form-select w-full dark:bg-gray-700 dark:text-white">
+                    <option value="Lunas">Lunas</option>
+                    <option value="Belum Bayar">Belum Bayar</option>
+                </select>
             </div>
 
             <div class="text-right">
