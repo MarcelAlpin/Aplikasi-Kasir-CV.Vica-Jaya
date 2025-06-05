@@ -93,7 +93,7 @@
 
             <div class="mb-3">
                 <label>Order</label>
-                <select name="status" id="orderType" class="form-select w-full dark:bg-gray-700 dark:text-white" onchange="updatePaymentOptions()">
+                <select name="order_type" id="orderType" class="form-select w-full dark:bg-gray-700 dark:text-white" onchange="updatePaymentOptions()">
                     <option value="Delivery">Delivery</option>
                     <option value="Ditempat" selected>Ditempat</option>
                 </select>
@@ -101,7 +101,7 @@
 
             <div class="mb-3">
                 <label>Pembayaran</label>
-                <select name="order" id="paymentOption" class="form-select w-full dark:bg-gray-700 dark:text-white">
+                <select name="payment_method" id="paymentOption" class="form-select w-full dark:bg-gray-700 dark:text-white">
                     <option value="Cash" selected>Cash</option>
                 </select>
             </div>
@@ -137,7 +137,7 @@
 
             <div class="mb-3">
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status Pembayaran</label>
-                <select name="status" id="paymentStatus" class="form-select w-full dark:bg-gray-700 dark:text-white" onchange="updateStatus()">
+                <select name="payment_status" id="paymentStatus" class="form-select w-full dark:bg-gray-700 dark:text-white" onchange="updateStatus()">
                     <option value="Lunas" selected>Lunas</option>
                     <option value="Belum Bayar">Belum Bayar</option>
                 </select>
