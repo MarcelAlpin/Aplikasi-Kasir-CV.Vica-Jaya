@@ -134,12 +134,31 @@
               <div class="mb-3 text-right">
             <strong>PPN (11%): <span id="PPN">Rp0</span></strong>
             </div>
+
             <div class="mb-3">
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status Pembayaran</label>
-                <select name="status_pembayaran" class="form-select w-full dark:bg-gray-700 dark:text-white">
+                <select name="status" id="paymentStatus" class="form-select w-full dark:bg-gray-700 dark:text-white" onchange="updateStatus()">
                     <option value="Lunas" selected>Lunas</option>
                     <option value="Belum Bayar">Belum Bayar</option>
                 </select>
+
+                <script>
+                function updateStatus() {
+                    const paymentStatus = document.getElementById('paymentStatus').value;
+                    const submitButton = document.querySelector('button[type="submit"]');
+                    
+                    if (paymentStatus === 'Belum Bayar') {
+                        submitButton.textContent = 'Simpan Transaksi (Belum Bayar)';
+                        submitButton.className = 'px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 text-sm';
+                    } else {
+                        submitButton.textContent = 'Simpan Transaksi';
+                        submitButton.className = 'px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm';
+                    }
+                }
+
+                // Initialize status when page loads
+                document.addEventListener('DOMContentLoaded', updateStatus);
+                </script>
             </div>
 
             <div class="text-right">
