@@ -92,36 +92,23 @@
             <input type="hidden" name="pajak" value="0">
 
             <div class="mb-3">
-                <label>Order</label>
-                <select name="status" id="orderType" class="form-select w-full dark:bg-gray-700 dark:text-white" onchange="updatePaymentOptions()">
-                    <option value="Delivery">Delivery</option>
-                    <option value="Ditempat" selected>Ditempat</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
                 <label>Pembayaran</label>
-                <select name="order" id="paymentOption" class="form-select w-full dark:bg-gray-700 dark:text-white">
+                <select name="pembayaran" id="paymentOption" class="form-select w-full dark:bg-gray-700 dark:text-white">
                     <option value="Cash" selected>Cash</option>
+                    <option value="QRIS">QRIS</option>
                 </select>
             </div>
 
             <script>
                 function updatePaymentOptions() {
-                    const orderType = document.getElementById('orderType').value;
                     const paymentSelect = document.getElementById('paymentOption');
                     
                     // Clear existing options
                     paymentSelect.innerHTML = '';
                     
-                    if (orderType === 'Delivery') {
-                        // For delivery, show only COD
-                        paymentSelect.add(new Option('COD', 'COD'));
-                    } else {
-                        // For "Ditempat", show Cash and QRIS
-                        paymentSelect.add(new Option('Cash', 'Cash', true, true));
-                        paymentSelect.add(new Option('QRIS', 'QRIS'));
-                    }
+                    // Show Cash and QRIS options
+                    paymentSelect.add(new Option('Cash', 'Cash', true, true));
+                    paymentSelect.add(new Option('QRIS', 'QRIS'));
                 }
                 
                 // Initialize payment options when page loads
