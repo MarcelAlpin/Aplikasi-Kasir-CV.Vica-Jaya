@@ -65,132 +65,88 @@
             @csrf
 
             <div class="mb-3">
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">No Nota</label>
-            <input type="text" name="no_bon" value="B{{ date('His') }}" readonly class="form-input w-full dark:bg-gray-700 dark:text-white text-gray-500" />
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">No Nota</label>
+                <input type="text" name="no_bon" value="B{{ date('His') }}" readonly class="form-input w-full dark:bg-gray-700 dark:text-white text-gray-500" />
             </div>
 
             <div class="mb-3">
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Atas Nama</label>
-            <input type="text" name="atas_nama" placeholder="Nama untuk nota" value="{{ Auth::user()->name }}" readonly 
-                class="form-input w-full dark:bg-gray-700 dark:text-white text-gray-500" />
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Atas Nama</label>
+                <input type="text" name="atas_nama" placeholder="Nama untuk nota" value="{{ Auth::user()->name }}" readonly 
+                    class="form-input w-full dark:bg-gray-700 dark:text-white text-gray-500" />
             </div>
 
             <h4 class="text-sm font-bold mb-2 text-gray-700 dark:text-white">List Keranjang</h4>
             <table class="w-full text-sm text-left mb-3">
-            <thead>
-                <tr>
-                <th>Nama</th>
-                <th>Qty</th>
-                <th>Harga</th>
-                <th>#</th>
-                </tr>
-            </thead>
-            <tbody id="cartItems"></tbody>
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Qty</th>
+                        <th>Harga</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody id="cartItems"></tbody>
             </table>
 
             <input type="hidden" name="total_bayar" id="totalBayarInput">
             <input type="hidden" name="pajak" value="0">
 
             <div class="mb-3">
-            <label>Order</label>
-            <select name="status" id="orderType" class="form-select w-full dark:bg-gray-700 dark:text-white" onchange="updatePaymentOptions()">
-                <option value="Delivery">Delivery</option>
-                <option value="Ditempat" selected>Ditempat</option>
-            </select>
+                <label>Order</label>
+                <select name="status" id="orderType" class="form-select w-full dark:bg-gray-700 dark:text-white" onchange="updatePaymentOptions()">
+                    <option value="Delivery">Delivery</option>
+                    <option value="Ditempat" selected>Ditempat</option>
+                </select>
             </div>
 
             <div class="mb-3">
-            <label>Pembayaran</label>
-            <select name="order" id="paymentOption" class="form-select w-full dark:bg-gray-700 dark:text-white">
-                <option value="Cash" selected>Cash</option>
-            </select>
+                <label>Pembayaran</label>
+                <select name="order" id="paymentOption" class="form-select w-full dark:bg-gray-700 dark:text-white">
+                    <option value="Cash" selected>Cash</option>
+                </select>
             </div>
 
             <script>
-            function updatePaymentOptions() {
-                const orderType = document.getElementById('orderType').value;
-                const paymentSelect = document.getElementById('paymentOption');
-                
-                // Clear existing options
-                paymentSelect.innerHTML = '';
-                
-                if (orderType === 'Delivery') {
-                // For delivery, show only COD
-                paymentSelect.add(new Option('COD', 'COD'));
-                } else {
-                // For "Ditempat", show Cash and QRIS
-                paymentSelect.add(new Option('Cash', 'Cash', true, true));
-                paymentSelect.add(new Option('QRIS', 'QRIS'));
+                function updatePaymentOptions() {
+                    const orderType = document.getElementById('orderType').value;
+                    const paymentSelect = document.getElementById('paymentOption');
+                    
+                    // Clear existing options
+                    paymentSelect.innerHTML = '';
+                    
+                    if (orderType === 'Delivery') {
+                        // For delivery, show only COD
+                        paymentSelect.add(new Option('COD', 'COD'));
+                    } else {
+                        // For "Ditempat", show Cash and QRIS
+                        paymentSelect.add(new Option('Cash', 'Cash', true, true));
+                        paymentSelect.add(new Option('QRIS', 'QRIS'));
+                    }
                 }
-            }
-            
-            // Initialize payment options when page loads
-            document.addEventListener('DOMContentLoaded', updatePaymentOptions);
+                
+                // Initialize payment options when page loads
+                document.addEventListener('DOMContentLoaded', updatePaymentOptions);
             </script>
 
             <div class="mb-3 text-right">
-            <strong>Total: <span id="totalBayarText">Rp0</span></strong>
+                <strong>Total: <span id="totalBayarText">Rp0</span></strong>
             </div>
-
-            <div class="mb-3 text-right">
+              <div class="mb-3 text-right">
             <strong>PPN (11%): <span id="PPN">Rp0</span></strong>
+            </div>
+            <div class="mb-3">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status Pembayaran</label>
+                <select name="status_pembayaran" class="form-select w-full dark:bg-gray-700 dark:text-white">
+                    <option value="Lunas" selected>Lunas</option>
+                    <option value="Belum Bayar">Belum Bayar</option>
+                </select>
             </div>
 
             <div class="text-right">
-            <button type="button" onclick="confirmTransaction()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
-                Simpan Transaksi
-            </button>
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+                    Simpan Transaksi
+                </button>
             </div>
-
-            <script>
-            async function refreshCSRFToken() {
-                try {
-                const response = await fetch('/csrf-token');
-                const data = await response.json();
-                document.querySelector('input[name="_token"]').value = data.csrf_token;
-                return true;
-                } catch (error) {
-                console.error('Failed to refresh CSRF token:', error);
-                return false;
-                }
-            }
-
-            async function confirmTransaction() {
-                if (cart.length === 0) {
-                alert('Keranjang masih kosong!');
-                return;
-                }
-
-                // Refresh CSRF token before submission
-                const tokenRefreshed = await refreshCSRFToken();
-                if (!tokenRefreshed) {
-                alert('Terjadi kesalahan sistem. Silakan refresh halaman.');
-                return;
-                }
-
-                const paymentMethod = document.getElementById('paymentOption').value;
-                let paymentStatus;
-
-                if (paymentMethod === 'Cash') {
-                paymentStatus = confirm('Konfirmasi pembayaran Cash - Apakah pelanggan sudah membayar?') ? 'Lunas' : 'Belum Lunas';
-                } else if (paymentMethod === 'QRIS') {
-                paymentStatus = confirm('Konfirmasi pembayaran QRIS - Apakah pembayaran sudah berhasil?') ? 'Lunas' : 'Belum Lunas';
-                } else if (paymentMethod === 'COD') {
-                paymentStatus = 'Belum Lunas'; // COD default to unpaid
-                alert('Pesanan COD akan disimpan dengan status "Belum Lunas"');
-                }
-
-                // Add payment status to form
-                const statusInput = document.createElement('input');
-                statusInput.type = 'hidden';
-                statusInput.name = 'payment_status';
-                statusInput.value = paymentStatus;
-                document.querySelector('form').appendChild(statusInput);
-
-                // Submit the form
-                document.querySelector('form').submit();
-            }
-            </script>
         </form>
     </div>
 
