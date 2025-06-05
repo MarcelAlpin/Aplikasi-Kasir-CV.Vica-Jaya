@@ -26,19 +26,22 @@
 
                     <!-- Kolom 2 -->
                     <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                        <h1 class="text-xl font-bold mb-2">Rp. xxx.xxx</h1>
+                        <h1 class="text-xl font-bold mb-2">Rp. {{ number_format($todayRevenue ?? 0, 0, ',', '.') }}</h1>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ date('d F Y') }}</p>
                         <p class="font-medium">Penghasilan hari ini</p>
                     </div>
 
                     <!-- Kolom 3 -->
                     <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                        <h1 class="text-xl font-bold mb-2">xx</h1>
+                        <h1 class="text-xl font-bold mb-2">{{ $todayTransactions ?? 0 }}</h1>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ date('d F Y') }}</p>
                         <p class="font-medium">Transaksi hari ini</p>
                     </div>
 
                     <!-- Kolom 4 -->
                     <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                        <h1 class="text-xl font-bold mb-2">xx</h1>
+                        <h1 class="text-xl font-bold mb-2">{{ $todayItemsSold ?? 0 }}</h1>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ date('d F Y') }}</p>
                         <p class="font-medium">Item Terjual hari ini</p>
                     </div>
                 </div>
