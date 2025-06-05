@@ -147,9 +147,8 @@
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Status Pesanan</label>
                             <select id="modalStatus" class="form-select w-full dark:bg-gray-700 dark:text-white">
-                                <option value="Pending">Pending</option>
-                                <option value="Proses">Proses</option>
-                                <option value="Selesai">Selesai</option>
+                                <option value="Lunas">Lunas</option>
+                                <option value="Belum Bayar">Belum Bayar/Bon</option>
                             </select>
                         </div>
 
