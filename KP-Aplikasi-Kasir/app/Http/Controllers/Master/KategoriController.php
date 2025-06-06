@@ -31,23 +31,30 @@ class KategoriController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $lastKategori = Kategori::orderBy('id', 'desc')->first();
-        if ($lastKategori) {
-            $lastNumber = (int)substr($lastKategori->id, 2);
-            $newNumber = $lastNumber + 1;
-        } else {
-            $newNumber = 1;
-        }
-        $newId = 'KT' . str_pad($newNumber, 5, '0', STR_PAD_LEFT);
-
+    {    
         $request->validate([
-            'id' => 'required|unique:kategori,id|max:10',
             'nama' => 'required|max:100',
             'deskripsi' => 'nullable',
         ]);
 
-        Kategori::create($request->all());
+        // Last ID
+        $lastKategori = Kategori::orderBy('id', 'desc')->first();
+        if ($lastKategori) {
+            $lastNumber = (int)substr($lastKategori->id, 2); // Ambil angka dari ID terakhir
+            $newNumber = $lastNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
+
+        // Jika Baru buat ID Pertama kali
+        $newId = 'KT' . str_pad($newNumber, 5, '0', STR_PAD_LEFT);
+
+        // Masukkan ID ke data request
+        $data = $request->all();
+        $data['id'] = $newId;
+
+        // Simpan ke database
+        Kategori::create($data);
 
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil ditambahkan.');
     }
