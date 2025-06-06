@@ -46,7 +46,7 @@ class KategoriController extends Controller
             $newNumber = 1;
         }
 
-        // Jika Baru buat ID Pertama kali
+        // Generate ID baru
         $newId = 'KT' . str_pad($newNumber, 5, '0', STR_PAD_LEFT);
 
         // Masukkan ID ke data request
