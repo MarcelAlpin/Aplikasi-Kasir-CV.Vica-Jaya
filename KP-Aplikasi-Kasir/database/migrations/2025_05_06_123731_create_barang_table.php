@@ -19,8 +19,12 @@ return new class extends Migration
             $table->integer('stok')->default(0);
             $table->integer('harga')->default(0);
             $table->timestamps();
-            $table->foreignId('kategori_id')->constrained('kategori')->onDelete('cascade');
-            $table->foreignId('satuan_id')->constrained('satuan')->onDelete('cascade');
+            // import id kategori
+            $table->string('kategori_id', 10);
+            $table->foreign('kategori_id')->references('id')->on('kategori')->onDelete('cascade');
+            // import id satuan
+            $table->string('satuan_id', 10);
+            $table->foreign('satuan_id')->references('id')->on('satuan')->onDelete('cascade');
         });
     }
 

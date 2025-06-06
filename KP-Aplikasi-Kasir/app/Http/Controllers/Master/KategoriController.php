@@ -32,8 +32,17 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $lastSupplier = \App\Models\Supplier::orderBy('id', 'desc')->first();
+        if ($lastSupplier) {
+            $lastNumber = (int)substr($lastSupplier->id, 2);
+            $newNumber = $lastNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
+        $newId = 'KT' . str_pad($newNumber, 5, '0', STR_PAD_LEFT);
+
         $request->validate([
+            'id' => 'required|unique:kategori,id|max:10',
             'nama' => 'required|max:100',
             'deskripsi' => 'nullable',
         ]);
