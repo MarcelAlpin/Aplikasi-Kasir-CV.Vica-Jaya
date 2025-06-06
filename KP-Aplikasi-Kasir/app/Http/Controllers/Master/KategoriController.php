@@ -32,9 +32,9 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        $lastSupplier = \App\Models\Supplier::orderBy('id', 'desc')->first();
-        if ($lastSupplier) {
-            $lastNumber = (int)substr($lastSupplier->id, 2);
+        $lastKategori = Kategori::orderBy('id', 'desc')->first();
+        if ($lastKategori) {
+            $lastNumber = (int)substr($lastKategori->id, 2);
             $newNumber = $lastNumber + 1;
         } else {
             $newNumber = 1;
