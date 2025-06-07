@@ -108,20 +108,9 @@
                                         <a href="{{ route('barang.edit', $item->id) }}" class="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600">Edit</a>
                                         <button type="button" onclick="openDeleteModal({{ $item->id }})" class="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600">Hapus</button>
                                     </div>
-                                    <div id="deleteModal{{ $item->id }}" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
-                                        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm mx-auto">
-                                            <h3 class="text-lg font-semibold mb-4">Konfirmasi Penghapusan</h3>
-                                            <p class="mb-6">Apakah Anda yakin ingin menghapus barang ini?</p>
-                                            <div class="flex justify-end space-x-3">
-                                                <button onclick="closeDeleteModal({{ $item->id }})" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded">Batal</button>
-                                                <form action="{{ route('barang.destroy', $item->id) }}" method="POST" class="inline" 
-                                                      onsubmit="showDeleteNotification('Barang berhasil dihapus')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="px-4 py-2 bg-red-600 text-white hover:bg-red-700 rounded">Hapus</button>
-                                                </form>
-                                            </div>
-                                        </div>
+                                    <div class="mt-3 flex justify-between">
+                                        <a href="{{ route('barang.edit', $item->id) }}" class="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600">Edit</a>
+                                        <button type="button" onclick="openDeleteModal({{ $item->id }})" class="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600">Hapus</button>
                                     </div>
                                 </div>
                             @empty
