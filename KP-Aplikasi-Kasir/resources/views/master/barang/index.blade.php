@@ -107,8 +107,6 @@
                                     <div class="mt-3 flex justify-between">
                                         <a href="{{ route('barang.edit', $item->id) }}" class="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600">Edit</a>
                                         <button type="button" onclick="openDeleteModal({{ $item->id }})" class="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600">Hapus</button>
-                                    </div>
-                                    <div class="mt-3 flex justify-between">
                                         <a href="{{ route('barang.edit', $item->id) }}" class="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600">Edit</a>
                                         <button type="button" onclick="openDeleteModal({{ $item->id }})" class="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600">Hapus</button>
                                     </div>
