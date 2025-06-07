@@ -48,6 +48,21 @@ class BarangController extends Controller
             'satuan_id' => 'required|exists:satuan,id',
         ]);
 
+        $lastBarang = Barang::orderBy('id', 'desc')->first();
+        if ($lastBarang) {
+            $lastNumber = (int)substr($lastBarang->id, 2); // Ambil angka dari ID terakhir
+            $newNumber = $lastNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
+
+        // Generate ID baru dengan panjang total 12 karakter
+        $newId = 'BR' . str_pad($newNumber, 10, '0', STR_PAD_LEFT);
+
+        // Masukkan ID ke data request
+        $data = $request->all();
+        $data['id'] = $newId;
+
         $data = $request->all();
 
         // Handle file upload, image to base64

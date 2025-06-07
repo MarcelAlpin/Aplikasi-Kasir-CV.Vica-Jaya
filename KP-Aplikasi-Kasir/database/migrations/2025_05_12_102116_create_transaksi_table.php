@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transaksi', function (Blueprint $table) {
-            $table->id();
-            $table->string('no_bon');
+            $table->string('id', 12)->primary();
             $table->string('atas_nama');
             $table->enum('status', ['Lunas', 'Belum Bayar']);
             $table->enum('order', ['Ditempat', 'Dibawa Pulang']);

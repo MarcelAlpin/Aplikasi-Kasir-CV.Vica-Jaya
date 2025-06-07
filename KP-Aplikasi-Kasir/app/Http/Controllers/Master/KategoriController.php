@@ -37,7 +37,9 @@ class KategoriController extends Controller
             'deskripsi' => 'nullable',
         ]);
 
-        // Last ID
+        // Buat ID Otomatis
+        // Ambil ID terakhir dari database
+        // dan tambahkan 1 untuk ID baru
         $lastKategori = Kategori::orderBy('id', 'desc')->first();
         if ($lastKategori) {
             $lastNumber = (int)substr($lastKategori->id, 2); // Ambil angka dari ID terakhir

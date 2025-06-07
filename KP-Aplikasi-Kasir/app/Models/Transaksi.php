@@ -10,7 +10,13 @@ class Transaksi extends Model
     //
     use HasFactory;
     protected $table = 'transaksi';
-    protected $fillable = ['no_bon','atas_nama','status','order','total_bayar','pajak',];
+
+    // Primary key
+    protected $primaryKey = 'id';
+    // Primary key bukan incrementing integer
+    public $incrementing = false;
+
+    protected $fillable = ['id', 'atas_nama','status','order','total_bayar','pajak',];
     public function barang()
     {
         return $this->belongsTo(Barang::class);

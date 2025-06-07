@@ -39,16 +39,19 @@ class SatuanController extends Controller
         ]);
 
         // Buat ID Otomatis
-        $lastSupplier = \App\Models\Supplier::orderBy('id', 'desc')->first();
-        if ($lastSupplier) {
-            $lastNumber = (int)substr($lastSupplier->id, 2);
+        $lastSatuan = Satuan::orderBy('id', 'desc')->first();
+        if ($lastSatuan) {
+            $lastNumber = (int)substr($lastSatuanr->id, 2);
             $newNumber = $lastNumber + 1;
         } else {
             $newNumber = 1;
         }
         $newId = 'ST' . str_pad($newNumber, 5, '0', STR_PAD_LEFT);
 
-        Satuan::create($request->all());
+        $data = $request->all();
+        $data['id'] = $newId;
+
+        Satuan::create($data);
 
         return redirect()->route('satuan.index')->with('success', 'Satuan berhasil ditambah.');
     }

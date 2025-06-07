@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('barang', function (Blueprint $table) {
-            $table->id();
+            $table->string('id', 12)->primary();
             $table->string('nama',100);   
             $table->text('deskripsi')->nullable();
             $table->longText('gambar')->nullable();
@@ -20,10 +20,10 @@ return new class extends Migration
             $table->integer('harga')->default(0);
             $table->timestamps();
             // import id kategori
-            $table->string('kategori_id', 10);
+            $table->string('kategori_id', 8);
             $table->foreign('kategori_id')->references('id')->on('kategori')->onDelete('cascade');
             // import id satuan
-            $table->string('satuan_id', 10);
+            $table->string('satuan_id', 8);
             $table->foreign('satuan_id')->references('id')->on('satuan')->onDelete('cascade');
         });
     }
