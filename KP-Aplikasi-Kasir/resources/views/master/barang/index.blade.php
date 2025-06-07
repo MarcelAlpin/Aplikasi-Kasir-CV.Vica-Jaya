@@ -104,16 +104,9 @@
                                         <p>Stok: {{ $item->stok }} {{ $item->satuan->nama}}</p>
                                         <p class="font-medium text-green-600 dark:text-green-400">Rp {{ number_format($item->harga, 0, ',', '.') }}</p>
                                     </div>
-                                    <div class="mt-3 flex justify-center gap-2">
-                                        <a href="{{ route('barang.edit', $item->id) }}"
-                                        class="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600">
-                                        Edit
-                                        </a>
-                                        <button type="button"
-                                                onclick="openDeleteModal({{ $item->id }})"
-                                                class="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600">
-                                            Hapus
-                                        </button>
+                                    <div class="mt-3 flex justify-between space-x-2">
+                                        <a href="{{ route('barang.edit', $item->id) }}" class="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 flex-1 text-center">Edit</a>
+                                        <button type="button" onclick="openDeleteModal({{ $item->id }})" class="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 flex-1 text-center">Hapus</button>
                                     </div>
                                 </div>
                             @empty
