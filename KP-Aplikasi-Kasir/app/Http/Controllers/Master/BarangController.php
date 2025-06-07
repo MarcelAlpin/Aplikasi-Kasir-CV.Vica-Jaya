@@ -63,8 +63,6 @@ class BarangController extends Controller
         $data = $request->all();
         $data['id'] = $newId;
 
-        $data = $request->all();
-
         // Handle file upload, image to base64
         if ($request->hasFile('gambar')) {
             $image = $request->file('gambar');
