@@ -119,6 +119,9 @@
                 <strong>Total: <span id="totalBayarText">Rp0</span></strong>
             </div>
             <div class="mb-3 text-right">
+                <strong>PPN (11%): <span id="PPN">Rp0</span></strong>
+            </div>
+            <div class="mb-3 text-right">
                 <strong>Total + PPN: <span id="totalFinalText">Rp0</span></strong>
             </div>
              
@@ -142,7 +145,9 @@
         let cart = [];
 
         function addToCart(id, name, price) {
-            let found = cart.find(item => item.barang_id === id);
+            // Convert id to string to ensure consistent comparison
+            id = String(id); 
+            let found = cart.find(item => String(item.barang_id) === id);
             if (found) {
                 found.qty += 1;
             } else {
@@ -162,45 +167,44 @@
         }
 
         function renderCart() {
-        let cartTable = document.getElementById('cartItems');
-        cartTable.innerHTML = '';
-        let total = 0;
+            let cartTable = document.getElementById('cartItems');
+            cartTable.innerHTML = '';
+            let total = 0;
 
-        cart.forEach((item, index) => {
-            let subtotal = item.qty * item.harga;
-            total += subtotal;
-        });
+            cart.forEach((item, index) => {
+                let subtotal = item.qty * item.harga;
+                total += subtotal;
+                
+                cartTable.innerHTML += `
+                    <tr>
+                        <td>
+                            ${item.name}
+                            <input type="hidden" name="items[${index}][barang_id]" value="${item.barang_id}">
+                            <input type="hidden" name="items[${index}][harga]" value="${item.harga}">
+                        </td>
+                        <td>
+                            <input type="number" name="items[${index}][qty]" value="${item.qty}" min="1"
+                                onchange="updateQty(${index}, this.value)"
+                                class="w-20 text-center border border-gray-300 rounded" />
+                        </td>
+                        <td>Rp${item.harga.toLocaleString()}</td>
+                        <td><button type="button" onclick="removeCartItem(${index})" class="text-red-500">x</button></td>
+                    </tr>
+                `;
+            });
 
-        // Calculate tax (11% of total)
-        let taxAmount = Math.round(total * 0.11);
-        let finalTotal = total + taxAmount;
+            // Calculate tax (11% of total)
+            let taxAmount = Math.round(total * 0.11);
+            let finalTotal = total + taxAmount;
 
-        // Update hidden inputs
-        document.querySelector('input[name="pajak"]').value = taxAmount;
-        document.getElementById('totalBayarInput').value = finalTotal; // Store the final total with tax
+            // Update hidden inputs
+            document.querySelector('input[name="pajak"]').value = taxAmount;
+            document.getElementById('totalBayarInput').value = finalTotal; // Store the final total with tax
 
-        cart.forEach((item, index) => {
-            cartTable.innerHTML += `
-                <tr>
-                    <td>
-                        ${item.name}
-                        <input type="hidden" name="items[${index}][barang_id]" value="${item.barang_id}">
-                        <input type="hidden" name="items[${index}][harga]" value="${item.harga}">
-                    </td>
-                    <td>
-                        <input type="number" name="items[${index}][qty]" value="${item.qty}" min="1"
-                               onchange="updateQty(${index}, this.value)"
-                               class="w-20 text-center border border-gray-300 rounded" />
-                    </td>
-                    <td>Rp${item.harga.toLocaleString()}</td>
-                    <td><button type="button" onclick="removeCartItem(${index})" class="text-red-500">x</button></td>
-                </tr>
-            `;
-        });
-
-        document.getElementById('totalBayarText').innerText = 'Rp' + total.toLocaleString();
-        document.getElementById('PPN').innerText = 'Rp' + taxAmount.toLocaleString();
-        document.getElementById('totalFinalText').innerText = 'Rp' + finalTotal.toLocaleString();
+            document.getElementById('totalBayarText').innerText = 'Rp' + total.toLocaleString();
+            // Remove this line or add a corresponding element
+            // document.getElementById('PPN').innerText = 'Rp' + taxAmount.toLocaleString();
+            document.getElementById('totalFinalText').innerText = 'Rp' + finalTotal.toLocaleString();
     }
 </script>
 </x-app-layout>
