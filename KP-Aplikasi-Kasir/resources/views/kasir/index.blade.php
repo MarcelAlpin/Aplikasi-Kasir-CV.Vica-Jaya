@@ -94,8 +94,8 @@
             <div class="mb-3">
                 <label>Pembayaran</label>
                 <select name="order" id="paymentOption" class="form-select w-full dark:bg-gray-700 dark:text-white">
-                    <option value="Cash" selected>Cash</option>
-                    <option value="QRIS">QRIS</option>
+                    <option value="Ditempat">Ditempat</option>
+                    <option value="Dibawa Pulang">Dibawa Pulang</option>
                 </select>
             </div>
 
@@ -106,9 +106,9 @@
                     // Clear existing options
                     paymentSelect.innerHTML = '';
                     
-                    // Show Cash and QRIS only
-                    paymentSelect.add(new Option('Cash', 'Cash', true, true));
-                    paymentSelect.add(new Option('QRIS', 'QRIS'));
+                    // Show the new options matching the database enum
+                    paymentSelect.add(new Option('Ditempat', 'Ditempat', true, true));
+                    paymentSelect.add(new Option('Dibawa Pulang', 'Dibawa Pulang'));
                 }
                 
                 // Initialize payment options when page loads
@@ -118,8 +118,9 @@
             <div class="mb-3 text-right">
                 <strong>Total: <span id="totalBayarText">Rp0</span></strong>
             </div>
-              <div class="mb-3 text-right">
-            <strong>PPN (11%): <span id="PPN">Rp0</span></strong>
+            <div class="mb-3 text-right">
+                <strong>Total + PPN: <span id="totalFinalText">Rp0</span></strong>
+            </div>
              
             <div class="mb-3">
                 <label>Order</label>
@@ -161,48 +162,45 @@
         }
 
         function renderCart() {
-            let cartTable = document.getElementById('cartItems');
-            cartTable.innerHTML = '';
-            let total = 0;
+        let cartTable = document.getElementById('cartItems');
+        cartTable.innerHTML = '';
+        let total = 0;
 
-            cart.forEach((item, index) => {
-                let subtotal = item.qty * item.harga;
-                total += subtotal;
-            });
+        cart.forEach((item, index) => {
+            let subtotal = item.qty * item.harga;
+            total += subtotal;
+        });
 
-            // Apply 11% tax if total exceeds 2,000,000
-            let finalTotal = total;
-            let taxAmount = 0;
-            if (total > 2000000) {
-                taxAmount = total * 0.11;
-                finalTotal = total + taxAmount;
-            }
+        // Calculate tax (11% of total)
+        let taxAmount = Math.round(total * 0.11);
+        let finalTotal = total + taxAmount;
 
-            // Update hidden tax input
-            document.querySelector('input[name="pajak"]').value = taxAmount;
+        // Update hidden inputs
+        document.querySelector('input[name="pajak"]').value = taxAmount;
+        document.getElementById('totalBayarInput').value = finalTotal; // Store the final total with tax
 
-            cart.forEach((item, index) => {
-                cartTable.innerHTML += `
-                    <tr>
-                        <td>
-                            ${item.name}
-                            <input type="hidden" name="items[${index}][barang_id]" value="${item.barang_id}">
-                            <input type="hidden" name="items[${index}][harga]" value="${item.harga}">
-                        </td>
-                        <td>
-                            <input type="number" name="items[${index}][qty]" value="${item.qty}" min="1"
-                                   onchange="updateQty(${index}, this.value)"
-                                   class="w-20 text-center border border-gray-300 rounded" />
-                        </td>
-                        <td>Rp${item.harga.toLocaleString()}</td>
-                        <td><button type="button" onclick="removeCartItem(${index})" class="text-red-500">x</button></td>
-                    </tr>
-                `;
-            });
+        cart.forEach((item, index) => {
+            cartTable.innerHTML += `
+                <tr>
+                    <td>
+                        ${item.name}
+                        <input type="hidden" name="items[${index}][barang_id]" value="${item.barang_id}">
+                        <input type="hidden" name="items[${index}][harga]" value="${item.harga}">
+                    </td>
+                    <td>
+                        <input type="number" name="items[${index}][qty]" value="${item.qty}" min="1"
+                               onchange="updateQty(${index}, this.value)"
+                               class="w-20 text-center border border-gray-300 rounded" />
+                    </td>
+                    <td>Rp${item.harga.toLocaleString()}</td>
+                    <td><button type="button" onclick="removeCartItem(${index})" class="text-red-500">x</button></td>
+                </tr>
+            `;
+        });
 
-            document.getElementById('totalBayarText').innerText = 'Rp' + total.toLocaleString();
-            document.getElementById('PPN').innerText = 'Rp' + taxAmount.toLocaleString();
-            document.getElementById('totalBayarInput').value = total;
-        }
-    </script>
+        document.getElementById('totalBayarText').innerText = 'Rp' + total.toLocaleString();
+        document.getElementById('PPN').innerText = 'Rp' + taxAmount.toLocaleString();
+        document.getElementById('totalFinalText').innerText = 'Rp' + finalTotal.toLocaleString();
+    }
+</script>
 </x-app-layout>

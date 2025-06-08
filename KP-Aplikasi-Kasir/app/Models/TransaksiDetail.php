@@ -14,6 +14,7 @@ class TransaksiDetail extends Model
     protected $primaryKey = 'id';
     // Primary key bukan incrementing integer
     public $incrementing = false;
+    protected $keyType = 'string';
 
     protected $fillable = ['id', 'transaksi_id','barang_id','harga','qty',];
     public function barang()
