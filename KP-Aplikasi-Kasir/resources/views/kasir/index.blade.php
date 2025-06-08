@@ -18,32 +18,32 @@
             </div>
 
             <script>
-            function searchMenus() {
-            const searchTerm = document.getElementById('searchMenu').value.toLowerCase();
-            const menuItems = document.querySelectorAll('.grid.grid-cols-2 > div');
-            const noResultsMessage = document.getElementById('noResultsMessage');
-            let visibleCount = 0;
-            
-            menuItems.forEach(item => {
-            const menuNameElement = item.querySelector('p.font-semibold');
-            if (menuNameElement) {
-            const menuName = menuNameElement.textContent.toLowerCase();
-            if (menuName.includes(searchTerm)) {
-            item.style.display = 'block';
-            visibleCount++;
-            } else {
-            item.style.display = 'none';
-            }
-            }
-            });
+                function searchMenus() {
+                    const searchTerm = document.getElementById('searchMenu').value.toLowerCase();
+                    const menuItems = document.querySelectorAll('.grid.grid-cols-2 > div');
+                    const noResultsMessage = document.getElementById('noResultsMessage');
+                    let visibleCount = 0;
+                    
+                    menuItems.forEach(item => {
+                        const menuNameElement = item.querySelector('p.font-semibold');
+                        if (menuNameElement) {
+                            const menuName = menuNameElement.textContent.toLowerCase();
+                            if (menuName.includes(searchTerm)) {
+                                item.style.display = 'block';
+                                visibleCount++;
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        }
+                    });
 
-            // Show no results message when no items match and search term is not empty
-            if (visibleCount === 0 && searchTerm.trim() !== '') {
-            noResultsMessage.classList.remove('hidden');
-            } else {
-            noResultsMessage.classList.add('hidden');
-            }
-            }
+                    // Show no results message when no items match and search term is not empty
+                    if (visibleCount === 0 && searchTerm.trim() !== '') {
+                        noResultsMessage.classList.remove('hidden');
+                    } else {
+                        noResultsMessage.classList.add('hidden');
+                    }
+                }
             </script>
 
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-h-[70vh] overflow-y-auto">
@@ -66,8 +66,10 @@
             @csrf
 
             <div class="mb-3">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">No Nota</label>
-                <input type="text" name="no_bon" value="B{{ date('His') }}" readonly class="form-input w-full dark:bg-gray-700 dark:text-white text-gray-500" />
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">No Transaksi</label>
+                <input type="text" name="no_transaksi_display" value="TR{{ date('ymdHis') }}..." readonly 
+                    class="form-input w-full dark:bg-gray-700 dark:text-white text-gray-500" />
+                <small class="text-gray-500">*No Transaksi final akan dibuat otomatis oleh sistem</small>
             </div>
 
             <div class="mb-3">
