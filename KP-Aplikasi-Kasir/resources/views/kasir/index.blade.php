@@ -66,13 +66,6 @@
             @csrf
 
             <div class="mb-3">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">No Transaksi</label>
-                <input type="text" name="no_transaksi_display" value="TR{{ date('ymdHis') }}..." readonly 
-                    class="form-input w-full dark:bg-gray-700 dark:text-white text-gray-500" />
-                <small class="text-gray-500">*No Transaksi final akan dibuat otomatis oleh sistem</small>
-            </div>
-
-            <div class="mb-3">
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Atas Nama</label>
                 <input type="text" name="atas_nama" placeholder="Nama untuk nota" value="{{ Auth::user()->name }}" readonly 
                     class="form-input w-full dark:bg-gray-700 dark:text-white text-gray-500" />
