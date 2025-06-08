@@ -48,7 +48,8 @@
 
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-h-[70vh] overflow-y-auto">
                 @foreach ($menus as $menu)
-                    <div class="border p-2 rounded hover:shadow cursor-pointer" onclick="addToCart({{ $menu->id }}, '{{ $menu->nama }}', {{ $menu->harga }})">
+                    <div class="border p-2 rounded hover:shadow cursor-pointer" 
+                        onclick="addToCart('{{ $menu->id }}', '{{ addslashes($menu->nama) }}', {{ $menu->harga }})">
                         <img src="{{ $menu->gambar }}" alt="{{ $menu->nama }}" class="w-full h-32 object-contain rounded">
                         <div class="mt-2 text-center">
                             <p class="text-sm text-gray-700 dark:text-white font-semibold">{{ $menu->nama }}</p>
@@ -199,12 +200,11 @@
 
             // Update hidden inputs
             document.querySelector('input[name="pajak"]').value = taxAmount;
-            document.getElementById('totalBayarInput').value = finalTotal; // Store the final total with tax
+            document.getElementById('totalBayarInput').value = finalTotal; 
 
             document.getElementById('totalBayarText').innerText = 'Rp' + total.toLocaleString();
-            // Remove this line or add a corresponding element
-            // document.getElementById('PPN').innerText = 'Rp' + taxAmount.toLocaleString();
+            document.getElementById('PPN').innerText = 'Rp' + taxAmount.toLocaleString();
             document.getElementById('totalFinalText').innerText = 'Rp' + finalTotal.toLocaleString();
-    }
+        }
 </script>
 </x-app-layout>
