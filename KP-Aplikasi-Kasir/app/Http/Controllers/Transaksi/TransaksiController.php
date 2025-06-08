@@ -40,14 +40,18 @@ class TransaksiController extends Controller
         $transaksiId = 'TR' . str_pad($newNumber, 10, '0', STR_PAD_LEFT);
 
         // Simpan Transaksi Utama
-        $transaksi = Transaksi::create([
-            'id' => $transaksiId,
-            'atas_nama' => $request->atas_nama,
-            'status' => $request->status,
-            'order' => $request->order,
-            'total_bayar' => $request->total_bayar,
-            'pajak' => $request->pajak ?? 0,
-        ]);
+        $data = $request->all();
+        $data['id'] = $transaksiId;
+        $data['pajak'] = $request->pajak ?? 0; // Default pajak to 0 if not provided
+        $transaksi = Transaksi::create($data);
+        // $transaksi = Transaksi::create([
+        //     'id' => $transaksiId,
+        //     'atas_nama' => $request->atas_nama,
+        //     'status' => $request->status,
+        //     'order' => $request->order,
+        //     'total_bayar' => $request->total_bayar,
+        //     'pajak' => $request->pajak ?? 0,
+        // ]);
 
         // Simpan Detail Transaksi
         foreach ($request->items as $index => $item) {
