@@ -12,6 +12,7 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
@@ -32,26 +33,35 @@
         </div>
 
         <script>
-            // Atur theme berdasarkan localStorage atau default OS
-            if (
-                localStorage.theme === 'dark' ||
-                (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
-            ) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
+            // Initialize theme on page load
+            function initTheme() {
+                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
             }
 
-            // Fungsi toggle
+            // Call on load
+            initTheme();
+
+            // Theme toggle function
             function toggleTheme() {
                 if (document.documentElement.classList.contains('dark')) {
                     document.documentElement.classList.remove('dark');
-                    localStorage.theme = 'light';
+                    localStorage.setItem('theme', 'light');
                 } else {
                     document.documentElement.classList.add('dark');
-                    localStorage.theme = 'dark';
+                    localStorage.setItem('theme', 'dark');
                 }
             }
+
+            // Listen for storage changes (for multiple tabs)
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'theme') {
+                    initTheme();
+                }
+            });
         </script>
     </body>
 </html>
