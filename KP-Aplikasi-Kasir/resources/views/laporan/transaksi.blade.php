@@ -23,7 +23,7 @@
                             <td class="px-4 py-2">{{ $trx->no_bon }}</td>
                             <td class="px-4 py-2">{{ $trx->atas_nama }}</td>
                             <td class="px-4 py-2">Rp{{ number_format($trx->total_bayar, 0, ',', '.') }}</td>
-                            <td class="px-4 py-2">{{ $trx->created_at->setTimezone(config('app.timezone'))->format('d M Y H:i') }}</td>
+                            <td class="px-4 py-2">{{ $trx->created_at->setTimezone('Asia/Jakarta')->format('d M Y H:i') }}</td>
                             <td class="px-4 py-2">
                                 <ul class="list-disc pl-5">
                                     @foreach($trx->detail as $item)
