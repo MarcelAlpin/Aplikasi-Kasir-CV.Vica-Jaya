@@ -5,24 +5,39 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <style>
-    * {
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-        .dark {
-        color-scheme: dark;
-    }
-    </style>
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        
+        <!-- Alpine.js -->
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+        
+        <!-- Theme initialization script (must be before body) -->
+        <script>
+            // Initialize theme immediately to prevent flash
+            (function() {
+                if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            })();
+        </script>
+        
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <style>
+            * {
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+            .dark {
+                color-scheme: dark;
+            }
+        </style>
     </head>
     <body class="font-sans antialiased">
         <div x-data="{ sidebarOpen: true }" @toggle-sidebar.window="sidebarOpen = !sidebarOpen" class="min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -41,33 +56,30 @@
         </div>
 
         <script>
-            // Initialize theme on page load
-            function initTheme() {
-                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                    document.documentElement.classList.add('dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                }
-            }
-
-            // Call on load
-            initTheme();
-
             // Theme toggle function
             function toggleTheme() {
-                if (document.documentElement.classList.contains('dark')) {
+                const isDark = document.documentElement.classList.contains('dark');
+                
+                if (isDark) {
                     document.documentElement.classList.remove('dark');
                     localStorage.setItem('theme', 'light');
                 } else {
                     document.documentElement.classList.add('dark');
                     localStorage.setItem('theme', 'dark');
                 }
+                
+                // Debug log
+                console.log('Theme toggled to:', isDark ? 'light' : 'dark');
             }
 
             // Listen for storage changes (for multiple tabs)
             window.addEventListener('storage', function(e) {
                 if (e.key === 'theme') {
-                    initTheme();
+                    if (e.newValue === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
                 }
             });
         </script>
