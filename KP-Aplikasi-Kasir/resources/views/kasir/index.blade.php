@@ -190,7 +190,7 @@
             });
 
             // Calculate tax (11% of total)
-            let taxAmount = Math.round(total * 0.11);
+            let taxAmount = total > 2000000 ? Math.round(total * 0.11) : 0;
             let finalTotal = total + taxAmount;
 
             // Update hidden inputs
