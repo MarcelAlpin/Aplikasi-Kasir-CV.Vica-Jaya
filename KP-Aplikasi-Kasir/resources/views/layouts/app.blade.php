@@ -5,6 +5,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <style>
+    * {
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+        .dark {
+        color-scheme: dark;
+    }
+    </style>
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
