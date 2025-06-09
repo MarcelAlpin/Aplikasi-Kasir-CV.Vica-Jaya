@@ -5,7 +5,7 @@
             <div class="flex">
 
                 <!-- Sidebar Toggle -->
-                <div class="flex items-center">
+                <div class="d-flex align-items-lg-start">
                     <!-- Toggle Button -->
                     <button @click="$dispatch('toggle-sidebar')" class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
