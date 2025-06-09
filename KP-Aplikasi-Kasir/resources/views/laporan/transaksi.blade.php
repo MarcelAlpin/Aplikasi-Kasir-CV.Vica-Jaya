@@ -10,7 +10,7 @@
             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
                 <thead class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
                     <tr>
-                        <th class="px-4 py-2 text-left">No BON</th>
+                        <th class="px-4 py-2 text-left">No Transaksi</th>
                         <th class="px-4 py-2 text-left">Nama</th>
                         <th class="px-4 py-2 text-left">Total Bayar</th>
                         <th class="px-4 py-2 text-left">Waktu</th>
@@ -20,7 +20,7 @@
                 <tbody class="divide-y divide-gray-100 dark:divide-gray-600 text-gray-700 dark:text-gray-100">
                     @foreach($transaksi as $trx)
                         <tr>
-                            <td class="px-4 py-2">{{ $trx->transaksiId }}</td>
+                            <td class="px-4 py-2">{{ $trx->transaksi }}</td>
                             <td class="px-4 py-2">{{ $trx->atas_nama }}</td>
                             <td class="px-4 py-2">Rp{{ number_format($trx->total_bayar, 0, ',', '.') }}</td>
                             <td class="px-4 py-2">{{ $trx->created_at->setTimezone('Asia/Jakarta')->format('d M Y H:i') }}</td>
