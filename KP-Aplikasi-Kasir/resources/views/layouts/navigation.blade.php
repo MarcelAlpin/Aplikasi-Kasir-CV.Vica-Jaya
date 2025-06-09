@@ -5,8 +5,8 @@
             <div class="flex">
 
                 <!-- Sidebar Toggle + Logo -->
-                <div class="flex items-center space-x-10">
-                    <!-- Toggle Button -->
+                <div class="flex items-center space-x-4">
+                    <!-- Toggle Button (moved to the left) -->
                     <button @click="$dispatch('toggle-sidebar')" class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white focus:outline-none">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
@@ -19,13 +19,13 @@
                     <a href="{{ route('dashboard') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     </a>
-                </div>
 
-                <!-- Page Title -->
-                <div class="hidden sm:ml-36 sm:flex items-center">
-                    <h1 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                        {{ $header }}
-                    </h1>
+                    <!-- Page Title -->
+                    <div class="hidden sm:flex items-center ml-6">
+                        <h1 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                            {{ $header }}
+                        </h1>
+                    </div>
                 </div>
             </div>
 
