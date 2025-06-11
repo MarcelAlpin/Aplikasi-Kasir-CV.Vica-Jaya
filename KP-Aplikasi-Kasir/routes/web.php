@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Master\KategoriController;
 use App\Http\Controllers\Master\SatuanController;
 use App\Http\Controllers\Master\BarangController;
+use App\Http\Controllers\Master\BarangMasukController;
 use App\Http\Controllers\Kasir\KasirController;
 use App\Http\Controllers\Transaksi\TransaksiController;
 
@@ -37,6 +38,9 @@ Route::resource('satuan', SatuanController::class)->middleware('auth');
 
 // Master /Barang
 Route::resource('barang', BarangController::class)->middleware('auth');
+
+// Master /BarangMasuk
+Route::resource('barang-masuk', BarangMasukController::class)->middleware('auth');
 
 // Kasir
 Route::resource('kasir', KasirController::class)->middleware('auth');
