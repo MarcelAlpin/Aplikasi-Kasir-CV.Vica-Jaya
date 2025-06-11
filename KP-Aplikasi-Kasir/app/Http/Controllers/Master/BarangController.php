@@ -37,6 +37,7 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
+        //
         $request->validate([
             'nama' => 'required|max:100',
             'deskripsi' => 'nullable',
@@ -53,27 +54,26 @@ class BarangController extends Controller
         } else {
             $newNumber = 1;
         }
-        
-        $barangId = 'BR' . str_pad($newNumber, 10, '0', STR_PAD_LEFT);
-        
-        // Create barang with stok set to 0 by default
-        $barang = new Barang();
-        $barang->id = $barangId;
-        $barang->nama = $request->nama;
-        $barang->deskripsi = $request->deskripsi;
-        $barang->stok = 0; // Set default stok to 0
-        $barang->harga = $request->harga;
-        $barang->kategori_id = $request->kategori_id;
-        $barang->satuan_id = $request->satuan_id;
-        
+
+        // Generate ID baru dengan panjang total 12 karakter
+        $newId = 'BR' . str_pad($newNumber, 10, '0', STR_PAD_LEFT);
+
+        // Masukkan ID ke data request
+        $data = $request->all();
+        $data['id'] = $newId;
+
+        // Set stok to 0 by default
+        $data['stok'] = 0;
+
+        // Handle file upload, image to base64
         if ($request->hasFile('gambar')) {
-            $file = $request->file('gambar');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/barang'), $filename);
-            $barang->gambar = 'uploads/barang/' . $filename;
+            $image = $request->file('gambar');
+            $imageData = base64_encode(file_get_contents($image->getRealPath()));
+            $mimeType = $image->getMimeType();
+            $data['gambar'] = "data:$mimeType;base64,$imageData";
         }
-        
-        $barang->save();
+
+        Barang::create($data);
         
         return redirect()->route('barang.index')->with('success', 'Barang berhasil ditambahkan.');
     }
@@ -103,37 +103,31 @@ class BarangController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        //
         $request->validate([
             'nama' => 'required|max:100',
             'deskripsi' => 'nullable',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'stok' => 'required|integer',
             'harga' => 'required|integer',
             'kategori_id' => 'required|exists:kategori,id',
             'satuan_id' => 'required|exists:satuan,id',
         ]);
         
         $barang = Barang::findOrFail($id);
-        $barang->nama = $request->nama;
-        $barang->deskripsi = $request->deskripsi;
-        $barang->harga = $request->harga;
-        $barang->kategori_id = $request->kategori_id;
-        $barang->satuan_id = $request->satuan_id;
-        
+        $data = $request->except('gambar');
+
+        // Handle file upload, image to base64
         if ($request->hasFile('gambar')) {
-            // Delete old image if it exists
-            if ($barang->gambar && file_exists(public_path($barang->gambar))) {
-                unlink(public_path($barang->gambar));
-            }
-            
-            $file = $request->file('gambar');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/barang'), $filename);
-            $barang->gambar = 'uploads/barang/' . $filename;
+            $image = $request->file('gambar');
+            $imageData = base64_encode(file_get_contents($image->getRealPath()));
+            $mimeType = $image->getMimeType();
+            $data['gambar'] = "data:$mimeType;base64,$imageData";
         }
-        
-        $barang->save();
-        
-        return redirect()->route('barang.index')->with('success', 'Barang berhasil diperbarui.');
+
+        $barang->update($data);
+
+        return redirect()->route('barang.index')->with('success', 'Barang berhasil diubah.');
     }
 
     /**
