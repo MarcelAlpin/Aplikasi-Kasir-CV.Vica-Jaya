@@ -21,6 +21,7 @@
                             <thead>
                                 <tr class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm">
                                     <th class="px-4 py-2 border dark:border-gray-600">#</th>
+                                    <th class="px-4 py-2 border dark:border-gray-600">ID</th>
                                     <th class="px-4 py-2 border dark:border-gray-600">Nama Satuan</th>
                                     <th class="px-4 py-2 border dark:border-gray-600">Deskripsi</th>
                                     <th class="px-4 py-2 border dark:border-gray-600">Aksi</th>
@@ -30,6 +31,7 @@
                                 @forelse ($satuan as $satuan)
                                     <tr class="text-sm hover:bg-gray-100 dark:hover:bg-gray-700">
                                         <td class="px-4 py-2 border dark:border-gray-600">{{ $loop->iteration }}</td>
+                                        <td class="px-4 py-2 border dark:border-gray-600">{{ $satuan->id }}</td>
                                         <td class="px-4 py-2 border dark:border-gray-600">{{ $satuan->nama }}</td>
                                         <td class="px-4 py-2 border dark:border-gray-600">{{ $satuan->deskripsi }}</td>
                                         <td class="px-4 py-2 border dark:border-gray-600">
