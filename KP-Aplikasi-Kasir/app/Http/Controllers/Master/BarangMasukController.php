@@ -23,8 +23,8 @@ class BarangMasukController extends Controller
      */
     public function create()
     {
-        $barang = Barang::all();
-        return view('master.barangmasuk.create', compact('barang'));
+        $barangMasuk = BarangMasuk::all();
+        return view('master.barangmasuk.create', compact('barangMasuk'));
     }
 
     /**
