@@ -40,7 +40,7 @@ Route::resource('satuan', SatuanController::class)->middleware('auth');
 Route::resource('barang', BarangController::class)->middleware('auth');
 
 // Master /BarangMasuk
-Route::resource('barang-masuk', BarangMasukController::class)->middleware('auth');
+Route::resource('barangmasuk', BarangMasukController::class)->middleware('auth');
 
 // Kasir
 Route::resource('kasir', KasirController::class)->middleware('auth');
