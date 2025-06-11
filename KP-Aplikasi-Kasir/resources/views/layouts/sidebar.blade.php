@@ -21,7 +21,7 @@
                 <a href="{{ route('kategori.index') }}" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Kategori</a>
                 <a href="{{ route('satuan.index') }}" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Satuan</a>
                 <a href="{{ route('barang.index') }}" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Barang</a>
-                <a href="{{ route('barangmasuk.index') }}" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Barang Masuk</a>
+
             </div>
         </div>
 
