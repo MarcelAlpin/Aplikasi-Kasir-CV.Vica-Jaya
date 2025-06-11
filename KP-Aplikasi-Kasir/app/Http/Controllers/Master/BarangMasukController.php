@@ -36,9 +36,10 @@ class BarangMasukController extends Controller
         $request->validate([
             'barang_id' => 'required|exists:barang,id',
             'jumlah_masuk' => 'required|integer|min:1',
+            // Other validations...
         ]);
         
-        // Generate ID barang masuk (BM0000000001)
+        // Generate ID barang masuk
         $lastBarangMasuk = BarangMasuk::orderBy('id', 'desc')->first();
         if ($lastBarangMasuk) {
             $lastNumber = (int)substr($lastBarangMasuk->id, 2); // Ambil angka dari ID terakhir
@@ -48,16 +49,15 @@ class BarangMasukController extends Controller
         }
         $barangMasukId = 'BM' . str_pad($newNumber, 10, '0', STR_PAD_LEFT);
         
-        // Create record
         BarangMasuk::create([
             'id' => $barangMasukId,
             'barang_id' => $request->barang_id,
             'jumlah_masuk' => $request->jumlah_masuk,
+            // Other fields...
         ]);
         
-        // Update stock in Barang table
         $barang = Barang::find($request->barang_id);
-        $barang->stok += $request->jumlah_masuk;
+        $barang->stok += $request->jumlah_masuk; // Increment stock
         $barang->save();
         
         return redirect()->route('barangmasuk.index')

@@ -78,11 +78,9 @@
 
                     <div class="mb-4">
                         <label for="stok" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Stok</label>
-                        <input type="number" name="stok" id="stok" value="{{ old('stok', $barang->stok) }}" required
-                            class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                        @error('stok')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
+                        <input type="number" id="stok" value="{{ $barang->stok }}" readonly
+                            class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none sm:text-sm text-gray-900 dark:text-white cursor-not-allowed">
+                        <small class="text-gray-500 dark:text-gray-400">Stok hanya dapat diubah melalui menu Barang Masuk</small>
                     </div>
 
                     <div class="mb-4">
