@@ -13,6 +13,12 @@ use App\Http\Controllers\Kasir\KasirController;
 use App\Http\Controllers\Transaksi\TransaksiController;
 
 Route::get('/', function () {
+    // jika sudah login
+    if (Auth::check()) {
+        return redirect()->route('dashboard');
+    }
+    
+    // kalau gak ya login dulu
     return view('auth.login');
 });
 
