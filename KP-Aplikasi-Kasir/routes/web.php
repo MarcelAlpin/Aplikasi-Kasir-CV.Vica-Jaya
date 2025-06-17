@@ -21,13 +21,13 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
-Route::middleware('auth')->group(function () {
-     Route::middleware('role:admin')->group(function () {
+    // Role Admin
+    Route::middleware('role:admin')->group(function () {
         // Master /Kategori
         Route::resource('kategori', KategoriController::class);
 
@@ -43,12 +43,15 @@ Route::middleware('auth')->group(function () {
         // Master /BarangMasuk
         Route::resource('barangmasuk', BarangMasukController::class);
     });
+
+    // Role Kasir
+    Route::middleware('role:kasir')->group(function () {
+        // Kasir
+        Route::resource('kasir', KasirController::class);
+    });
+
+    // Transaksi
+    Route::resource('transaksi', TransaksiController::class);
 });
-
-// Kasir
-Route::resource('kasir', KasirController::class)->middleware('auth');
-
-// Transaksi
-Route::resource('transaksi', TransaksiController::class)->middleware('auth');
 
 require __DIR__.'/auth.php';
