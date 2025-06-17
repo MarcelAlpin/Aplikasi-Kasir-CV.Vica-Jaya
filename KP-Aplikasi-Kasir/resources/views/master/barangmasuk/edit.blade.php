@@ -17,7 +17,7 @@
                         <select name="barang_id" id="barang_id" required class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             <option value="">Pilih Barang</option>
                             @foreach ($barang as $item)
-                                <option value="{{ $item->id }}" {{ old('barang_id', $barangmasuk->barang_id) == $item->id ? 'selected' : '' }}>
+                                <option value="{{ $item->id }}" {{ old('barang_id', $barangMasuk->barang_id) == $item->id ? 'selected' : '' }}>
                                     {{ $item->nama }} (Stok saat ini: {{ $item->stok }})
                                 </option>
                             @endforeach
