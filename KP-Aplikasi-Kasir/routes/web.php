@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-     Route::middleware('role:admin')->group(function () {
+     Route::middleware('cek.role:admin')->group(function () {
         // Master /Kategori
         Route::resource('kategori', KategoriController::class);
 
