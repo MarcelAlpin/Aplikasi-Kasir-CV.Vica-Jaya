@@ -29,7 +29,7 @@
                     
                     <div class="mb-4">
                         <label for="jumlah_masuk" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Jumlah Masuk</label>
-                        <input type="number" name="jumlah_masuk" id="jumlah_masuk" required min="1" value="{{ old('jumlah_masuk', $barangmasuk->jumlah_masuk) }}"
+                        <input type="number" name="jumlah_masuk" id="jumlah_masuk" required min="1" value="{{ old('jumlah_masuk', $barangMasuk->jumlah_masuk) }}"
                             class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         @error('jumlah_masuk')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
