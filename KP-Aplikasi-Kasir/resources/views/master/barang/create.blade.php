@@ -35,6 +35,20 @@
                     </div>
 
                     <div class="mb-4">
+                        <label for="agen_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Agen</label>
+                        <select name="agen_id" id="agen_id"
+                            class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 dark:text-white">
+                            <option value="">Pilih Agen</option>
+                            @foreach ($agen as $agen)
+                                <option value="{{ $agen->id }}" {{ old('agen_id') == $agen->id ? 'selected' : '' }}>{{ $agen->nama }}</option>
+                            @endforeach
+                        </select>
+                        @error('agen_id')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="mb-4">
                         <label for="deskripsi" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Deskripsi</label>
                         <textarea name="deskripsi" id="deskripsi" rows="3"
                             class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 dark:text-white">{{ old('deskripsi') }}</textarea>

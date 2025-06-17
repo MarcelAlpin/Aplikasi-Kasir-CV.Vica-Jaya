@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Barang;
 use App\Models\Kategori;
+use App\Models\Agen;
 use App\Models\Satuan;
 
 class BarangController extends Controller
@@ -27,8 +28,9 @@ class BarangController extends Controller
     {
         //
         return view('master.barang.create', [
-            'kategori' => Kategori::all(),
-            'satuan' => Satuan::all(),
+            'kategori'  => Kategori::all(),
+            'agen'      => Agen::all(),
+            'satuan'    => Satuan::all(),
         ]);
     }
 
@@ -44,6 +46,7 @@ class BarangController extends Controller
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'harga' => 'required|integer',
             'kategori_id' => 'required|exists:kategori,id',
+            'agen_id' => 'nullable|exists:agen,id',
             'satuan_id' => 'required|exists:satuan,id',
         ]);
 
@@ -94,8 +97,9 @@ class BarangController extends Controller
         //
         $barang = Barang::findOrFail($id);
         $kategori = Kategori::all();
+        $agen = Agen::all();
         $satuan = Satuan::all();
-        return view('master.barang.edit', compact('barang', 'kategori', 'satuan'));
+        return view('master.barang.edit', compact('barang', 'kategori', 'agen', 'satuan'));
     }
 
     /**
@@ -111,6 +115,7 @@ class BarangController extends Controller
             'stok' => 'required|integer',
             'harga' => 'required|integer',
             'kategori_id' => 'required|exists:kategori,id',
+            'agen_id' => 'nullable|exists:agen,id',
             'satuan_id' => 'required|exists:satuan,id',
         ]);
         

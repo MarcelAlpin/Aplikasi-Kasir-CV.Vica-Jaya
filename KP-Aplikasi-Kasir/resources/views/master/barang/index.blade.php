@@ -34,6 +34,7 @@
                                         <th class="px-4 py-2 border dark:border-gray-600">Gambar</th>
                                         <th class="px-4 py-2 border dark:border-gray-600">Nama Barang</th>
                                         <th class="px-4 py-2 border dark:border-gray-600">Kategori</th>
+                                        <th class="px-4 py-2 border dark:border-gray-600">Agen</th>
                                         <th class="px-4 py-2 border dark:border-gray-600">Deskripsi</th>
                                         <th class="px-4 py-2 border dark:border-gray-600">Stok</th>
                                         <th class="px-4 py-2 border dark:border-gray-600">Harga</th>
@@ -55,6 +56,7 @@
                                             </td>
                                             <td class="px-4 py-2 border dark:border-gray-600">{{ $item->nama }}</td>
                                             <td class="px-4 py-2 border dark:border-gray-600">{{ $item->kategori->nama }}</td>
+                                            <td class="px-4 py-2 border dark:border-gray-600">{{ $item->agen->nama }}</td>
                                             <td class="px-4 py-2 border dark:border-gray-600">{{ $item->deskripsi }}</td>
                                             <td class="px-4 py-2 border dark:border-gray-600">{{ $item->stok }} {{ $item->satuan->nama}}</td>
                                             <td class="px-4 py-2 border dark:border-gray-600">Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
@@ -103,6 +105,7 @@
                                     <h3 class="mt-3 font-bold text-gray-900 dark:text-gray-100">{{ $item->nama }}</h3>
                                     <div class="mt-1 text-sm text-gray-600 dark:text-gray-300">
                                         <p>Kategori: {{ $item->kategori->nama }}</p>
+                                        <p>Kategori: {{ $item->agen->nama }}</p>
                                         <p>Stok: {{ $item->stok }} {{ $item->satuan->nama}}</p>
                                         <p class="font-medium text-green-600 dark:text-green-400">Rp {{ number_format($item->harga, 0, ',', '.') }}</p>
                                     </div>
