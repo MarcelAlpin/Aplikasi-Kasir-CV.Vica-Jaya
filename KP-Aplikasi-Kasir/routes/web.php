@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Master\KategoriController;
 use App\Http\Controllers\Master\SatuanController;
+use App\Http\Controllers\Master\AgenController;
 use App\Http\Controllers\Master\BarangController;
 use App\Http\Controllers\Master\BarangMasukController;
 use App\Http\Controllers\Kasir\KasirController;
@@ -35,6 +36,9 @@ Route::resource('kategori', KategoriController::class)->middleware('auth');
 
 // Master /Satuan
 Route::resource('satuan', SatuanController::class)->middleware('auth');
+
+// Master /Agen
+Route::resource('agen', AgenController::class)->middleware('auth');
 
 // Master /Barang
 Route::resource('barang', BarangController::class)->middleware('auth');
