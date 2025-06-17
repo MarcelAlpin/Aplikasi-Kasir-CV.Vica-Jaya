@@ -17,8 +17,8 @@ class RoleMiddleware
     {
         // Check if user has the required role
         if ($request->user() && $request->user()->role !== $role) {
-            // Redirect users without proper role to dashboard or another page
-            return redirect()->route('dashboard')->with('error', 'You do not have permission to access this page.');
+            // Return 403 Forbidden response for users without proper role
+            abort(403, 'You do not have permission to access this page.');
         }
 
         return $next($request);
