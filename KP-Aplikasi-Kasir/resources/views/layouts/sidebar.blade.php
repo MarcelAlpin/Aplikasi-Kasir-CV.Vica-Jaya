@@ -1,6 +1,6 @@
 <aside x-show="sidebarOpen" x-transition class="fixed top-16 left-0 w-64 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 h-[calc(100vh-4rem)] px-4 py-6 shadow-lg z-40">
     <nav class="space-y-2" x-data="{ openMenu: '{{ 
-        request()->is('kategori*') || request()->is('satuan*') || request()->is('barang*') ? 'produk' : 
+        request()->is('kategori*') || request()->is('satuan*') || request()->is('agen*') || request()->is('barang*') ? 'produk' : 
         (request()->is('laporan*') ? 'laporan' : null) 
     }}' }">
         <!-- Dashboard -->
