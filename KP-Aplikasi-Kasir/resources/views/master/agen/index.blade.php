@@ -23,7 +23,7 @@
                                     <th class="px-4 py-2 border dark:border-gray-600">#</th>
                                     <th class="px-4 py-2 border dark:border-gray-600">ID</th>
                                     <th class="px-4 py-2 border dark:border-gray-600">Nama Agen</th>
-                                    <th class="px-4 py-2 border dark:border-gray-600">Perushaan</th>
+                                    <th class="px-4 py-2 border dark:border-gray-600">Perusahaan</th>
                                     <th class="px-4 py-2 border dark:border-gray-600">Alamat</th>
                                     <th class="px-4 py-2 border dark:border-gray-600">No Telepon</th>
                                     <th class="px-4 py-2 border dark:border-gray-600">Email</th>

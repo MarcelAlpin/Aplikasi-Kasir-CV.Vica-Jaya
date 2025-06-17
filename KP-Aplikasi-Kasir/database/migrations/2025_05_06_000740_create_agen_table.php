@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('agen', function (Blueprint $table) {
             $table->string('id', 8)->primary();
             $table->string('nama', 100);
-            $table->string('perushaan')->nullable();
+            $table->string('perusahaan')->nullable();
             $table->text('alamat')->nullable();
             $table->string('no_telepon')->nullable();
             $table->string('email')->nullable();
