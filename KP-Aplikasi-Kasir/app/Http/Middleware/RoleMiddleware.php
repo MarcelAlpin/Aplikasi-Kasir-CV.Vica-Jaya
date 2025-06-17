@@ -13,16 +13,14 @@ class RoleMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string $role)
+    public function handle(Request $request, Closure $next, string $role): Response
     {
-        if (!$request->user() || $request->user()->role !== $role) {
-            if ($request->expectsJson()) {
-                return response()->json(['error' => 'Unauthorized'], 403);
-            }
-            
-            return redirect()->route('login')->with('error', 'You do not have permission to access this page.');
+        // Check if user has the required role
+        if ($request->user() && $request->user()->role !== $role) {
+            // Redirect users without proper role to dashboard or another page
+            return redirect()->route('dashboard')->with('error', 'You do not have permission to access this page.');
         }
-        
+
         return $next($request);
     }
 }
