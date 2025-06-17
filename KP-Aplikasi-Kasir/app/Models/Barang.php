@@ -25,17 +25,23 @@ class Barang extends Model
         'stok',
         'harga',
         'kategori_id',
-        'satuan_id'
+        'satuan_id',
+        'agen_id',
     ];
 
-public function kategori()
-{
-    return $this->belongsTo(Kategori::class);
-}
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class);
+    }
 
-public function satuan()
-{
-    return $this->belongsTo(Satuan::class);
-}
+    public function satuan()
+    {
+        return $this->belongsTo(Satuan::class);
+    }
+
+    public function agen()
+    {
+        return $this->belongsTo(Agen::class);
+    }
 }
 
