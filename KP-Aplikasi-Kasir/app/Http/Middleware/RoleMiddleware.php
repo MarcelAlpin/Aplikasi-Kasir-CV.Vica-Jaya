@@ -16,9 +16,9 @@ class RoleMiddleware
     public function handle(Request $request, Closure $next, ...$role): Response
     {
         // Check if user has the required role
-        if ($request->user() && $request->user()->role !== $role) {
-            // Return 403 Forbidden response for users without proper role
-            abort(403, 'You do not have permission to access this page.');
+        if (! $request->user() || ! in_array($request->user()->role, $roles, true)) {
+            // If not, abort with a 403 Unauthorized response
+            abort(403, 'Tidak ada izin untuk mengakses.');
         }
 
         return $next($request);
