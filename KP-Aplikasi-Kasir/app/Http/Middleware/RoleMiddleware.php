@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CekRole
+class RoleMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,9 +16,9 @@ class CekRole
     public function handle(Request $request, Closure $next, $role): Response
     {
         // Check if user has the required role
-        if (!$request->user() || $request->user()->role !== $role) {
-            // Return 403 Forbidden response for users without proper role
-            abort(403, 'You do not have permission to access this page.');
+        $userRole = $request->user()->role;
+        if ($userRole !== $role) {
+            abort(403, 'You do not have the required permissions to access this page.');
         }
 
         return $next($request);
