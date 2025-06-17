@@ -26,20 +26,24 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Master /Kategori
-Route::resource('kategori', KategoriController::class)->middleware('auth', 'role:admin');
+Route::middleware('auth')->group(function () {
+     Route::middleware('role:admin')->group(function () {
+        // Master /Kategori
+        Route::resource('kategori', KategoriController::class);
 
-// Master /Satuan
-Route::resource('satuan', SatuanController::class)->middleware('auth', 'role:admin');
+        // Master /Satuan
+        Route::resource('satuan', SatuanController::class);
 
-// Master /Agen
-Route::resource('agen', AgenController::class)->middleware('auth', 'role:admin');
+        // Master /Agen
+        Route::resource('agen', AgenController::class);
 
-// Master /Barang
-Route::resource('barang', BarangController::class)->middleware('auth', 'role:admin');
+        // Master /Barang
+        Route::resource('barang', BarangController::class);
 
-// Master /BarangMasuk
-Route::resource('barangmasuk', BarangMasukController::class)->middleware('auth', 'role:admin');
+        // Master /BarangMasuk
+        Route::resource('barangmasuk', BarangMasukController::class);
+    });
+});
 
 // Kasir
 Route::resource('kasir', KasirController::class)->middleware('auth');
