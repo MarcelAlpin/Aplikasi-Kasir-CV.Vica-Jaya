@@ -8,7 +8,7 @@
     <div class="py-4">
         <div class="w-full px-4 md:px-6 lg:px-4">
             <div class="p-6 bg-white dark:bg-gray-800 shadow rounded-lg">
-                <form action="{{ route('barang.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('agen.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="mb-4">
@@ -57,7 +57,7 @@
                     </div>
 
                     <div class="flex justify-end">
-                        <a href="{{ route('barang.index') }}" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 mr-2 text-sm">
+                        <a href="{{ route('agen.index') }}" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 mr-2 text-sm">
                             Batal
                         </a>
                         <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
