@@ -26,23 +26,20 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Resource dibatasi untuk admin yang sudah login
-Route::middleware('auth', 'role:admin')->group(function () {
-    // Master /Kategori
-    Route::resource('kategori', KategoriController::class)->middleware('auth');
+// Master /Kategori
+Route::resource('kategori', KategoriController::class)->middleware('auth', 'role:admin');
 
-    // Master /Satuan
-    Route::resource('satuan', SatuanController::class)->middleware('auth');
+// Master /Satuan
+Route::resource('satuan', SatuanController::class)->middleware('auth', 'role:admin');
 
-    // Master /Agen
-    Route::resource('agen', AgenController::class)->middleware('auth');
+// Master /Agen
+Route::resource('agen', AgenController::class)->middleware('auth', 'role:admin');
 
-    // Master /Barang
-    Route::resource('barang', BarangController::class)->middleware('auth');
+// Master /Barang
+Route::resource('barang', BarangController::class)->middleware('auth', 'role:admin');
 
-    // Master /BarangMasuk
-    Route::resource('barangmasuk', BarangMasukController::class)->middleware('auth');
-});
+// Master /BarangMasuk
+Route::resource('barangmasuk', BarangMasukController::class)->middleware('auth', 'role:admin');
 
 // Kasir
 Route::resource('kasir', KasirController::class)->middleware('auth');
