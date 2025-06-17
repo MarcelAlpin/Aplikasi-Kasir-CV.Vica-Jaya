@@ -52,14 +52,14 @@
                                             </div>
 
                                             <script>
-                                                document.addEventListener('DOMContentLoaded', function() {
+                                                document.addEventListener('DOMContentLoaded', function () {
                                                     const notification = document.getElementById('successNotification');
                                                     if (notification) {
                                                         // Slide in
                                                         setTimeout(() => {
                                                             notification.classList.remove('translate-x-full');
                                                         }, 100);
-                                                        
+
                                                         // Slide out after 3 seconds
                                                         setTimeout(() => {
                                                             notification.classList.add('translate-x-full');
@@ -69,28 +69,6 @@
                                                         }, 3000);
                                                     }
                                                 });
-                                            </script>
-                                            <script>
-                                                function showDeleteNotification(message) {
-                                                    // Create notification element
-                                                    const notification = document.createElement('div');
-                                                    notification.className = 'fixed top-4 right-4 bg-green-500 text-white p-4 rounded shadow-lg z-50 transform transition-all duration-500 translate-x-full';
-                                                    notification.textContent = message;
-                                                    document.body.appendChild(notification);
-                                                    
-                                                    // Slide in
-                                                    setTimeout(() => {
-                                                        notification.classList.remove('translate-x-full');
-                                                    }, 100);
-                                                    
-                                                    // Slide out after 3 seconds
-                                                    setTimeout(() => {
-                                                        notification.classList.add('translate-x-full');
-                                                        setTimeout(() => {
-                                                            notification.remove();
-                                                        }, 500);
-                                                    }, 3000);
-                                                }
                                             </script>
                                         @endif
                                     </tr>
