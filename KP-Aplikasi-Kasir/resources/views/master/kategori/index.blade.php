@@ -46,31 +46,6 @@
                                                 </form>
                                             </div>
                                         </td>
-                                        @if(session('success'))
-                                            <div id="successNotification" class="fixed top-4 right-4 bg-green-500 text-white p-4 rounded shadow-lg z-50 transform transition-all duration-500 translate-x-full">
-                                                {{ session('success') }}
-                                            </div>
-
-                                            <script>
-                                                document.addEventListener('DOMContentLoaded', function () {
-                                                    const notification = document.getElementById('successNotification');
-                                                    if (notification) {
-                                                        // Slide in
-                                                        setTimeout(() => {
-                                                            notification.classList.remove('translate-x-full');
-                                                        }, 100);
-
-                                                        // Slide out after 3 seconds
-                                                        setTimeout(() => {
-                                                            notification.classList.add('translate-x-full');
-                                                            setTimeout(() => {
-                                                                notification.remove();
-                                                            }, 500);
-                                                        }, 3000);
-                                                    }
-                                                });
-                                            </script>
-                                        @endif
                                     </tr>
                                 @empty
                                     <tr>
@@ -79,6 +54,32 @@
                                 @endforelse
                             </tbody>
                         </table>
+                        @if(session('success'))
+                            <div id="successNotification" 
+                                class="fixed top-4 right-4 bg-green-500 text-white p-4 rounded shadow-lg z-50 transform transition-all duration-500 translate-x-full">
+                                {{ session('success') }}
+                            </div>
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    const notification = document.getElementById('successNotification');
+                                    if (notification) {
+                                        // Slide in
+                                        setTimeout(() => {
+                                            notification.classList.remove('translate-x-full');
+                                        }, 100);
+
+                                        // Slide out after 3 seconds
+                                        setTimeout(() => {
+                                            notification.classList.add('translate-x-full');
+                                            setTimeout(() => {
+                                                notification.remove();
+                                            }, 500);
+                                        }, 3000);
+                                    }
+                                });
+                            </script>
+                        @endif
                     </div>
                 </div>
             </div>
