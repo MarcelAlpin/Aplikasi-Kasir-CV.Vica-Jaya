@@ -15,10 +15,14 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next, string $role)
     {
-        if (auth()->check() && auth()->user()->role === $role) {
-            return $next($request);
+        if (!$request->user() || $request->user()->role !== $role) {
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+            
+            return redirect()->route('login')->with('error', 'You do not have permission to access this page.');
         }
-
-        abort(403, 'Akses ditolak.');
+        
+        return $next($request);
     }
 }
