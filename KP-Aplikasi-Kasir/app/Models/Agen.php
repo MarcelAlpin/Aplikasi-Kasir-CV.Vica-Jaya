@@ -17,5 +17,5 @@ class Agen extends Model
     // Primary key bukan incrementing integer
     public $incrementing = false;
 
-    protected $fillable = ['id', 'nama', 'perushaan','alamat', 'no_telepon', 'email'];
+    protected $fillable = ['id', 'nama', 'perushaan', 'alamat', 'no_telepon', 'email'];
 }

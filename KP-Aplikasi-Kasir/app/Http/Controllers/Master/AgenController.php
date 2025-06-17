@@ -33,7 +33,7 @@ class AgenController extends Controller
         // Validate request data
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'perushaan' => 'required|string|max:255',
+            'perusahaan' => 'required|string|max:255',
             'alamat' => 'required|string',
             'no_telepon' => 'required|string|max:20',
             'email' => 'nullable|email|max:255',
