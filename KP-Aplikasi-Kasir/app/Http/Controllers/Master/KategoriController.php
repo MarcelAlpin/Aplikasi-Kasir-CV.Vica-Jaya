@@ -13,7 +13,6 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        //
         $kategori = Kategori::latest()->get();
         return view('master.kategori.index', compact('kategori'));
     }
@@ -23,7 +22,6 @@ class KategoriController extends Controller
      */
     public function create()
     {
-        //
         return view('master.kategori.create');
     }
 
@@ -74,7 +72,6 @@ class KategoriController extends Controller
      */
     public function edit(string $id)
     {
-        //
         $kategori = Kategori::findOrFail($id);
         return view('master.kategori.edit', compact('kategori'));
     }
@@ -84,7 +81,6 @@ class KategoriController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
         $request->validate([
             'nama' => 'required|max:100',
             'deskripsi' => 'nullable',
@@ -101,7 +97,6 @@ class KategoriController extends Controller
      */
     public function destroy(string $id)
     {
-        //
         $kategori = Kategori::findOrFail($id);
         $kategori->delete();
 

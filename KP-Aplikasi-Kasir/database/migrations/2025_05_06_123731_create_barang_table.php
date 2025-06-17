@@ -25,6 +25,9 @@ return new class extends Migration
             // import id satuan
             $table->string('satuan_id', 8);
             $table->foreign('satuan_id')->references('id')->on('satuan')->onDelete('cascade');
+            // import id agen
+            $table->string('agen_id', 8)->nullable();
+            $table->foreign('agen_id')->references('id')->on('agen')->onDelete('set null');
         });
     }
 
