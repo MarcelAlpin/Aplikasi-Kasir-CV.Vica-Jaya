@@ -47,10 +47,10 @@
                                                     <p class="mb-6">Apakah Anda yakin ingin menghapus kategori ini?</p>
                                                     <div class="flex justify-end space-x-3">
                                                         <button onclick="closeDeleteModal({{ $kategori->id }})" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded">Batal</button>
-                                                        <form action="{{ route('kategori.destroy', $kategori->id) }}" method="POST" class="inline">
+                                                        <form action="{{ route('kategori.destroy', $kategori->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini?')" class="inline">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="px-4 py-2 bg-red-600 text-white hover:bg-red-700 rounded">Hapus</button>
+                                                            <button type="submit" class="text-red-500 hover:underline">Hapus</button>
                                                         </form>
                                                     </div>
                                                     <script>
