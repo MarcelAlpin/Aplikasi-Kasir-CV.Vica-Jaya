@@ -94,7 +94,6 @@
                     <option value="QRis">QRis</option>
                     <option value="Debit">Debit</option>
                     <option value="Kredit">Kredit</option>
-                    //
                 </select>
             </div>
 
