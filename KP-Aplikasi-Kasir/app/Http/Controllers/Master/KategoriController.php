@@ -13,7 +13,7 @@ class KategoriController extends Controller
      */
     public function index(Request $request)
     {
-        $keyword = $request->input('search');
+        $keyword = $request->query('search');
         
         $kategori = Kategori::query()
             ->when($keyword, function ($query, $keyword) {
