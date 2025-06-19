@@ -64,11 +64,8 @@
         {{-- Keranjang --}}
         <form action="{{ route('transaksi.store') }}" method="POST" class="bg-white dark:bg-gray-800 p-4 shadow rounded-lg">
             @csrf
-            <div class="mb-3">
-                <label for="usesr_id" class="block text-sm font-medium text-gray-700 dark:text-white">Kasir</label>
-                <input type="text" id="users_id" value="{{ Auth::user()->name }}" class="w-full rounded border px-3 py-2 dark:bg-gray-700 dark:text-white" readonly>
-                <input type="hidden" name="usesr_id" value="{{ Auth::id() }}">
-            </div>
+            <!-- buatkan field untuk memasukkan users id ke controller -->
+            <input type="hidden" name="users_id" value="{{ auth()->user()->id }}">
 
             <h4 class="text-sm font-bold mb-2 text-gray-700 dark:text-white">List Keranjang</h4>
             <table class="w-full text-sm text-left mb-3">
