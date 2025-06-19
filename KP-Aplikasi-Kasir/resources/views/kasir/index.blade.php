@@ -66,7 +66,7 @@
             @csrf
             <div class="mb-3">
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Atas Nama</label>
-                <input type="text" value="{{ Auth::user()->name }}" readonly 
+                <input type="text" value="{{ Auth::user()->id }}" readonly 
                     class="form-input w-full dark:bg-gray-700 dark:text-white text-gray-500" />
                 <input type="hidden" name="users_id" value="{{ Auth::id() }}" />
             </div>
