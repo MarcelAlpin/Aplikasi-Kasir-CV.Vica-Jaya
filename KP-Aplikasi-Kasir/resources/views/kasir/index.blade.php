@@ -68,7 +68,7 @@
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Atas Nama</label>
                 <input type="text" value="{{ Auth::user()->id }}" readonly 
                     class="form-input w-full dark:bg-gray-700 dark:text-white text-gray-500" />
-                <input type="hidden" name="users_id" value="{{ Auth::id() }}" />
+                <input type="hidden" name="users_id" value="{{ Auth::user()->id() }}" />
             </div>
 
             <h4 class="text-sm font-bold mb-2 text-gray-700 dark:text-white">List Keranjang</h4>
