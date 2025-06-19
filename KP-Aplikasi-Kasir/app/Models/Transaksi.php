@@ -19,7 +19,7 @@ class Transaksi extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    protected $fillable = ['id', 'status','order','total_bayar','pajak', 'user_id'];
+    protected $fillable = ['id', 'status','order','total_bayar','pajak', 'users_id'];
     public function barang()
     {
         return $this->belongsTo(Barang::class);
