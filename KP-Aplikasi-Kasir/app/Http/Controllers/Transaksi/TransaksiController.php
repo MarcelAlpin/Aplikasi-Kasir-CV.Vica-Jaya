@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Transaksi;
 use App\Models\TransaksiDetail;
 use App\Models\Barang;
+use App\Models\User;
 
 class TransaksiController extends Controller
 {
@@ -26,7 +27,7 @@ class TransaksiController extends Controller
             'order' => 'required|in:Ditempat,Dibawa Pulang',
             'items' => 'required|array',
             'pajak' => 'numeric',
-            'user_id' => 'required|exists:users,id',
+            'users_id' => 'required|exists:users,id',
         ]);
 
         // Generate Transaksi ID (TR0000000001)
@@ -42,7 +43,7 @@ class TransaksiController extends Controller
         // Simpan Transaksi Utama
         $transaksi = Transaksi::create([
             'id' => $transaksiId,
-            'user_id' => $request->user_id,
+            'users_id' => $request->users_id,
             'status' => $request->status,
             'order' => $request->order,
             'total_bayar' => $request->total_bayar,
