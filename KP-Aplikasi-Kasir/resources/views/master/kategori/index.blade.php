@@ -46,7 +46,7 @@
                                         <td class="px-4 py-2 border dark:border-gray-600">{{ $item->deskripsi }}</td>
                                         <td class="px-4 py-2 border dark:border-gray-600">
                                             <div class="flex space-x-2">
-                                                <a href="{{ route('kategori.edit', $itemi->id) }}" class="text-blue-500 hover:underline">Edit</a>
+                                                <a href="{{ route('kategori.edit', $item->id) }}" class="text-blue-500 hover:underline">Edit</a>
                                                 <form action="{{ route('kategori.destroy', $item->id) }}" method="POST" 
                                                       onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini?')" 
                                                       class="inline">
