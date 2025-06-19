@@ -18,15 +18,15 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-gray-600 text-gray-700 dark:text-gray-100">
-                    @foreach($transaksi as $trx)
+                    @foreach($transaksi as $item)
                         <tr>
-                            <td class="px-4 py-2">{{ $trx->id }}</td>
-                            <td class="px-4 py-2">{{ $trx->atas_nama }}</td>
-                            <td class="px-4 py-2">Rp{{ number_format($trx->total_bayar, 0, ',', '.') }}</td>
-                            <td class="px-4 py-2">{{ $trx->created_at->setTimezone('Asia/Jakarta')->format('d M Y H:i') }}</td>
+                            <td class="px-4 py-2">{{ $item->id }}</td>
+                            <td class="px-4 py-2">{{ $item->user->id }}</td>
+                            <td class="px-4 py-2">Rp{{ number_format($item->total_bayar, 0, ',', '.') }}</td>
+                            <td class="px-4 py-2">{{ $item->created_at->setTimezone('Asia/Jakarta')->format('d M Y H:i') }}</td>
                             <td class="px-4 py-2">
                                 <ul class="list-disc pl-5">
-                                    @foreach($trx->detail as $item)
+                                    @foreach($item->detail as $item)
                                         <li>
                                             {{ $item->barang->nama }} x{{ $item->qty }}
                                             (Rp{{ number_format($item->harga, 0, ',', '.') }})
