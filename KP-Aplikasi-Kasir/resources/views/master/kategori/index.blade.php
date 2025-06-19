@@ -54,6 +54,12 @@
                                 @endforelse
                             </tbody>
                         </table>
+
+                        <!-- Pagination -->
+                        <div class="mt-4">
+                            {{ $kategori->appends(request()->query())->links() }}
+                        </div>
+
                         @if(session('success'))
                             <div id="successNotification" 
                                 class="fixed top-4 right-4 bg-green-500 text-white p-4 rounded shadow-lg z-50 transform transition-all duration-500 translate-x-full">
