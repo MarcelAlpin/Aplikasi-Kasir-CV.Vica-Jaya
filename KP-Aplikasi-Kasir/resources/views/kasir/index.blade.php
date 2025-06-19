@@ -94,24 +94,9 @@
                     <option value="QRis">QRis</option>
                     <option value="Debit">Debit</option>
                     <option value="Kredit">Kredit</option>
+                    //
                 </select>
             </div>
-
-            <script>
-                function updatePaymentOptions() {
-                    const paymentSelect = document.getElementById('paymentOption');
-                    
-                    // Clear existing options
-                    paymentSelect.innerHTML = '';
-                    
-                    // Show the new options matching the database enum
-                    paymentSelect.add(new Option('Ditempat', 'Ditempat', true, true));
-                    paymentSelect.add(new Option('Dibawa Pulang', 'Dibawa Pulang'));
-                }
-                
-                // Initialize payment options when page loads
-                document.addEventListener('DOMContentLoaded', updatePaymentOptions);
-            </script>
 
             <div class="mb-3 text-right">
                 <strong>Total: <span id="totalBayarText">Rp0</span></strong>
