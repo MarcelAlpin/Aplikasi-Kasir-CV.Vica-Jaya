@@ -14,11 +14,20 @@ class BarangController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $barang = Barang::latest()->get();
-        return view('master.barang.index', compact('barang'));
+        $keyword = $request->query('search');
+        
+        $barang = Barang::query()
+            ->when($keyword, function ($query, $keyword) {
+                return $query->where('nama', 'like', '%' . $keyword . '%')
+                             ->orWhere('deskripsi', 'like', '%' . $keyword . '%');
+            })
+            ->orderBy('nama', 'asc')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('master.barang.index', compact('barang', 'keyword'));
     }
 
     /**

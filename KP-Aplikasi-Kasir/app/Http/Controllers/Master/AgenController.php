@@ -11,10 +11,23 @@ class AgenController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $agen = Agen::latest()->get();
-        return view('master.agen.index', compact('agen'));
+        $keyword = $request->query('search');
+        
+        $agen = Agen::query()
+            ->when($keyword, function ($query, $keyword) {
+                return $query->where('nama', 'like', '%' . $keyword . '%')
+                             ->orWhere('perusahaan', 'like', '%' . $keyword . '%')
+                             ->orWhere('alamat', 'like', '%' . $keyword . '%')
+                             ->orWhere('no_telepon', 'like', '%' . $keyword . '%')
+                             ->orWhere('email', 'like', '%' . $keyword . '%');
+            })
+            ->orderBy('nama', 'asc')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('master.agen.index', compact('agen', 'keyword'));
     }
 
     /**

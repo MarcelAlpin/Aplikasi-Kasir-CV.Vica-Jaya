@@ -14,8 +14,18 @@ class SatuanController extends Controller
     public function index()
     {
         //
-        $satuan = Satuan::latest()->get();
-        return view('master.satuan.index', compact('satuan'));
+        $keyword = $request->query('search');
+        
+        $satuan = Satuan::query()
+            ->when($keyword, function ($query, $keyword) {
+            return $query->where('nama', 'like', '%' . $keyword . '%')
+                     ->orWhere('deskripsi', 'like', '%' . $keyword . '%');
+            })
+            ->orderBy('nama', 'asc')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('master.satuan.index', compact('satuan', 'keyword'));
     }
 
     /**

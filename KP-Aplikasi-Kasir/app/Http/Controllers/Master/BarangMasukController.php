@@ -12,10 +12,23 @@ class BarangMasukController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $barangMasuk = BarangMasuk::with('barang')->latest()->get();
-        return view('master.barangmasuk.index', compact('barangMasuk'));
+        $keyword = $request->query('search');
+        
+        $barangMasuk = BarangMasuk::with('barang')
+            ->when($keyword, function ($query, $keyword) {
+                return $query->whereHas('barang', function($q) use ($keyword) {
+                    $q->where('nama', 'like', '%' . $keyword . '%');
+                })
+                ->orWhere('id', 'like', '%' . $keyword . '%')
+                ->orWhere('jumlah_masuk', 'like', '%' . $keyword . '%');
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('master.barangmasuk.index', compact('barangMasuk', 'keyword'));
     }
 
     /**
