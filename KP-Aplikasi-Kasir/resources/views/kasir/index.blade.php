@@ -115,7 +115,7 @@
                 <strong>Total: <span id="totalBayarText">Rp0</span></strong>
             </div>
             <div class="mb-3 text-right">
-                <strong>PPN (11%): <span id="PPN">Rp0</span></strong>
+                <strong>PPN (Jika diatas 2 jt, maka efektif 11%): <span id="PPN">Rp0</span></strong>
             </div>
             <div class="mb-3 text-right">
                 <strong>Total + PPN: <span id="totalFinalText">Rp0</span></strong>
