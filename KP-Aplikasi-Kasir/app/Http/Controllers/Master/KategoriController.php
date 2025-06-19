@@ -13,20 +13,22 @@ class KategoriController extends Controller
      */
     public function index(Request $request)
     {
+        // Get search term from request
         $search = $request->input('search');
-    
+
+        // Query with search filter if provided
         $query = Kategori::query();
-        
-        // Apply search filter if search parameter exists
         if ($search) {
             $query->where('nama', 'like', "%{$search}%")
-                ->orWhere('deskripsi', 'like', "%{$search}%")
-                ->orWhere('id', 'like', "%{$search}%");
+                  ->orWhere('deskripsi', 'like', "%{$search}%")
+                  ->orWhere('id', 'like', "%{$search}%");
         }
-        
+
         // Get paginated results
-        $kategori = $query->orderBy('created_at', 'desc')->paginate(10);
-        return view('master.kategori.index', compact('kategori'));
+        $kategori = $query->orderBy('id', 'desc')->paginate(10);
+
+        // Return view with data
+        return view('master.kategori.index', compact('kategori', 'search'));
     }
 
     /**
