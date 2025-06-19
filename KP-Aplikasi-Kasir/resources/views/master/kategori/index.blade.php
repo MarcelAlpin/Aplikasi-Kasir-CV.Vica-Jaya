@@ -67,7 +67,7 @@
 
                         <!-- Pagination -->
                         <div class="mt-4">
-                            {{ $kategori->links() }}
+                            {!! $kategori->appends(request()->query())->render() !!}
                         </div>
 
                         @if(session('success'))
