@@ -64,11 +64,11 @@
         {{-- Keranjang --}}
         <form action="{{ route('transaksi.store') }}" method="POST" class="bg-white dark:bg-gray-800 p-4 shadow rounded-lg">
             @csrf
-
             <div class="mb-3">
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Atas Nama</label>
-                <input type="text" name="atas_nama" placeholder="Nama untuk nota" value="{{ Auth::user()->name }}" readonly 
+                <input type="text" value="{{ Auth::user()->name }}" readonly 
                     class="form-input w-full dark:bg-gray-700 dark:text-white text-gray-500" />
+                <input type="hidden" name="user_id" value="{{ Auth::id() }}" />
             </div>
 
             <h4 class="text-sm font-bold mb-2 text-gray-700 dark:text-white">List Keranjang</h4>

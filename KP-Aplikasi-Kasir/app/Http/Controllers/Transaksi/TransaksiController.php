@@ -27,6 +27,7 @@ class TransaksiController extends Controller
             'order' => 'required|in:Ditempat,Dibawa Pulang',
             'items' => 'required|array',
             'pajak' => 'numeric',
+            'user_id' => 'required|exists:users,id',
         ]);
 
         // Generate Transaksi ID (TR0000000001)
@@ -42,7 +43,7 @@ class TransaksiController extends Controller
         // Simpan Transaksi Utama
         $transaksi = Transaksi::create([
             'id' => $transaksiId,
-            'atas_nama' => $request->atas_nama,
+            'user_id' => $request->user_id,
             'status' => $request->status,
             'order' => $request->order,
             'total_bayar' => $request->total_bayar,

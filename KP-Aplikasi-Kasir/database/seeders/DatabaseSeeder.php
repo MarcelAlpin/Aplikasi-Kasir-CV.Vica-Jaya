@@ -33,8 +33,8 @@ class DatabaseSeeder extends Seeder
         );
 
         // Eksekusi file SQL dummy
-        DB::unprepared(file_get_contents(database_path('sql/kategori_dummy.sql')));
-        DB::unprepared(file_get_contents(database_path('sql/satuan_dummy.sql')));
-        DB::unprepared(file_get_contents(database_path('sql/agen_dummy.sql')));
+        // DB::unprepared(file_get_contents(database_path('sql/kategori_dummy.sql')));
+        // DB::unprepared(file_get_contents(database_path('sql/satuan_dummy.sql')));
+        // DB::unprepared(file_get_contents(database_path('sql/agen_dummy.sql')));
     }
 }
