@@ -38,12 +38,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($kategori as $kategori)
+                                @forelse ($kategori as $item)
                                     <tr class="text-sm hover:bg-gray-100 dark:hover:bg-gray-700">
                                         <td class="px-4 py-2 border dark:border-gray-600">{{ $loop->iteration }}</td>
-                                        <td class="px-4 py-2 border dark:border-gray-600">{{ $kategori->id }}</td>
-                                        <td class="px-4 py-2 border dark:border-gray-600">{{ $kategori->nama }}</td>
-                                        <td class="px-4 py-2 border dark:border-gray-600">{{ $kategori->deskripsi }}</td>
+                                        <td class="px-4 py-2 border dark:border-gray-600">{{ $item->id }}</td>
+                                        <td class="px-4 py-2 border dark:border-gray-600">{{ $item->nama }}</td>
+                                        <td class="px-4 py-2 border dark:border-gray-600">{{ $item->deskripsi }}</td>
                                         <td class="px-4 py-2 border dark:border-gray-600">
                                             <div class="flex space-x-2">
                                                 <a href="{{ route('kategori.edit', $kategori->id) }}" class="text-blue-500 hover:underline">Edit</a>
