@@ -14,7 +14,7 @@ class KategoriController extends Controller
     public function index()
     {
         $search = $request->input('search');
-        
+    
         $query = Kategori::query();
         
         // Apply search filter if search parameter exists
