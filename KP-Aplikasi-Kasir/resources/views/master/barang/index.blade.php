@@ -125,7 +125,7 @@
                         
                         <!-- Pagination -->
                         <div class="mt-4">
-                            {!! $kategori->appends(request()->query())->render() !!}
+                            {!! $barang->appends(request()->query())->render() !!}
                         </div>
 
                         <script>

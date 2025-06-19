@@ -69,7 +69,7 @@
 
                         <!-- Pagination -->
                         <div class="mt-4">
-                            {!! $kategori->appends(request()->query())->render() !!}
+                            {!! $barangMasuk->appends(request()->query())->render() !!}
                         </div>
 
                         @if(session('success'))
