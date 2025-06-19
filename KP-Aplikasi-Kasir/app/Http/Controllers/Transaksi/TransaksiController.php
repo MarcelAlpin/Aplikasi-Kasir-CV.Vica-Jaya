@@ -29,6 +29,9 @@ class TransaksiController extends Controller
             'pajak' => 'numeric',
             'users_id' => 'required|exists:users,id',
         ]);
+        
+        // Override users_id with authenticated user's ID
+        $request->merge(['users_id' => auth()->id()]);
 
         // Generate Transaksi ID (TR0000000001)
         $lastTransaksi = Transaksi::orderBy('id', 'desc')->first();

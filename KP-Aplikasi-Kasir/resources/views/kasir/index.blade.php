@@ -65,10 +65,9 @@
         <form action="{{ route('transaksi.store') }}" method="POST" class="bg-white dark:bg-gray-800 p-4 shadow rounded-lg">
             @csrf
             <div class="mb-3">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Atas Nama</label>
-                <input type="text" value="{{ Auth::user()->id }}" readonly 
-                    class="form-input w-full dark:bg-gray-700 dark:text-white text-gray-500" />
-                <input type="hidden" name="users_id" value="{{ Auth::user()->id() }}" />
+                <label for="usesr_id" class="block text-sm font-medium text-gray-700 dark:text-white">Kasir</label>
+                <input type="text" id="users_id" value="{{ Auth::user()->name }}" class="w-full rounded border px-3 py-2 dark:bg-gray-700 dark:text-white" readonly>
+                <input type="hidden" name="usesr_id" value="{{ Auth::id() }}">
             </div>
 
             <h4 class="text-sm font-bold mb-2 text-gray-700 dark:text-white">List Keranjang</h4>
