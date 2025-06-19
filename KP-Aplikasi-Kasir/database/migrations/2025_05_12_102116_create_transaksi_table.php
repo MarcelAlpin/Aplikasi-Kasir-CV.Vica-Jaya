@@ -17,7 +17,7 @@ return new class extends Migration
             $table->enum('order', ['Cash', 'Qris', 'Debit', 'Kredit']);
             $table->integer('total_bayar');
             $table->integer('pajak')->default(0);
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('users_id')->constrained('users');
             $table->timestamps();
         });
     }
