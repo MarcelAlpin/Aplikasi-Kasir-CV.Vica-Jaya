@@ -21,7 +21,6 @@ class TransaksiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'atas_nama' => 'required',
             'total_bayar' => 'required|numeric',
             'status' => 'required|in:Lunas,Belum Bayar',
             'order' => 'required|in:Ditempat,Dibawa Pulang',
