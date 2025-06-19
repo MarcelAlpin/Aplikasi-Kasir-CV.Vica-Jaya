@@ -90,8 +90,10 @@
             <div class="mb-3">
                 <label>Pembayaran</label>
                 <select name="order" id="paymentOption" class="form-select w-full dark:bg-gray-700 dark:text-white">
-                    <option value="Ditempat">Ditempat</option>
-                    <option value="Dibawa Pulang">Dibawa Pulang</option>
+                    <option value="Ditempat">Cash</option>
+                    <option value="Ditempat">QRis</option>
+                    <option value="Dibawa Pulang">Debit</option>
+                    <option value="Dibawa Pulang">Kredit</option>
                 </select>
             </div>
 
