@@ -9,14 +9,48 @@
         {{-- Menu --}}
         <div class="bg-white dark:bg-gray-800 p-4 shadow rounded-lg">
             <div class="mb-4 flex items-center justify-between">
-                <h3 class="text-lg font-bold text-gray-700 dark:text-white">Data Menu</h3>
-                <input type="text" id="searchMenu" placeholder="Cari menu..." class="px-3 py-1 rounded border dark:bg-gray-700 dark:text-white" />
+            <h3 class="text-lg font-bold text-gray-700 dark:text-white">Data Menu</h3>
+            <input type="text" id="searchMenu" placeholder="Cari menu..." class="px-3 py-1 rounded border dark:bg-gray-700 dark:text-white" oninput="searchMenus()" />
             </div>
+
+            <div id="noResultsMessage" class="text-center text-gray-500 dark:text-gray-400 py-8 hidden">
+            <p>Menu yang dicari tidak ditemukan</p>
+            </div>
+
+            <script>
+                function searchMenus() {
+                    const searchTerm = document.getElementById('searchMenu').value.toLowerCase();
+                    const menuItems = document.querySelectorAll('.grid.grid-cols-2 > div');
+                    const noResultsMessage = document.getElementById('noResultsMessage');
+                    let visibleCount = 0;
+                    
+                    menuItems.forEach(item => {
+                        const menuNameElement = item.querySelector('p.font-semibold');
+                        if (menuNameElement) {
+                            const menuName = menuNameElement.textContent.toLowerCase();
+                            if (menuName.includes(searchTerm)) {
+                                item.style.display = 'block';
+                                visibleCount++;
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        }
+                    });
+
+                    // Show no results message when no items match and search term is not empty
+                    if (visibleCount === 0 && searchTerm.trim() !== '') {
+                        noResultsMessage.classList.remove('hidden');
+                    } else {
+                        noResultsMessage.classList.add('hidden');
+                    }
+                }
+            </script>
 
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-h-[70vh] overflow-y-auto">
                 @foreach ($menus as $menu)
-                    <div class="border p-2 rounded hover:shadow cursor-pointer" onclick="addToCart({{ $menu->id }}, '{{ $menu->nama }}', {{ $menu->harga }})">
-                        <img src="{{ $menu->gambar }}" alt="{{ $menu->nama }}" class="w-full h-32 object-cover rounded">
+                    <div class="border p-2 rounded hover:shadow cursor-pointer" 
+                        onclick="addToCart('{{ $menu->id }}', '{{ addslashes($menu->nama) }}', {{ $menu->harga }})">
+                        <img src="{{ $menu->gambar }}" alt="{{ $menu->nama }}" class="w-full h-32 object-contain rounded">
                         <div class="mt-2 text-center">
                             <p class="text-sm text-gray-700 dark:text-white font-semibold">{{ $menu->nama }}</p>
                             <p class="text-green-600 font-bold text-sm">Rp{{ number_format($menu->harga, 0, ',', '.') }}</p>
@@ -30,17 +64,8 @@
         {{-- Keranjang --}}
         <form action="{{ route('transaksi.store') }}" method="POST" class="bg-white dark:bg-gray-800 p-4 shadow rounded-lg">
             @csrf
-
-            <div class="mb-3">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">No BON</label>
-                <input type="text" name="no_bon" value="B{{ date('His') }}" readonly class="form-input w-full dark:bg-gray-700 dark:text-white text-gray-500" />
-            </div>
-
-            <div class="mb-3">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Atas Nama</label>
-                <input type="text" name="atas_nama" placeholder="Nama untuk nota" value="{{ Auth::user()->name }}" readonly 
-                    class="form-input w-full dark:bg-gray-700 dark:text-white text-gray-500" />
-            </div>
+            <!-- buatkan field untuk memasukkan users id ke controller -->
+            <input type="hidden" name="users_id" value="{{ auth()->user()->id }}">
 
             <h4 class="text-sm font-bold mb-2 text-gray-700 dark:text-white">List Keranjang</h4>
             <table class="w-full text-sm text-left mb-3">
@@ -59,23 +84,31 @@
             <input type="hidden" name="pajak" value="0">
 
             <div class="mb-3">
-                <label>Order</label>
-                <select name="status" class="form-select w-full dark:bg-gray-700 dark:text-white">
-                    <option value="Lunas">Delivary</option>
-                    <option value="Belum Bayar">Ditempat</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
                 <label>Pembayaran</label>
-                <select name="order" class="form-select w-full dark:bg-gray-700 dark:text-white">
-                    <option value="Ditempat">Cod</option>
-                    <option value="Dibawa Pulang">Cash</option>
+                <select name="order" id="paymentOption" class="form-select w-full dark:bg-gray-700 dark:text-white">
+                    <option value="Cash">Cash</option>
+                    <option value="QRis">QRis</option>
+                    <option value="Debit">Debit</option>
+                    <option value="Kredit">Kredit</option>
                 </select>
             </div>
 
             <div class="mb-3 text-right">
                 <strong>Total: <span id="totalBayarText">Rp0</span></strong>
+            </div>
+            <div class="mb-3 text-right">
+                <strong>PPN (Jika diatas 2 jt, maka efektif 11%): <span id="PPN">Rp0</span></strong>
+            </div>
+            <div class="mb-3 text-right">
+                <strong>Total + PPN: <span id="totalFinalText">Rp0</span></strong>
+            </div>
+             
+            <div class="mb-3">
+                <label>Order</label>
+                <select name="status" class="form-select w-full dark:bg-gray-700 dark:text-white">
+                    <option value="Lunas">Lunas</option>
+                    <option value="Belum Bayar">Belum Bayar</option>
+                </select>
             </div>
 
             <div class="text-right">
@@ -90,7 +123,9 @@
         let cart = [];
 
         function addToCart(id, name, price) {
-            let found = cart.find(item => item.barang_id === id);
+            // Convert id to string to ensure consistent comparison
+            id = String(id); 
+            let found = cart.find(item => String(item.barang_id) === id);
             if (found) {
                 found.qty += 1;
             } else {
@@ -117,6 +152,7 @@
             cart.forEach((item, index) => {
                 let subtotal = item.qty * item.harga;
                 total += subtotal;
+                
                 cartTable.innerHTML += `
                     <tr>
                         <td>
@@ -126,8 +162,8 @@
                         </td>
                         <td>
                             <input type="number" name="items[${index}][qty]" value="${item.qty}" min="1"
-                                   onchange="updateQty(${index}, this.value)"
-                                   class="w-12 text-center border border-gray-300 rounded" />
+                                onchange="updateQty(${index}, this.value)"
+                                class="w-20 text-center border border-gray-300 rounded" />
                         </td>
                         <td>Rp${item.harga.toLocaleString()}</td>
                         <td><button type="button" onclick="removeCartItem(${index})" class="text-red-500">x</button></td>
@@ -135,8 +171,17 @@
                 `;
             });
 
+            // Calculate tax (11% of total)
+            let taxAmount = total > 2000000 ? Math.round(total * 0.11) : 0;
+            let finalTotal = total + taxAmount;
+
+            // Update hidden inputs
+            document.querySelector('input[name="pajak"]').value = taxAmount;
+            document.getElementById('totalBayarInput').value = finalTotal; 
+
             document.getElementById('totalBayarText').innerText = 'Rp' + total.toLocaleString();
-            document.getElementById('totalBayarInput').value = total;
+            document.getElementById('PPN').innerText = 'Rp' + taxAmount.toLocaleString();
+            document.getElementById('totalFinalText').innerText = 'Rp' + finalTotal.toLocaleString();
         }
-    </script>
+</script>
 </x-app-layout>

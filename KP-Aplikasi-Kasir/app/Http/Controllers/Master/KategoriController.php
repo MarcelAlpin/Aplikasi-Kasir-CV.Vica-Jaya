@@ -11,11 +11,20 @@ class KategoriController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $kategori = Kategori::latest()->get();
-        return view('master.kategori.index', compact('kategori'));
+        $keyword = $request->query('search');
+        
+        $kategori = Kategori::query()
+            ->when($keyword, function ($query, $keyword) {
+                return $query->where('nama', 'like', '%' . $keyword . '%')
+                             ->orWhere('deskripsi', 'like', '%' . $keyword . '%');
+            })
+            ->orderBy('nama', 'asc')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('master.kategori.index', compact('kategori', 'keyword'));
     }
 
     /**
@@ -23,7 +32,6 @@ class KategoriController extends Controller
      */
     public function create()
     {
-        //
         return view('master.kategori.create');
     }
 
@@ -31,14 +39,32 @@ class KategoriController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
+    {    
         $request->validate([
             'nama' => 'required|max:100',
             'deskripsi' => 'nullable',
         ]);
 
-        Kategori::create($request->all());
+        // Buat ID Otomatis
+        // Ambil ID terakhir dari database
+        // dan tambahkan 1 untuk ID baru
+        $lastKategori = Kategori::orderBy('id', 'desc')->first();
+        if ($lastKategori) {
+            $lastNumber = (int)substr($lastKategori->id, 2); // Ambil angka dari ID terakhir
+            $newNumber = $lastNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
+
+        // Generate ID baru
+        $newId = 'KT' . str_pad($newNumber, 5, '0', STR_PAD_LEFT);
+
+        // Masukkan ID ke data request
+        $data = $request->all();
+        $data['id'] = $newId;
+
+        // Simpan ke database
+        Kategori::create($data);
 
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil ditambahkan.');
     }
@@ -56,7 +82,6 @@ class KategoriController extends Controller
      */
     public function edit(string $id)
     {
-        //
         $kategori = Kategori::findOrFail($id);
         return view('master.kategori.edit', compact('kategori'));
     }
@@ -66,7 +91,6 @@ class KategoriController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
         $request->validate([
             'nama' => 'required|max:100',
             'deskripsi' => 'nullable',
@@ -83,7 +107,6 @@ class KategoriController extends Controller
      */
     public function destroy(string $id)
     {
-        //
         $kategori = Kategori::findOrFail($id);
         $kategori->delete();
 

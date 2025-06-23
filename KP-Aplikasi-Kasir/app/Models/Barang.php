@@ -4,22 +4,47 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Kategori;
+use App\Models\Satuan;
+use App\Models\Agen;
 
 class Barang extends Model
 {
     //
     use HasFactory;
     protected $table = 'barang';
-    protected $fillable = ['nama', 'deskripsi', 'gambar', 'stok', 'harga', 'kategori_id', 'satuan_id'];
 
-public function kategori()
-{
-    return $this->belongsTo(Kategori::class);
-}
+    // Primary key
+    protected $primaryKey = 'id';
 
-public function satuan()
-{
-    return $this->belongsTo(Satuan::class);
-}
+    // Primary key bukan incrementing integer
+    public $incrementing = false;
+
+    protected $fillable = [
+        'id',
+        'nama',
+        'deskripsi',
+        'gambar',  // Make sure this is included
+        'stok',
+        'harga',
+        'kategori_id',
+        'satuan_id',
+        'agen_id',
+    ];
+
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class);
+    }
+
+    public function satuan()
+    {
+        return $this->belongsTo(Satuan::class);
+    }
+
+    public function agen()
+    {
+        return $this->belongsTo(Agen::class);
+    }
 }
 

@@ -10,5 +10,12 @@ class Satuan extends Model
     //
     use HasFactory;
     protected $table = 'satuan';
-    protected $fillable = ['nama', 'deskripsi'];
+    
+    // Primary key
+    protected $primaryKey = 'id';
+
+    // Primary key bukan incrementing integer
+    public $incrementing = false;
+
+    protected $fillable = ['id', 'nama', 'deskripsi'];
 }

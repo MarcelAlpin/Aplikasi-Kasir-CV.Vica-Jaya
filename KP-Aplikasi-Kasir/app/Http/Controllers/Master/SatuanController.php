@@ -11,11 +11,21 @@ class SatuanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $satuan = Satuan::latest()->get();
-        return view('master.satuan.index', compact('satuan'));
+        $keyword = $request->query('search');
+        
+        $satuan = Satuan::query()
+            ->when($keyword, function ($query, $keyword) {
+            return $query->where('nama', 'like', '%' . $keyword . '%')
+                     ->orWhere('deskripsi', 'like', '%' . $keyword . '%');
+            })
+            ->orderBy('nama', 'asc')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('master.satuan.index', compact('satuan', 'keyword'));
     }
 
     /**
@@ -38,7 +48,20 @@ class SatuanController extends Controller
             'deskripsi' => 'nullable',
         ]);
 
-        Satuan::create($request->all());
+        // Buat ID Otomatis
+        $lastSatuan = Satuan::orderBy('id', 'desc')->first();
+        if ($lastSatuan) {
+            $lastNumber = (int)substr($lastSatuanr->id, 2);
+            $newNumber = $lastNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
+        $newId = 'ST' . str_pad($newNumber, 5, '0', STR_PAD_LEFT);
+
+        $data = $request->all();
+        $data['id'] = $newId;
+
+        Satuan::create($data);
 
         return redirect()->route('satuan.index')->with('success', 'Satuan berhasil ditambah.');
     }

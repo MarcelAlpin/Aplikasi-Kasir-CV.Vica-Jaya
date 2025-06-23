@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Barang;
 use App\Models\Kategori;
+use App\Models\Agen;
 use App\Models\Satuan;
 
 class BarangController extends Controller
@@ -13,11 +14,20 @@ class BarangController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $barang = Barang::latest()->get();
-        return view('master.barang.index', compact('barang'));
+        $keyword = $request->query('search');
+        
+        $barang = Barang::query()
+            ->when($keyword, function ($query, $keyword) {
+                return $query->where('nama', 'like', '%' . $keyword . '%')
+                             ->orWhere('deskripsi', 'like', '%' . $keyword . '%');
+            })
+            ->orderBy('nama', 'asc')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('master.barang.index', compact('barang', 'keyword'));
     }
 
     /**
@@ -27,8 +37,9 @@ class BarangController extends Controller
     {
         //
         return view('master.barang.create', [
-            'kategori' => Kategori::all(),
-            'satuan' => Satuan::all(),
+            'kategori'  => Kategori::all(),
+            'agen'      => Agen::all(),
+            'satuan'    => Satuan::all(),
         ]);
     }
 
@@ -42,13 +53,29 @@ class BarangController extends Controller
             'nama' => 'required|max:100',
             'deskripsi' => 'nullable',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'stok' => 'required|integer',
             'harga' => 'required|integer',
             'kategori_id' => 'required|exists:kategori,id',
+            'agen_id' => 'nullable|exists:agen,id',
             'satuan_id' => 'required|exists:satuan,id',
         ]);
 
+        $lastBarang = Barang::orderBy('id', 'desc')->first();
+        if ($lastBarang) {
+            $lastNumber = (int)substr($lastBarang->id, 2); // Ambil angka dari ID terakhir
+            $newNumber = $lastNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
+
+        // Generate ID baru dengan panjang total 12 karakter
+        $newId = 'BR' . str_pad($newNumber, 10, '0', STR_PAD_LEFT);
+
+        // Masukkan ID ke data request
         $data = $request->all();
+        $data['id'] = $newId;
+
+        // Set stok to 0 by default
+        $data['stok'] = 0;
 
         // Handle file upload, image to base64
         if ($request->hasFile('gambar')) {
@@ -79,8 +106,9 @@ class BarangController extends Controller
         //
         $barang = Barang::findOrFail($id);
         $kategori = Kategori::all();
+        $agen = Agen::all();
         $satuan = Satuan::all();
-        return view('master.barang.edit', compact('barang', 'kategori', 'satuan'));
+        return view('master.barang.edit', compact('barang', 'kategori', 'agen', 'satuan'));
     }
 
     /**
@@ -96,6 +124,7 @@ class BarangController extends Controller
             'stok' => 'required|integer',
             'harga' => 'required|integer',
             'kategori_id' => 'required|exists:kategori,id',
+            'agen_id' => 'nullable|exists:agen,id',
             'satuan_id' => 'required|exists:satuan,id',
         ]);
         

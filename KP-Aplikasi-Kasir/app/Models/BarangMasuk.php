@@ -5,18 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Kategori extends Model
+class BarangMasuk extends Model
 {
     use HasFactory;
-    protected $table = 'kategori';
     
-    // Primary key
+    protected $table = 'barang_masuk';
     protected $primaryKey = 'id';
-
-    // Primary key bukan incrementing integer
     public $incrementing = false;
-
-    // Tipe data primary key
     protected $keyType = 'string';
-    protected $fillable = ['id', 'nama', 'deskripsi'];
+    
+    protected $fillable = ['id','barang_id','jumlah_masuk','harga_beli'];
+    
+    public function barang()
+    {
+        return $this->belongsTo(Barang::class);
+    }
 }
