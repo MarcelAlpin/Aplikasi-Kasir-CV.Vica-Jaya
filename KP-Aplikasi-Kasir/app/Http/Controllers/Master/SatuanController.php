@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Master;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Satuan;
+use App\Helpers\LogAktivitas;
 
 class SatuanController extends Controller
 {
@@ -25,6 +26,8 @@ class SatuanController extends Controller
             ->paginate(10)
             ->withQueryString();
 
+        LogAktivitas::simpan('Mengakses halaman daftar satuan');
+
         return view('master.satuan.index', compact('satuan', 'keyword'));
     }
 
@@ -33,7 +36,7 @@ class SatuanController extends Controller
      */
     public function create()
     {
-        //
+        LogAktivitas::simpan('Mengakses halaman tambah satuan');
         return view('master.satuan.create');
     }
 
@@ -51,7 +54,7 @@ class SatuanController extends Controller
         // Buat ID Otomatis
         $lastSatuan = Satuan::orderBy('id', 'desc')->first();
         if ($lastSatuan) {
-            $lastNumber = (int)substr($lastSatuanr->id, 2);
+            $lastNumber = (int)substr($lastSatuan->id, 2);
             $newNumber = $lastNumber + 1;
         } else {
             $newNumber = 1;
@@ -62,6 +65,8 @@ class SatuanController extends Controller
         $data['id'] = $newId;
 
         Satuan::create($data);
+
+        LogAktivitas::simpan("Menambah satuan baru: {$data['nama']}");
 
         return redirect()->route('satuan.index')->with('success', 'Satuan berhasil ditambah.');
     }
@@ -81,6 +86,7 @@ class SatuanController extends Controller
     {
         //
         $satuan = Satuan::findOrFail($id);
+        LogAktivitas::simpan("Mengakses halaman edit satuan: {$satuan->nama}");
         return view('master.satuan.edit', compact('satuan'));
     }
 
@@ -98,18 +104,8 @@ class SatuanController extends Controller
         $satuan = Satuan::findOrFail($id);
         $satuan->update($request->all());
 
+        LogAktivitas::simpan("Memperbarui satuan: {$satuan->nama}");
+
         return redirect()->route('satuan.index')->with('success', 'Satuan berhasil diperbarui.');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-        $satuan = Satuan::findOrFail($id);
-        $satuan->delete();
-
-        return redirect()->route('satuan.index')->with('success', 'Satuan berhasil dihapus.');
     }
 }

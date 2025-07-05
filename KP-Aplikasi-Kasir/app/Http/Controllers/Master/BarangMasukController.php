@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BarangMasuk;
 use App\Models\Barang;
+use App\Helpers\LogAktivitas;
 
 class BarangMasukController extends Controller
 {
@@ -28,6 +29,8 @@ class BarangMasukController extends Controller
             ->paginate(10)
             ->withQueryString();
 
+        LogAktivitas::simpan('Mengakses halaman daftar barang masuk');
+
         return view('master.barangmasuk.index', compact('barangMasuk', 'keyword'));
     }
 
@@ -36,6 +39,7 @@ class BarangMasukController extends Controller
      */
     public function create()
     {
+        LogAktivitas::simpan('Mengakses halaman tambah barang masuk');
         return view('master.barangmasuk.create', [
             'barang' => Barang::all(),
         ]);
@@ -72,6 +76,8 @@ class BarangMasukController extends Controller
         $barang->stok += $request->jumlah_masuk; // Increment stock
         $barang->save();
         
+        LogAktivitas::simpan("Menambah barang masuk baru: {$barang->nama} dengan ID: {$barangMasukId}");
+
         return redirect()->route('barangmasuk.index')
             ->with('success', 'Barang masuk berhasil dicatat dengan ID: ' . $barangMasukId);
     }
@@ -89,6 +95,8 @@ class BarangMasukController extends Controller
      */
     public function edit(string $id)
     {
+        LogAktivitas::simpan("Mengakses halaman edit barang masuk dengan ID: {$id}");
+
         return view('master.barangmasuk.edit', [
             'barangMasuk' => BarangMasuk::findOrFail($id),
         ]);
@@ -120,28 +128,9 @@ class BarangMasukController extends Controller
         $barang->stok += $stockDifference;
         $barang->save();
 
+        LogAktivitas::simpan("Memperbarui jumlah barang masuk dengan ID: {$id} dari {$oldJumlahMasuk} menjadi {$newJumlahMasuk}");
+
         return redirect()->route('barangmasuk.index')
             ->with('success', 'Jumlah barang masuk berhasil diperbarui.');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        $barangMasuk = BarangMasuk::findOrFail($id);
-        
-        // Find the related product and decrease its stock
-        $barang = Barang::find($barangMasuk->barang_id);
-        if ($barang) {
-            $barang->stok -= $barangMasuk->jumlah_masuk; // Subtract the quantity from stock
-            $barang->save();
-        }
-        
-        // Delete the barang masuk record
-        $barangMasuk->delete();
-
-        return redirect()->route('barangmasuk.index')
-            ->with('success', 'Barang Masuk berhasil dihapus dan stok telah disesuaikan.');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Master;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Agen;
+use App\Helpers\LogAktivitas;
 
 class AgenController extends Controller
 {
@@ -27,6 +28,8 @@ class AgenController extends Controller
             ->paginate(10)
             ->withQueryString();
 
+        LogAktivitas::simpan('Mengakses halaman daftar agen');
+
         return view('master.agen.index', compact('agen', 'keyword'));
     }
 
@@ -35,6 +38,7 @@ class AgenController extends Controller
      */
     public function create()
     {
+        LogAktivitas::simpan('Mengakses halaman tambah agen');
         return view('master.agen.create');
     }
 
@@ -67,6 +71,8 @@ class AgenController extends Controller
 
         Agen::create($data);
 
+        LogAktivitas::simpan("Menambah agen baru: {$data['nama']}");
+
         return redirect()->route('agen.index')->with('success', 'Agen berhasil ditambahkan');
     }
 
@@ -84,6 +90,7 @@ class AgenController extends Controller
     public function edit(string $id)
     {
         $agen = Agen::findOrFail($id);
+        LogAktivitas::simpan("Mengakses halaman edit agen: {$agen->nama}");
         return view('master.agen.edit', compact('agen'));
     }
 
@@ -92,9 +99,9 @@ class AgenController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validated = $request->validate([
+        $request->validate([
             'nama' => 'required|string|max:255',
-            'perushaan' => 'required|string|max:255',
+            'perusahaan' => 'required|string|max:255',
             'alamat' => 'required|string',
             'no_telepon' => 'required|string|max:20',
             'email' => 'nullable|email|max:255',
@@ -102,6 +109,8 @@ class AgenController extends Controller
 
         $agen = Agen::findOrFail($id);
         $agen->update($request->all());
+
+        LogAktivitas::simpan("Memperbarui agen: {$agen->nama}");
 
         return redirect()->route('agen.index')->with('success', 'Agen berhasil diperbarui');
     }
@@ -113,6 +122,8 @@ class AgenController extends Controller
     {
         $agen = Agen::findOrFail($id);
         $agen->delete();
+
+        LogAktivitas::simpan("Menghapus agen: {$agen->nama}");
 
         return redirect()->route('agen.index')->with('success', 'Agen berhasil dihapus');
     }

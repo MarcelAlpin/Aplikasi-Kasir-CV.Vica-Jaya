@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Master;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Kategori;
+use App\Helpers\LogAktivitas;
 
 class KategoriController extends Controller
 {
@@ -24,6 +25,8 @@ class KategoriController extends Controller
             ->paginate(10)
             ->withQueryString();
 
+        LogAktivitas::simpan('Mengakses halaman daftar kategori');
+
         return view('master.kategori.index', compact('kategori', 'keyword'));
     }
 
@@ -32,6 +35,7 @@ class KategoriController extends Controller
      */
     public function create()
     {
+        LogAktivitas::simpan('Mengakses halaman tambah kategori');
         return view('master.kategori.create');
     }
 
@@ -66,6 +70,8 @@ class KategoriController extends Controller
         // Simpan ke database
         Kategori::create($data);
 
+        LogAktivitas::simpan("Menambahkan kategori baru: {$data['nama']}");
+
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil ditambahkan.');
     }
 
@@ -83,6 +89,7 @@ class KategoriController extends Controller
     public function edit(string $id)
     {
         $kategori = Kategori::findOrFail($id);
+        LogAktivitas::simpan("Mengakses halaman edit kategori: {$kategori->nama}");
         return view('master.kategori.edit', compact('kategori'));
     }
 
@@ -98,7 +105,7 @@ class KategoriController extends Controller
 
         $kategori = Kategori::findOrFail($id);
         $kategori->update($request->all());
-
+        LogAktivitas::simpan("Memperbarui kategori: {$kategori->nama}");
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil diperbarui.');
     }
 
@@ -109,6 +116,8 @@ class KategoriController extends Controller
     {
         $kategori = Kategori::findOrFail($id);
         $kategori->delete();
+
+        LogAktivitas::simpan("Menghapus kategori: {$kategori->nama}");
 
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil dihapus.');
     }

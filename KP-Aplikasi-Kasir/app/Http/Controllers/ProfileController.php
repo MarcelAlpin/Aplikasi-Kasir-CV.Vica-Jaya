@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Helpers\LogAktivitas;
 
 class ProfileController extends Controller
 {
@@ -16,6 +17,7 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        LogAktivitas::simpan('Mengakses halaman edit profil');
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
@@ -34,27 +36,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
+        LogAktivitas::simpan('Memperbarui profil pengguna: ' . $request->user()->name);
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    }
-
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
     }
 }
