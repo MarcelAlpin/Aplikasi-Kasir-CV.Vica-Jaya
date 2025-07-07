@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('role')->default('kasir');
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
 

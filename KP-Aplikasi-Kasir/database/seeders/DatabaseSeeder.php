@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,5 +22,19 @@ class DatabaseSeeder extends Seeder
                 'role' => 'admin',
             ]
         );
+
+        User::updateOrCreate(
+            ['email' => 'kasir@mail.com'],
+            [
+                'name' => 'Kasir',
+                'password' => Hash::make('kasir123'),
+                'role' => 'kasir',
+            ]
+        );
+
+        // Eksekusi file SQL dummy
+        DB::unprepared(file_get_contents(database_path('sql/kategori_dummy.sql')));
+        DB::unprepared(file_get_contents(database_path('sql/satuan_dummy.sql')));
+        DB::unprepared(file_get_contents(database_path('sql/agen_dummy.sql')));
     }
 }
