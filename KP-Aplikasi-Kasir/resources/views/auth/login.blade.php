@@ -4,10 +4,11 @@
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
-        
+
         <div class="flex justify-center mb-6">
-            <img src="{{ asset('images\logo.png') }}" alt="Logo" class="h-16 w-auto">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-16 w-auto">
         </div>
+
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />

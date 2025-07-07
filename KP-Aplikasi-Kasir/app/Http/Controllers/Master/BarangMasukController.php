@@ -102,27 +102,4 @@ class BarangMasukController extends Controller
         LogAktivitas::simpan("Melihat riwayat barang masuk untuk barang ID: {$barang_id}");
         return view('master.barangmasuk.history', compact('riwayat', 'barang'));
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        $barangMasuk = BarangMasuk::findOrFail($id);
-        
-        // Find the related product and decrease its stock
-        $barang = Barang::find($barangMasuk->barang_id);
-        if ($barang) {
-            $barang->stok -= $barangMasuk->jumlah_masuk; // Subtract the quantity from stock
-            $barang->save();
-        }
-        
-        // Delete the barang masuk record
-        $barangMasuk->delete();
-
-        LogAktivitas::simpan("Menghapus barang masuk dengan ID: {$id} dan menyesuaikan stok barang.");
-
-        return redirect()->route('barangmasuk.index')
-            ->with('success', 'Barang Masuk berhasil dihapus dan stok telah disesuaikan.');
-    }
 }

@@ -54,7 +54,7 @@ class SatuanController extends Controller
         // Buat ID Otomatis
         $lastSatuan = Satuan::orderBy('id', 'desc')->first();
         if ($lastSatuan) {
-            $lastNumber = (int)substr($lastSatuan->id, 2);
+            $lastNumber = (int)substr($lastSatuanr->id, 2);
             $newNumber = $lastNumber + 1;
         } else {
             $newNumber = 1;

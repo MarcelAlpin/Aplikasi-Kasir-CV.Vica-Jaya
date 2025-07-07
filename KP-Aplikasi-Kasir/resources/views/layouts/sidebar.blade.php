@@ -34,8 +34,8 @@
                 <i class="fas fa-chevron-down ml-auto" :class="{ 'rotate-180': openMenu === 'laporan' }"></i>
             </button>
             <div x-show="openMenu === 'laporan'" x-transition>
-                <a href="#" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Transaksi</a>
-                <a href="#" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Barang Masuk</a>
+                <a href="/transaksi" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Transaksi</a>
+                <a href="/aktivitas" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Aktivitas</a>
             </div>
         </div>
 
@@ -47,7 +47,6 @@
 
         <!-- Kasir Section -->
         @if(Auth::user()->role === 'kasir')
-        <a href="{{ route('kasir.index') }}" class="flex items-center px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
         <a href="{{ route('kasir.index') }}" class="flex items-center px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
             <i class="fas fa-cash-register mr-2"></i> Kasir
         </a>
