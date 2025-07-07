@@ -1,7 +1,7 @@
 <aside x-show="sidebarOpen" x-transition class="fixed top-16 left-0 w-64 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 h-[calc(100vh-4rem)] px-4 py-6 shadow-lg z-40">
     <nav class="space-y-2" x-data="{ openMenu: '{{ 
         request()->is('kategori*') || request()->is('satuan*') || request()->is('agen*') || request()->is('barang*') ? 'produk' : 
-        (request()->is('laporan*') ? 'laporan' : null) 
+        (request()->is('laporan*') || request()->is('transaksi*') || request()->is('aktivitas*') ? 'laporan' : null) 
     }}' }">
         <!-- Dashboard -->
         <a href="{{ route('dashboard') }}" class="flex items-center px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
@@ -34,19 +34,20 @@
                 <i class="fas fa-chevron-down ml-auto" :class="{ 'rotate-180': openMenu === 'laporan' }"></i>
             </button>
             <div x-show="openMenu === 'laporan'" x-transition>
-                <a href="/transaksi" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Transaksi</a>
+                <a href="#" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Transaksi</a>
                 <a href="#" class="block px-10 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Barang Masuk</a>
             </div>
         </div>
 
         <!-- Hak Akses -->
-        <a href="#" class="flex items-center px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
+        <a href="/hakakses" class="flex items-center px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
             <i class="fas fa-lock mr-2"></i> Hak Akses
         </a>
         @endif
 
         <!-- Kasir Section -->
         @if(Auth::user()->role === 'kasir')
+        <a href="{{ route('kasir.index') }}" class="flex items-center px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
         <a href="{{ route('kasir.index') }}" class="flex items-center px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
             <i class="fas fa-cash-register mr-2"></i> Kasir
         </a>

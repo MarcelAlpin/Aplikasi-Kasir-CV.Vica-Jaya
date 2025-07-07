@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BarangMasuk;
 use App\Models\Barang;
+use App\Helpers\LogAktivitas;
 
 class BarangMasukController extends Controller
 {
@@ -28,6 +29,8 @@ class BarangMasukController extends Controller
             ->paginate(10)
             ->withQueryString();
 
+        LogAktivitas::simpan('Mengakses halaman daftar barang masuk');
+
         return view('master.barangmasuk.index', compact('barangMasuk', 'keyword'));
     }
 
@@ -36,6 +39,7 @@ class BarangMasukController extends Controller
      */
     public function create()
     {
+        LogAktivitas::simpan('Mengakses halaman tambah barang masuk');
         return view('master.barangmasuk.create', [
             'barang' => Barang::all(),
         ]);
@@ -49,7 +53,7 @@ class BarangMasukController extends Controller
         $request->validate([
             'barang_id' => 'required|exists:barang,id',
             'jumlah_masuk' => 'required|integer|min:1',
-            // Other validations...
+            'harga' => 'required|numeric|min:0',
         ]);
         
         // Generate ID barang masuk
@@ -66,12 +70,15 @@ class BarangMasukController extends Controller
             'id' => $barangMasukId,
             'barang_id' => $request->barang_id,
             'jumlah_masuk' => $request->jumlah_masuk,
+            'harga' => $request->harga,
         ]);
         
         $barang = Barang::find($request->barang_id);
         $barang->stok += $request->jumlah_masuk; // Increment stock
         $barang->save();
         
+        LogAktivitas::simpan("Menambah barang masuk baru: {$barang->nama} dengan ID: {$barangMasukId}");
+
         return redirect()->route('barangmasuk.index')
             ->with('success', 'Barang masuk berhasil dicatat dengan ID: ' . $barangMasukId);
     }
@@ -84,44 +91,16 @@ class BarangMasukController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function history($barang_id)
     {
-        return view('master.barangmasuk.edit', [
-            'barangMasuk' => BarangMasuk::findOrFail($id),
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $request->validate([
-            'jumlah_masuk' => 'required|integer|min:1',
-        ]);
-
-        $barangMasuk = BarangMasuk::findOrFail($id);
+        $barang = Barang::findOrFail($barang_id);
+        $riwayat = BarangMasuk::with(['user', 'agen'])
+            ->where('barang_id', $barang_id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
         
-        // kalkulasi selisih stok
-        $oldJumlahMasuk = $barangMasuk->jumlah_masuk;
-        $newJumlahMasuk = $request->jumlah_masuk;
-        $stockDifference = $newJumlahMasuk - $oldJumlahMasuk;
-        
-        // Update barang masuk record
-        $barangMasuk->update([
-            'jumlah_masuk' => $newJumlahMasuk,
-        ]);
-        
-        // perbarui stok barang
-        $barang = Barang::find($barangMasuk->barang_id);
-        $barang->stok += $stockDifference;
-        $barang->save();
-
-        return redirect()->route('barangmasuk.index')
-            ->with('success', 'Jumlah barang masuk berhasil diperbarui.');
+        LogAktivitas::simpan("Melihat riwayat barang masuk untuk barang ID: {$barang_id}");
+        return view('master.barangmasuk.history', compact('riwayat', 'barang'));
     }
 
     /**
@@ -140,6 +119,8 @@ class BarangMasukController extends Controller
         
         // Delete the barang masuk record
         $barangMasuk->delete();
+
+        LogAktivitas::simpan("Menghapus barang masuk dengan ID: {$id} dan menyesuaikan stok barang.");
 
         return redirect()->route('barangmasuk.index')
             ->with('success', 'Barang Masuk berhasil dihapus dan stok telah disesuaikan.');

@@ -8,12 +8,14 @@ use App\Models\Barang;
 use App\Models\Kategori;
 use App\Models\Agen;
 use App\Models\Satuan;
+use App\Helpers\LogAktivitas;
 
 class BarangController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function index(Request $request)
     public function index(Request $request)
     {
         $keyword = $request->query('search');
@@ -27,6 +29,8 @@ class BarangController extends Controller
             ->paginate(10)
             ->withQueryString();
 
+        LogAktivitas::simpan('Mengakses halaman daftar barang');
+
         return view('master.barang.index', compact('barang', 'keyword'));
     }
 
@@ -35,7 +39,7 @@ class BarangController extends Controller
      */
     public function create()
     {
-        //
+        LogAktivitas::simpan('Mengakses halaman tambah barang');
         return view('master.barang.create', [
             'kategori'  => Kategori::all(),
             'agen'      => Agen::all(),
@@ -87,6 +91,8 @@ class BarangController extends Controller
 
         Barang::create($data);
         
+        LogAktivitas::simpan("Menambah barang baru: {$data['nama']}");
+
         return redirect()->route('barang.index')->with('success', 'Barang berhasil ditambahkan.');
     }
 
@@ -103,11 +109,13 @@ class BarangController extends Controller
      */
     public function edit(string $id)
     {
-        //
         $barang = Barang::findOrFail($id);
         $kategori = Kategori::all();
         $agen = Agen::all();
         $satuan = Satuan::all();
+
+        LogAktivitas::simpan("Mengakses halaman edit barang: {$barang->nama}");
+
         return view('master.barang.edit', compact('barang', 'kategori', 'agen', 'satuan'));
     }
 
@@ -141,6 +149,8 @@ class BarangController extends Controller
 
         $barang->update($data);
 
+        LogAktivitas::simpan("Memperbarui barang: {$barang->nama}");
+
         return redirect()->route('barang.index')->with('success', 'Barang berhasil diubah.');
     }
 
@@ -152,6 +162,8 @@ class BarangController extends Controller
         //
         $barang = Barang::findOrFail($id);
         $barang->delete();
+
+        LogAktivitas::simpan("Menghapus barang: {$barang->nama}");
 
         return redirect()->route('barang.index')->with('success', 'Barang berhasil dihapus.');
     }

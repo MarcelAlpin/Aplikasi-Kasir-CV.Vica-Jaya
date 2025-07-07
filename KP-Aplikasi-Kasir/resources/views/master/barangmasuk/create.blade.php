@@ -16,7 +16,7 @@
                         <select name="barang_id" id="barang_id" required class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             <option value="">Pilih Barang</option>
                             @foreach ($barang as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama }} (Stok saat ini: {{ $item->stok }})</option>
+                                <option value="{{ $item->id }}" data-harga="{{ $item->harga }}">{{ $item->nama }} (Stok saat ini: {{ $item->stok }})</option>
                             @endforeach
                         </select>
                         @error('barang_id')
@@ -32,6 +32,35 @@
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+
+                    <input type="hidden" name="harga" id="harga" value="{{ old('harga') }}">
+                    
+                    <div class="mb-4">
+                        <label for="harga_display" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Harga Barang</label>
+                        <input type="text" id="harga_display" readonly 
+                            class="mt-1 block w-full px-3 py-2 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm sm:text-sm" disabled>
+                    </div>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const barangSelect = document.getElementById('barang_id');
+                            const hargaInput = document.getElementById('harga');
+                            const hargaDisplay = document.getElementById('harga_display');
+                            
+                            barangSelect.addEventListener('change', function() {
+                                const selectedOption = this.options[this.selectedIndex];
+                                const harga = selectedOption.dataset.harga || '';
+                                
+                                hargaInput.value = harga;
+                                hargaDisplay.value = harga ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(harga) : '';
+                            });
+                            
+                            // Initialize on page load if there's a pre-selected value
+                            if (barangSelect.value) {
+                                barangSelect.dispatchEvent(new Event('change'));
+                            }
+                        });
+                    </script>
                     
                     <div class="flex justify-end">
                         <a href="{{ route('barangmasuk.index') }}" class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 mr-2">Batal</a>

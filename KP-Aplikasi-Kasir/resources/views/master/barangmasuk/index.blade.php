@@ -48,14 +48,7 @@
                                         <td class="px-4 py-2 border dark:border-gray-600">{{ $item->jumlah_masuk }}</td>
                                         <td class="px-4 py-2 border dark:border-gray-600">
                                             <div class="flex space-x-2">
-                                                <a href="{{ route('barangmasuk.edit', $item->id) }}" class="text-blue-500 hover:underline">Edit</a>
-                                                <form action="{{ route('barangmasuk.destroy', $item->id) }}" method="POST" 
-                                                      onsubmit="return confirm('Apakah Anda yakin ingin menghapus Barang Masuk ini?')" 
-                                                      class="inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="text-red-500 hover:underline">Hapus</button>
-                                                </form>
+                                                <a href="{{ route('barangmasuk.history', $item->barang_id) }}" class="text-blue-500 hover:underline">Riwayat</a>
                                             </div>
                                         </td>
                                     </tr>

@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('barang_masuk', function (Blueprint $table) {
             $table->string('id', 12)->primary();
             $table->string('barang_id', 12);
-            $table->foreign('barang_id')->references('id')->on('barang')->onDelete('cascade');
             $table->integer('jumlah_masuk');
+            $table->integer('harga')->default(0);
             $table->timestamps();
+            $table->foreign('barang_id')->references('id')->on('barang')->onDelete('cascade');
         });
     }
 

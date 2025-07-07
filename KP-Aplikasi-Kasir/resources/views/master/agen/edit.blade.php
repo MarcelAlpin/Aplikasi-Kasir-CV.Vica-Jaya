@@ -41,8 +41,9 @@
 
                     <div class="mb-4">
                         <label for="no_telepon" class="block text-sm font-medium text-gray-700 dark:text-gray-300">No Telepon</label>
-                        <input type="text" name="no_telepon" id="no_telepon" value="{{ old('no_telepon', $agen->no_telepon) }}"
-                            class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 dark:text-white">
+                        <input type="tel" name="no_telepon" id="no_telepon" value="{{ old('no_telepon', $agen->no_telepon) }}"
+                            class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-900 dark:text-white"
+                            pattern="[0-9]*" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                         @error('no_telepon')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror

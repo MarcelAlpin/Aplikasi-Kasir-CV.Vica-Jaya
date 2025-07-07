@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Kasir;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Barang;
+use App\Helpers\LogAktivitas;
 
 class KasirController extends Controller
 {
@@ -15,6 +16,7 @@ class KasirController extends Controller
     {
         //
         $menus = Barang::all(); // Ambil semua menu
+        LogAktivitas::simpan('Mengakses halaman kasir');
         return view('kasir.index', compact('menus'));
     }
 

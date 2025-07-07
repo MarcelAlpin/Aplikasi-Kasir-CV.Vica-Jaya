@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('transaksi', function (Blueprint $table) {
             $table->string('id', 12)->primary();
-            $table->enum('status', ['Lunas', 'Belum Bayar']);
-            $table->enum('order', ['Cash', 'Qris', 'Debit', 'Kredit']);
+            $table->enum('pembayaran', ['Cash', 'Qris', 'Debit', 'Kredit']);
             $table->integer('total_bayar');
             $table->integer('pajak')->default(0);
             $table->foreignId('users_id')->references('id')->on('users')->onDelete('cascade');

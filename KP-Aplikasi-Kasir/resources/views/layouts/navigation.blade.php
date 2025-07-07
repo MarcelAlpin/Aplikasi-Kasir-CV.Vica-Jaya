@@ -7,17 +7,19 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
         </button>
-        
+        <div class="flex items-center">
+                    <h1 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                        {{ $header }}
+                    </h1>
+                </div>
         <!-- Rest of navigation content -->
         <div class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <!-- Page Title -->
                 <div class="flex items-center">
                     <h1 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                        {{ $header }}
                     </h1>
                 </div>
-
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 
                 <button onclick="toggleTheme()" class="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 dark:hover:bg-gray-700 dark:text-gray-300 mr-3">
@@ -48,9 +50,11 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link :href="route('profile.edit')">
-                                {{ __('Profile') }}
-                            </x-dropdown-link>
+                            @if(Auth::user()->role === 'admin')
+                                <x-dropdown-link :href="route('profile.edit')">
+                                    {{ __('Profile') }}
+                                </x-dropdown-link>
+                            @endif
 
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
