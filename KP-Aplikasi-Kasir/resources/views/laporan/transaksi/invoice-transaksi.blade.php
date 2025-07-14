@@ -61,6 +61,10 @@
     <div class="periode">
         Periode: <strong>{{ $from ?? '-' }}</strong> s/d <strong>{{ $to ?? '-' }}</strong>
     </div>
+    <div class="total-summary" style="margin-bottom: 20px; text-align: right;">
+        <strong>Total Transaksi: {{ $transaksi->count() }}</strong> |
+        <strong>Total Pendapatan: Rp{{ number_format($transaksi->sum('total_bayar'), 0, ',', '.') }}</strong>
+    </div>
 
     <table>
         <thead>

@@ -128,10 +128,9 @@ class BarangController extends Controller
             'nama' => 'required|max:100',
             'deskripsi' => 'nullable',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'stok' => 'required|integer',
             'harga' => 'required|integer',
             'kategori_id' => 'required|exists:kategori,id',
-            'agen_id' => 'nullable|exists:agen,id',
+            'agen_id' => 'required|exists:agen,id',
             'satuan_id' => 'required|exists:satuan,id',
         ]);
         

@@ -68,6 +68,20 @@
                     </div>
 
                     <div class="mb-4">
+                        <label for="agen_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Agen</label>
+                        <select name="agen_id" id="agen_id" required
+                            class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                            <option value="">Pilih Agen</option>
+                            @foreach($agen as $g)
+                                <option value="{{ $g->id }}" {{ old('agen_id', $barang->agen_id) == $g->id ? 'selected' : '' }}>{{ $g->nama }}</option>
+                            @endforeach
+                        </select>
+                        @error('agen_id')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="mb-4">
                         <label for="harga" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Harga</label>
                         <input type="number" name="harga" id="harga" value="{{ old('harga', $barang->harga) }}" required
                             class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
