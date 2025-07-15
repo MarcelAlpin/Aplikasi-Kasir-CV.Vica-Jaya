@@ -82,6 +82,18 @@ Route::middleware('auth', 'aktivitas')->group(function () {
         Route::resource('kasir', KasirController::class);
         // Laporan /Transaksi
         Route::resource('transaksi', TransaksiController::class, ['except' => ['index', 'detail']]);
+        // Download All PDF Transaksi - Move this BEFORE the resource route
+        Route::get('transaksi-pdf', [TransaksiController::class, 'downloadAllPDF'])->name('transaksi.all.pdf');
+    
+        // Laporan /Transaksi
+        Route::resource('transaksi', TransaksiController::class, ['except' => ['create']]);
+
+        // Add this new route for transaction details
+        Route::get('transaksi/{transaksi}/detail', [TransaksiController::class, 'show'])->name('transaksi.detail');
+
+        // Download PDF Transaksi Detail
+        Route::get('transaksi/{id}/pdf', [TransaksiController::class, 'downloadPDF'])->name('transaksi.pdf');
+
     });
 });
 

@@ -50,6 +50,9 @@
         <a href="{{ route('kasir.index') }}" class="flex items-center px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
             <i class="fas fa-cash-register mr-2"></i> Kasir
         </a>
+        <a href="/transaksi" class="flex items-center px-4 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
+            <i class="fas fa-file-invoice mr-2"></i> Transaksi
+        </a>
         @endif
     </nav>
 </aside>
