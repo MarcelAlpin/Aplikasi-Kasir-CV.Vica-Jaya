@@ -98,8 +98,8 @@
 
             <!-- Tampilan field sesuai denan lainnya, menampilkan nama kasir yang sedang login tetapi menahan nilai id ny untuk di submit -->
             <div class="mb-3">
-                <label for="kasir">Kasir</label>
-                <input type="text" name="kasir" id="kasir" value="{{ auth()->user()->name }}" class="form-control w-full dark:bg-gray-700 dark:text-white" readonly>
+                
+                <input type="hidden" name="kasir" id="kasir" value="{{ auth()->user()->name }}" class="form-control w-full dark:bg-gray-700 dark:text-white" readonly>
                 <input type="hidden" name="users_id" value="{{ auth()->user()->id }}">
             </div>
 
