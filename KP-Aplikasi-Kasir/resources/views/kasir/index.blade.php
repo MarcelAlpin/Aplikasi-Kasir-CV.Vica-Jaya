@@ -124,9 +124,139 @@
             </div>
 
             <div class="text-right">
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+                <button type="button" onclick="showTransactionDetail()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm">
                     Simpan Transaksi
                 </button>
+
+                <!-- Transaction Detail Modal -->
+                <div id="transactionModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-bold text-gray-800 dark:text-white">Detail Transaksi</h3>
+                                <button type="button" class="text-red-500 hover:text-red-700 text-xl font-bold" onclick="closeTransactionModal()" title="Tutup">
+                                    &times;
+                                </button>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div class="border-b pb-2">
+                                    <div class="hidden">
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Kasir</p>
+                                        <p class="font-semibold dark:text-white" id="modalKasir">{{ auth()->user()->name }}</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="border-b pb-2">
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Metode Pembayaran</p>
+                                    <p class="font-semibold dark:text-white" id="modalPembayaran">Cash</p>
+                                </div>
+                                <div class="border-b pb-2">
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Tanggal</p>
+                                    <p class="font-semibold dark:text-white" id="modalTanggal">{{ date('d-m-Y H:i') }}</p>
+                                </div>                                
+                                <div class="border-b pb-2">
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Item Pesanan</p>
+                                    <div id="modalItems" class="space-y-2 mt-2"></div>
+                                </div>
+                                
+                                <div class="space-y-2 pt-2">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600 dark:text-gray-400">Subtotal:</span>
+                                        <span class="font-semibold dark:text-white" id="modalSubtotal">Rp0</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600 dark:text-gray-400">PPN:</span>
+                                        <span class="font-semibold dark:text-white" id="modalPPN">Rp0</span>
+                                    </div>
+                                    <div class="flex justify-between text-lg font-bold border-t pt-2">
+                                        <span class="dark:text-white">Total:</span>
+                                        <span class="text-green-600" id="modalTotal">Rp0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col sm:flex-row gap-2 mt-6">
+                                <button type="button" class="flex-1 px-3 py-2 bg-red-500 text-white rounded hover:bg-red-600 text-sm" onclick="closeTransactionModal()">
+                                    Batal
+                                </button>
+                                <script>
+                                function closeTransactionModal() {
+                                    document.getElementById('transactionModal').classList.add('hidden');
+                                }
+                                </script>
+                                <button onclick="submitTransaction()" class="flex-1 px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+                                    Simpan Invoice Tanpa Cetak
+                                </button>
+                                <button onclick="submitAndPrintTransaction()" class="flex-1 px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm">
+                                    Simpan & Cetak Invoice
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                function showTransactionDetail() {
+                    if (cart.length === 0) {
+                        alert('Keranjang masih kosong!');
+                        return;
+                    }
+                    
+                    // Update modal content
+                    document.getElementById('modalKasir').textContent = '{{ auth()->user()->name }}';
+                    document.getElementById('modalPembayaran').textContent = document.getElementById('paymentOption').value;
+                    
+                    // Update items
+                    let itemsHtml = '';
+                    let subtotal = 0;
+                    cart.forEach(item => {
+                        let itemSubtotal = item.qty * item.harga;
+                        subtotal += itemSubtotal;
+                        itemsHtml += `
+                            <div class="flex justify-between items-center py-1">
+                                <div>
+                                    <p class="font-medium dark:text-white">${item.name}</p>
+                                    <p class="text-xs text-gray-500">${item.qty} x Rp${item.harga.toLocaleString()}</p>
+                                </div>
+                                <span class="font-semibold dark:text-white">Rp${itemSubtotal.toLocaleString()}</span>
+                            </div>
+                        `;
+                    });
+                    document.getElementById('modalItems').innerHTML = itemsHtml;
+                    
+                    // Update totals
+                    let taxAmount = subtotal > 2000000 ? Math.round(subtotal * 0.11) : 0;
+                    let finalTotal = subtotal + taxAmount;
+                    
+                    document.getElementById('modalSubtotal').textContent = 'Rp' + subtotal.toLocaleString();
+                    document.getElementById('modalPPN').textContent = 'Rp' + taxAmount.toLocaleString();
+                    document.getElementById('modalTotal').textContent = 'Rp' + finalTotal.toLocaleString();
+                    
+                    // Show modal
+                    document.getElementById('transactionModal').classList.remove('hidden');
+                }
+
+
+                function submitAndPrintTransaction() {
+                    // Submit the form and trigger print
+                    document.querySelector('form').submit();
+                    // You can add print functionality here if needed
+                    window.print();
+                }
+
+                function submitTransaction() {
+                    // Submit the form
+                    document.querySelector('form').submit();
+                }
+
+                // Close modal when clicking outside
+                document.getElementById('transactionModal').addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeTransactionModal();
+                    }
+                });
+                </script>
             </div>
         </form>
         @if(session('success'))
